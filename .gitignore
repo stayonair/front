@@ -1,0 +1,10 @@
+node_modules/
+.nuxt/
+dist/
+
+sw.*
+.env
+.DS_Store
+nohup.out
+
+yarn-error.log
