@@ -9,7 +9,8 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
-    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "lint": "eslint --ext .vue,.js --max-warnings 0 --ignore-path .gitignore .",
+    "fix": "prettier --write '**/*.{js,vue,scss}' --ignore-path .gitignore && eslint --fix --ext .vue,.js --ignore-path .gitignore .",
     "precommit": "npm run lint"
   },
   "dependencies": {
