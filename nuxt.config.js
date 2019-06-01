@@ -1,7 +1,7 @@
-import pkg from "./package";
+import pkg from './package'
 
 export default {
-  mode: "spa",
+  mode: 'spa',
 
   /*
    ** Headers of the page
@@ -9,19 +9,19 @@ export default {
   head: {
     title: pkg.name,
     meta: [
-      { charset: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       {
-        hid: "description",
-        name: "description",
+        hid: 'description',
+        name: 'description',
         content: pkg.description
       }
     ],
     link: [
       {
-        rel: "icon",
-        type: "image/x-icon",
-        href: "/favicon.ico"
+        rel: 'icon',
+        type: 'image/x-icon',
+        href: '/favicon.ico'
       }
     ]
   },
@@ -31,28 +31,28 @@ export default {
    */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
-    "@nuxtjs/axios",
-    "@nuxtjs/pwa",
-    "@nuxtjs/style-resources"
+    '@nuxtjs/axios',
+    '@nuxtjs/pwa',
+    '@nuxtjs/style-resources'
   ],
 
   styleResources: {
     scss: [
-      "~/assets/config/_var.scss",
-      "~/assets/config/_typography.scss",
-      "~/assets/config/_function.scss"
+      '~/assets/config/_var.scss',
+      '~/assets/config/_typography.scss',
+      '~/assets/config/_function.scss'
     ]
   },
 
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: "#fff" },
+  loading: { color: '#fff' },
 
   /*
    ** Global CSS
    */
-  css: ["~/assets/basic.scss"],
+  css: ['~/assets/basic.scss'],
 
   /*
    ** Plugins to load before mounting the App
@@ -77,12 +77,12 @@ export default {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
         config.module.rules.push({
-          enforce: "pre",
+          enforce: 'pre',
           test: /\.(js|vue)$/,
-          loader: "eslint-loader",
+          loader: 'eslint-loader',
           exclude: /(node_modules)/
-        });
+        })
       }
     }
   }
-};
+}
