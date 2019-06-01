@@ -1,0 +1,71 @@
+@charset "UTF-8";
+
+/* general variables */
+$color-brand: #88d7e5;
+$color-primary: #00b8c7;
+$color-yellow: #ffc400;
+$color-red: #f34a80;
+$color-white: #faf8f8;
+
+/* text variables */
+$base-text-color: #333;
+$link-color: $color-primary;
+$error-text: #b60000;
+$gray-text-color: #999999;
+$dark-gray-text-color: #666666;
+$light-dark-text-color: #cccccc;
+
+/* button variables */
+$button-gray: #999999;
+$button-red: #f56c6c;
+$button-blue: #0071b2;
+
+/* input variables */
+$input-bg-transparent: #{color-white}bb;
+$input-hover-grey: #8b94a5;
+$input-placeholder: #999999;
+$input-border: #dadada;
+$input-error-bg: #fbe4e4;
+
+/* form variables */
+$form-disabled-color: #ccc;
+$required-text: #b60000;
+$required-border: #b60000;
+
+$background-black: #111;
+$black-background-text: #eee;
+$black-background-link-color: #{$color-brand}bb;
+$background-hidden-color: #f6f7fa;
+
+/* size variables */
+$mobile-max-width: 768px;
+$tablet-max-width: 1024px;
+
+@mixin mobile {
+  @media only screen and (max-width: #{$mobile-max-width}) {
+    @content;
+  }
+}
+
+$global-max-width: 960px;
+
+$full-hd-width: 1920px;
+
+@mixin placeholder($color) {
+  &::placeholder {
+    color: $color;
+    background-color: $color-white;
+  }
+  &::-webkit-input-placeholder {
+    color: $color;
+    background-color: $color-white;
+  }
+  &::-ms-input-placeholder {
+    color: $color;
+    background-color: $color-white;
+  }
+  &:-ms-input-placeholder {
+    color: $color !important;
+    background-color: $color-white;
+  }
+}

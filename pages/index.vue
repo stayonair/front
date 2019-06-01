@@ -2,6 +2,7 @@
   <section class="container">
     <div>
       <logo />
+      <app-input name="input" label="Email" />
       <h1 class="title">
         soa_front
       </h1>
@@ -25,10 +26,12 @@
 
 <script>
 import Logo from "~/components/Logo.vue";
+import AppInput from "~/components/Atoms/AppInput.vue";
 
 export default {
   components: {
-    Logo
+    Logo,
+    AppInput
   }
 };
 </script>
