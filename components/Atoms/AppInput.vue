@@ -15,7 +15,7 @@
         class="app_input"
         @input="updateInput"
         @blur="blurInput"
-      />
+      >
       <p class="app_input__inner_label">
         {{ label }}
       </p>
@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  name: "AppInput",
+  name: 'AppInput',
   props: {
     value: {
       type: [String, Number],
@@ -33,7 +33,7 @@ export default {
     },
     inputType: {
       type: String,
-      default: ""
+      default: ''
     },
     name: {
       type: String,
@@ -45,7 +45,7 @@ export default {
     },
     pattern: {
       type: String,
-      default: ".*"
+      default: '.*'
     },
     disabled: {
       type: Boolean,
@@ -69,18 +69,18 @@ export default {
     },
     label: {
       type: String,
-      default: ""
+      default: ''
     }
   },
   methods: {
     updateInput(event) {
-      this.$emit("input", event.target.value);
+      this.$emit('input', event.target.value)
     },
     blurInput(event) {
-      this.$emit("blur", event.target.value);
+      this.$emit('blur', event.target.value)
     }
   }
-};
+}
 </script>
 
 <style scoped lang="scss">
