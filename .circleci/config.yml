@@ -53,17 +53,6 @@ jobs:
           command: npm run build
       - save_npm
 
-  test:
-    executor:
-      name: default
-    steps:
-      - checkout
-      - restore_npm
-      - run: 
-          name: Test
-          command: npm run test:unit
-      - save_npm
-
 workflows:
   pull-request:
     jobs:
