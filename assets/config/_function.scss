@@ -1,0 +1,8 @@
+@function color-sub($base, $target) {
+  @return adjust_color(
+    $base,
+    $red: - (red($target)),
+    $green: - (green($target)),
+    $blue: - (blue($target))
+  );
+}
