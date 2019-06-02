@@ -1,6 +1,6 @@
 <template>
   <div class="signin__container">
-    <form 
+    <form
       class="form__container"
       @submit.prevent="sendForm"
     >
