@@ -1,6 +1,6 @@
 <template>
   <div class="signin__container">
-    <form 
+    <form
       class="form__container"
       @submit.prevent="sendForm"
     >
@@ -42,7 +42,7 @@ export default {
 </script>
 
 <style lang="scss">
-.container {
+.form__container {
   margin: 0 auto;
   min-height: 100vh;
   display: flex;
