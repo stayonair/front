@@ -4,11 +4,16 @@
       class="form__container"
       @submit.prevent="sendForm"
     >
-      <form-input
-        v-model="formData.email"
-        name="form-input"
-        inner-label="Email"
-      />
+      <div 
+        v-for="(item, index) in items" 
+        v-bind:key="index"
+        >
+        <form-input
+          v-model="formData[item.data]"
+          :inner-label="item.innerLabel"
+          name="form-input"
+        />
+      </div>
       <app-button
         color="white"
         text="CONTINUE"
@@ -18,6 +23,7 @@
 </template>
 
 <script>
+import indexed_db from '~/utils/api/indexed_db.js'
 import FormInput from '~/components/Molecules/FormInput.vue'
 import AppButton from '~/components/Atoms/AppButton.vue'
 
@@ -30,12 +36,18 @@ export default {
     return {
       formData: {
         email: ''
-      }
+      },
+      items: [
+        { data: 'email', innerLabel: 'Email' },
+        { data: 'password', innerLabel: 'Password' },
+        { data: 'password_confirm', innerLabel: 'Password Confirm' }
+      ]
     }
   },
   methods: {
     sendForm() {
       console.log(this.formData)
+      // indexed_db
     }
   }
 }

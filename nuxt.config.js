@@ -1,4 +1,5 @@
 import pkg from './package'
+require('dotenv').config()
 
 export default {
   mode: 'spa',
@@ -59,6 +60,9 @@ export default {
    */
   plugins: [],
 
+  env: {
+    INDEXEDDB_ENV: process.env.INDEXEDDB_ENV
+  },
   /*
    ** Axios module configuration
    */
