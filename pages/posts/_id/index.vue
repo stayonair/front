@@ -1,15 +1,18 @@
 <template>
-  <div>
-    <p>ID 番号 {{ id }} のユーザー情報</p>
+  <div class="post-detail__wrapper">
+    {{ getParams }}
   </div>
 </template>
 
 <script>
 export default {
+  name: 'Posts',
   computed: {
-    id() {
+    getParams() {
       return this.$route.params.id
     }
   }
 }
 </script>
+
+<style></style>
