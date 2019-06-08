@@ -6,6 +6,7 @@
         :key="post.id"
         :style="`background-image: url(${post.thumbnail_photo_url});`"
         class="news-feed-post"
+        @click="goToPostPage(post.id)"
       >
         <div class="news-feed-post__text__wrapper"> 
           <h2 class="news-feed-post__title">
@@ -106,7 +107,6 @@ export default {
       const timeDiff = Math.floor((new Date() - date) / 3600000)
       const dateDiff = Math.floor(timeDiff / 24)
 
-      console.log(date, timeDiff, dateDiff)
       if (dateDiff === 0) { // 24 時間以内
         return `${timeDiff} hour${timeDiff > 1 ? 's' : ''} ago`
       }
@@ -114,6 +114,10 @@ export default {
         return `${date.getFullYear()} / ${date.getMonth()+1} / ${date.getDate()}`
       }
       return `${dateDiff} day${dateDiff > 1 ? 's' : ''} ago`
+    },
+    goToPostPage(id) {
+      console.log(this.$route)
+      this.$router.push({ path: `posts/${id}` })
     }
   }
 }

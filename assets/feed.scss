@@ -16,9 +16,15 @@
   max-height: 30rem;
   position: relative;
   box-shadow: inset 0 0 0 25rem rgba(0, 30, 40, .6);
+  transition: all .4s;
 
   &:not(:last-child) {
     margin-bottom: 4rem;
+  }
+
+  &:hover {
+    opacity: 0.8;
+    transform: scale(0.99, 0.99);
   }
 }
 
