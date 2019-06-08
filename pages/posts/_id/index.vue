@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'posts',
+  name: 'Posts',
   computed: {
     getParams() {
       return this.$route.params.id
@@ -15,6 +15,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

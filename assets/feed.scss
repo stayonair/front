@@ -15,8 +15,8 @@
   height: auto;
   max-height: 30rem;
   position: relative;
-  box-shadow: inset 0 0 0 25rem rgba(0, 30, 40, .6);
-  transition: all .4s;
+  box-shadow: inset 0 0 0 25rem rgba(0, 30, 40, 0.6);
+  transition: all 0.4s;
 
   &:not(:last-child) {
     margin-bottom: 4rem;
@@ -57,36 +57,35 @@
 
   .news-feed-post__author {
     display: flex;
-    align-items: center; 
+    align-items: center;
     color: $color-white;
     font-weight: 100;
 
     &_icon {
       border-radius: 50%;
       background-color: $color-white;
-      margin-right: .8rem;
+      margin-right: 0.8rem;
       height: 4rem;
       width: 4rem;
     }
 
     &_name {
       color: $color-white;
-      margin-right: .8rem;
+      margin-right: 0.8rem;
     }
   }
 }
 
 .news-feed-post__like {
   display: flex;
-  align-items: flex-start; 
+  align-items: flex-start;
 
   .icon__heart {
-    margin-right: .5rem;
+    margin-right: 0.5rem;
     /deep/ {
       svg {
         fill: $color-red;
       }
-  
     }
   }
   &_number {
@@ -94,4 +93,3 @@
     color: $color-red;
   }
 }
-

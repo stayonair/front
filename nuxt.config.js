@@ -57,9 +57,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [
-    '~/plugins/vue-material'
-  ],
+  plugins: ['~/plugins/vue-material'],
 
   /*
    ** Axios module configuration
