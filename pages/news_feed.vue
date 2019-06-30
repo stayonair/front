@@ -39,24 +39,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.news-feed-post {
-  width: 100%;
-  height: auto;
-  max-width: 50rem;
-  max-height: 30rem;
-  margin: 0 auto;
-  box-shadow: inset 0 0 0 25rem rgba(0, 30, 40, 0.6);
-  transition: all 0.4s;
+.news-feed-post__container {
+  background: $color-white;
 
-  &:not(:last-child) {
-    margin-bottom: 4rem;
-  }
+  .news-feed-post {
+    width: 100%;
+    height: auto;
+    max-width: 50rem;
+    max-height: 30rem;
+    margin: 0 auto;
+    box-shadow: inset 0 0 0 25rem rgba(0, 30, 40, 0.6);
+    transition: all 0.4s;
 
-  &:hover {
-    opacity: 0.8;
-    transform: scale(0.99, 0.99);
+    &:not(:last-child) {
+      margin-bottom: 4rem;
+    }
+
+    &:hover {
+      opacity: 0.8;
+      transform: scale(0.99, 0.99);
+    }
   }
 }
-
-
 </style>
