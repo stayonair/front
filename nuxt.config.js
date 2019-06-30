@@ -22,6 +22,10 @@ export default {
         rel: 'icon',
         type: 'image/x-icon',
         href: '/favicon.ico'
+      },
+      { 
+        rel: 'stylesheet', 
+        href: 'https://fonts.googleapis.com/css?family=Vibur&display=swap' 
       }
     ]
   },
@@ -57,7 +61,8 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/vue-material'],
+  plugins: [
+    '~/plugins/vue-material'],
 
   /*
    ** Axios module configuration
