@@ -1,4 +1,6 @@
 import pkg from './package'
+require('dotenv').config();
+const {INDEXEDDB_ENV} = process.env;
 
 export default {
   mode: 'spa',
@@ -89,5 +91,8 @@ export default {
         })
       }
     }
+  },
+  env: {
+    INDEXEDDB_ENV
   }
 }

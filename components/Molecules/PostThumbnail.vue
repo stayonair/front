@@ -9,9 +9,11 @@
           <div
             v-if="isPostPage"
             class="post_thumbnail__nav"
-            @click="goToPrevious"
           >
-            <left-arrow-icon class="icon__arrow" />
+            <left-arrow-icon
+              class="icon__arrow" 
+              @click="goToPrevious"
+            />
           </div>
 
           <div class="post_thumbnail__header__container">
@@ -51,7 +53,6 @@
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>

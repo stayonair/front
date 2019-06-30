@@ -8,6 +8,7 @@
         />
         <figure class="post__audio">
           <audio
+            class="audio"
             controls
             preload="auto"
             src="http://www.voice-pro.jp/announce/mp3/001-sibutomo.mp3"
@@ -94,6 +95,10 @@ export default {
 .post__audio {
   margin-bottom: 2rem;
   text-align: center;
+
+  .audio {
+    width: 90%;
+  }
 }
 
 .post__article {

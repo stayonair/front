@@ -4,8 +4,10 @@
       class="icon-menu"
       @click="openMenu"
     />
-    <p class="app_logo">StayOnAir</p>
-    <settings-icon class="icon-setting"/>
+    <p class="app_logo">
+      StayOnAir
+    </p>
+    <settings-icon class="icon-setting" />
   </header>
 </template>
 
