@@ -40,32 +40,32 @@ export default {
       return [
         {
           label: 'ニュースフィード',
-          icon: '',
+          icon: 'text-subject-icon',
           path: '/news_feed'
         },
         {
           label: '検索',
-          icon: '',
+          icon: 'compass-icon',
           path: '/'
         },
         {
           label: 'メッセージ',
-          icon: '',
+          icon: 'chat-icon',
           path: '/'
         },
         {
           label: 'お知らせ',
-          icon: '',
+          icon: 'bell-icon',
           path: '/'
         },
         {
           label: 'マイページ',
-          icon: '',
+          icon: 'account-icon',
           path: '/'
         },
         {
           label: '設定',
-          icon: '',
+          icon: 'setting-icon',
           path: '/'
         }
       ]
@@ -79,7 +79,6 @@ export default {
   height: 100vh;
   padding: 4rem 0 0;
   background-image: url('../../assets/img/bg_aside.png');
-  transition: transform .6s;
 }
 
 .app_aside_menu__user {

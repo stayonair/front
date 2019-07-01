@@ -10,16 +10,13 @@
       class="app_contents" 
     >
       <app-aside-menu
-        v-if="menuOpened"
+        :class="{'app_aside_menu--opened': menuOpened}"
+        :style="classObjectForAppAsideMenu" 
         class="app_aside_menu" 
       />
       <div class="app_page">
         <nuxt />
       </div>
-      <div 
-        v-if="isOpened"
-        class="app_page--menu_opened" 
-      />
     </div>
   </div>
 </template>
@@ -51,12 +48,14 @@ export default {
         height: '100%'
       }
     },
-    classObjectForAppPage() {
+    classObjectForAppAsideMenu() {
       if (!this.isOpened) {
-        return
+        return {
+          'transform': 'translateX(-100%)'
+        }
       }
       return {
-        'box-shadow': 'inset 0 0 0 25rem rgba(1, 95, 126, 0.6)'
+        'transform': 'translateX(0)'
       }
     }
   },
@@ -98,14 +97,17 @@ $slide-size: 25rem;
   position: fixed;
   top: 0;
   z-index: 4;
+  transition: all 300ms 200ms ease;
 }
 
-.app_aside_menu ~ .app_page {
+.app_aside_menu--opened ~ .app_page {
   transform: translateX($slide-size);
+  background-color: rgba($background-black, 0.6);
+  transition: all 300ms 200ms ease;
 }
 
 .app_page {
-  transition: transform .6s;
+  transition: all 300ms 200ms ease;
   max-width: $global-max-width;
   width: 100%;
   margin: 0 auto;
@@ -113,10 +115,4 @@ $slide-size: 25rem;
   position: relative;
 }
 
-.app_page--menu_opened {
-  background-color: rgba($background-black, 0.6);
-  height: 100%;
-  width: 100%;
-  position: absolute;
-}
 </style>
