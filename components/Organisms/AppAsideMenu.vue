@@ -40,35 +40,34 @@ export default {
       return [
         {
           label: 'ニュースフィード',
-          icon: 'text-subject-icon',
           path: '/news_feed'
         },
         {
           label: '検索',
-          icon: 'compass-icon',
           path: '/'
         },
         {
           label: 'メッセージ',
-          icon: 'chat-icon',
           path: '/'
         },
         {
           label: 'お知らせ',
-          icon: 'bell-icon',
           path: '/'
         },
         {
           label: 'マイページ',
-          icon: 'account-icon',
           path: '/'
         },
         {
           label: '設定',
-          icon: 'setting-icon',
           path: '/'
         }
       ]
+    }
+  },
+  methods: {
+    getIconTag(tagName) {
+      return `<${tagName} />`
     }
   }
 }
