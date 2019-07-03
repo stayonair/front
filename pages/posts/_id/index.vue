@@ -17,7 +17,9 @@
           </audio>
         </figure>
         <div class="post__article">
-          <p v-html="post.article" />
+          <p>
+            {{ post.article }}
+          </p>
         </div>
       </div>
     </div>
