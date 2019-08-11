@@ -28,6 +28,10 @@ export default {
       { 
         rel: 'stylesheet', 
         href: 'https://fonts.googleapis.com/css?family=Vibur&display=swap' 
+      },
+      { 
+        rel: 'stylesheet', 
+        href: 'href="https://fonts.googleapis.com/css?family=Unica+One&display=swap"' 
       }
     ]
   },
