@@ -39,7 +39,8 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
-    '@nuxtjs/style-resources'
+    '@nuxtjs/style-resources',
+    '@nuxtjs/dotenv'
   ],
 
   styleResources: {
@@ -64,7 +65,9 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
-    '~/plugins/vue-material'],
+    '~/plugins/vue-material',
+    '~/plugins/firebase'
+  ],
 
   /*
    ** Axios module configuration

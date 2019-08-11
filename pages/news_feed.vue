@@ -9,14 +9,14 @@
       >
         <post-thumbnail
           :post="post"
-        /> 
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import PostThumbnail from '~/components/Molecules/PostThumbnail'
 
 export default {
@@ -30,7 +30,13 @@ export default {
       feedPosts: store => store.post.feedPosts
     })
   },
+  created() {
+    this.initPosts()
+  },
   methods: {
+    ...mapActions('post', [
+      'initPosts'
+    ]),
     goToPostPage(key) {
       this.$router.push({ path: `posts/${key}` })
     }
