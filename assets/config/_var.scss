@@ -16,8 +16,8 @@ $dark-gray-text-color: #666666;
 $light-dark-text-color: #cccccc;
 
 /* button variables */
-$button-gray: #999999;
-$button-red: #f56c6c;
+$button-gray: #707070;
+$button-yellow: $color-yellow;
 $button-blue: #0071b2;
 
 /* input variables */
@@ -28,18 +28,19 @@ $input-border: #dadada;
 $input-error-bg: #fbe4e4;
 
 /* form variables */
-$form-disabled-color: #ccc;
+$form-disabled-color: #d1d1d1;
 $required-text: #b60000;
 $required-border: #b60000;
 
 $background-black: #111;
+$background-gray: $button-gray;
 $black-background-text: #eee;
 $black-background-link-color: #{$color-brand}bb;
 $background-hidden-color: #f6f7fa;
 
 /* size variables */
-$mobile-max-width: 768px;
-$tablet-max-width: 1024px;
+$mobile-max-width: 480px;
+$tablet-max-width: 834px;
 
 @mixin mobile {
   @media only screen and (max-width: #{$mobile-max-width}) {
@@ -47,7 +48,13 @@ $tablet-max-width: 1024px;
   }
 }
 
-$global-max-width: 960px;
+@mixin tablet {
+  @media only screen and (max-width: #{$tablet-max-width}) {
+    @content;
+  }
+}
+
+$global-max-width: 1240px;
 
 $full-hd-width: 1920px;
 

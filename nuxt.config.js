@@ -1,4 +1,6 @@
 import pkg from './package'
+require('dotenv').config();
+const {INDEXEDDB_ENV} = process.env;
 
 export default {
   mode: 'spa',
@@ -22,6 +24,14 @@ export default {
         rel: 'icon',
         type: 'image/x-icon',
         href: '/favicon.ico'
+      },
+      { 
+        rel: 'stylesheet', 
+        href: 'https://fonts.googleapis.com/css?family=Vibur&display=swap' 
+      },
+      { 
+        rel: 'stylesheet', 
+        href: 'href="https://fonts.googleapis.com/css?family=Unica+One&display=swap"' 
       }
     ]
   },
@@ -57,7 +67,8 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: [
+    '~/plugins/vue-material'],
 
   /*
    ** Axios module configuration
@@ -84,5 +95,8 @@ export default {
         })
       }
     }
+  },
+  env: {
+    INDEXEDDB_ENV
   }
 }

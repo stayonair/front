@@ -1,53 +1,55 @@
 <template>
-  <section class="container">
-    <div>
-      <logo />
-      <app-input
-        name="input"
-        label="Email"
+  <div class="signin__container">
+    <form
+      class="form__container"
+      @submit.prevent="sendForm"
+    >
+      <form-input
+        v-model="formData.email"
+        name="form-input"
+        inner-label="Email"
       />
-      <h1 class="title">
-        soa_front
-      </h1>
-      <h2 class="subtitle">
-        My bee&#39;s knees Nuxt.js project
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >Documentation</a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >GitHub</a>
-      </div>
-    </div>
-  </section>
+      <app-button
+        color="white"
+        text="CONTINUE"
+      />
+    </form>
+  </div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-import AppInput from '~/components/Atoms/AppInput.vue'
+import FormInput from '~/components/Molecules/FormInput.vue'
+import AppButton from '~/components/Atoms/AppButton.vue'
 
 export default {
   components: {
-    Logo,
-    AppInput
+    FormInput,
+    AppButton
+  },
+  data: () => {
+    return {
+      formData: {
+        email: ''
+      }
+    }
+  },
+  methods: {
+    sendForm() {
+      console.log(this.formData)
+    }
   }
 }
 </script>
 
-<style>
-.container {
+<style lang="scss">
+.form__container {
   margin: 0 auto;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
+  background: $background-black;
 }
 
 .title {

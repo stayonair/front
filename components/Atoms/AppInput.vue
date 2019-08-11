@@ -17,7 +17,7 @@
         @blur="blurInput"
       >
       <p class="app_input__inner_label">
-        {{ label }}
+        {{ innerLabel }}
       </p>
     </div>
   </div>
@@ -67,7 +67,7 @@ export default {
       type: [String, Number],
       default: null
     },
-    label: {
+    innerLabel: {
       type: String,
       default: ''
     }
