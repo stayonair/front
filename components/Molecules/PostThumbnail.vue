@@ -11,7 +11,7 @@
             class="post_thumbnail__nav"
           >
             <left-arrow-icon
-              class="icon__arrow" 
+              class="icon__arrow"
               @click="goToPrevious"
             />
           </div>

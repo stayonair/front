@@ -2,7 +2,7 @@
   <div class="icon_microphone__components">
     <img
       class="icon--microphone"
-      src="~/static/icon/microphone-of-voice.svg" 
+      src="~/static/icon/microphone-of-voice.svg"
       alt="icon-microphone"
     >
   </div>

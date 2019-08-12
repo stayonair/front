@@ -77,9 +77,7 @@ export const state = () => ({
   hoge: []
 })
 
-export const getters = {
-
-}
+export const getters = {}
 
 export const actions = {
   initPosts: firestoreAction(({ bindFirestoreRef }) => {

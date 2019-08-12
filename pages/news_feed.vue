@@ -7,9 +7,7 @@
         class="news-feed-post"
         @click="goToPostPage(key)"
       >
-        <post-thumbnail
-          :post="post"
-        />
+        <post-thumbnail :post="post" />
       </div>
     </div>
   </div>
@@ -34,9 +32,7 @@ export default {
     this.initPosts()
   },
   methods: {
-    ...mapActions('post', [
-      'initPosts'
-    ]),
+    ...mapActions('post', ['initPosts']),
     goToPostPage(key) {
       this.$router.push({ path: `posts/${key}` })
     }

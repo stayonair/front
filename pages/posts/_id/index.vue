@@ -52,7 +52,7 @@ export default {
   background-color: $color-white;
 }
 
-.post__thumbnail /deep/{
+.post__thumbnail /deep/ {
   margin-bottom: 3rem;
 
   .post_thumbnail__header__wrapper {
@@ -62,7 +62,7 @@ export default {
       padding: 5rem;
     }
     @include mobile() {
-      padding: 3rem 1rem 2rem; 
+      padding: 3rem 1rem 2rem;
     }
 
     .post_thumbnail__header__container {

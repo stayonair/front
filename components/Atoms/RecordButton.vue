@@ -1,5 +1,5 @@
 <template>
-  <div 
+  <div
     class="record__button__wrapper"
     @click="handleButtonClick"
   >
@@ -16,7 +16,7 @@ import IconMicrophone from '~/components/Atoms/Icons/IconMicrophone'
 
 export default {
   components: {
-    IconMicrophone,
+    IconMicrophone
   },
   methods: {
     handleButtonClick() {
@@ -63,5 +63,4 @@ export default {
     width: 3rem;
   }
 }
-
 </style>
