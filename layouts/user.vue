@@ -1,18 +1,16 @@
 <template>
   <div class="app_user_layout">
     <div class="app_header">
-      <app-header
-        @toggle="toggleMenu"
-      />
+      <app-header @toggle="toggleMenu" />
     </div>
-    <div 
-      :style="classObjectForAppContents" 
-      class="app_contents" 
+    <div
+      :style="classObjectForAppContents"
+      class="app_contents"
     >
       <app-aside-menu
-        :class="{'app_aside_menu--opened': menuOpened}"
-        :style="classObjectForAppAsideMenu" 
-        class="app_aside_menu" 
+        :class="{ 'app_aside_menu--opened': menuOpened }"
+        :style="classObjectForAppAsideMenu"
+        class="app_aside_menu"
       />
       <div class="app_page">
         <nuxt />
@@ -51,16 +49,16 @@ export default {
     classObjectForAppAsideMenu() {
       if (!this.isOpened) {
         return {
-          'transform': 'translateX(-100%)'
+          transform: 'translateX(-100%)'
         }
       }
       return {
-        'transform': 'translateX(0)'
+        transform: 'translateX(0)'
       }
     }
   },
   watch: {
-    '$route': function (to, from) {
+    $route: function(to, from) {
       if (to.path !== from.path) {
         this.isOpened = false
       }
@@ -73,7 +71,6 @@ export default {
   }
 }
 </script>
-
 
 <style scoped lang="scss">
 .app_header {
@@ -93,7 +90,7 @@ $slide-size: 25rem;
 
 .app_aside_menu {
   width: $slide-size;
-  transition: transform .3s;
+  transition: transform 0.3s;
   position: fixed;
   top: 0;
   z-index: 4;
@@ -114,5 +111,4 @@ $slide-size: 25rem;
   padding: 4rem 0 0;
   position: relative;
 }
-
 </style>

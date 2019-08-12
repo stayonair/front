@@ -1,6 +1,6 @@
 <template>
   <header class="app_header__wrapper">
-    <menu-icon 
+    <menu-icon
       class="icon-menu"
       @click="openMenu"
     />
@@ -14,13 +14,12 @@
 <script>
 export default {
   methods: {
-    openMenu(){
+    openMenu() {
       this.$emit('toggle')
     }
   }
 }
 </script>
-
 
 <style lang="scss" scoped>
 .app_header__wrapper {
