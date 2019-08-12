@@ -1,5 +1,5 @@
 import firebase from '~/plugins/firebase'
-import { firestoreAction, vuexfireMutations } from 'vuexfire'
+import { firestoreAction } from 'vuexfire'
 
 const db = firebase.firestore()
 const postsCollection = db.collection('posts')
@@ -76,8 +76,6 @@ export const state = () => ({
   },
   hoge: []
 })
-
-export const getters = {}
 
 export const actions = {
   initPosts: firestoreAction(({ bindFirestoreRef }) => {
