@@ -1,9 +1,15 @@
 <template>
-  <div class="record__container">
+  <div
+    class="record__container"
+    :class="{ active: isActiveRecord }"
+  >
     <div class="record__timer">
-      01:30
+      {{ min | zeroPadding }}:{{ sec | zeroPadding }}
     </div>
-    <record-button @buttonClick="handleRecord" />
+    <record-button
+      :is-active="isActiveRecord"
+      @buttonClick="handleRecord"
+    />
   </div>
 </template>
 
@@ -14,9 +20,53 @@ export default {
   components: {
     RecordButton
   },
+
+  filters: {
+    zeroPadding(time) {
+      return ('0' + time).slice(-2)
+    }
+  },
+
+  data: () => ({
+    isActiveRecord: false,
+    timerId: null,
+    min: 0,
+    sec: 0
+  }),
+
   methods: {
     handleRecord() {
-      console.log('録音ボタン')
+      // 録音状態だったら
+      if (this.isActiveRecord) {
+        this.isActiveRecord = false
+        clearInterval(this.timerId)
+        this.stopRecording()
+        return
+      }
+      this.isActiveRecord = true
+      this.updateTimer()
+      this.startRecording()
+
+      // 背景、ボタンのスタイルを変更
+      // タイマーのスタート
+      // レコーディング開始
+    },
+
+    updateTimer() {
+      this.timerId = setInterval(() => {
+        this.sec++
+        if (this.sec >= 60) {
+          this.min++
+          this.sec = 0
+        }
+      }, 1000)
+    },
+
+    startRecording() {
+      console.log('録音スタート♪')
+    },
+    stopRecording() {
+      console.log('録音ストップ！！')
     }
   }
 }
@@ -38,5 +88,9 @@ export default {
   font-family: 'Unica One';
   font-size: 3.5rem;
   color: $color-white;
+}
+
+.active {
+  background-color: $color-primary;
 }
 </style>
