@@ -16,17 +16,24 @@
         <nuxt />
       </div>
     </div>
+    <app-footer
+      v-if="!menuOpened"
+      class="app_footer"
+      :path="getPath"
+    />
   </div>
 </template>
 
 <script>
 import AppHeader from '~/components/Molecules/AppHeader'
 import AppAsideMenu from '~/components/Organisms/AppAsideMenu'
+import AppFooter from '~/components/Molecules/AppFooter'
 
 export default {
   components: {
     AppHeader,
-    AppAsideMenu
+    AppAsideMenu,
+    AppFooter
   },
   data: () => {
     return {
@@ -34,6 +41,9 @@ export default {
     }
   },
   computed: {
+    getPath() {
+      return this.$route.path
+    },
     menuOpened() {
       return this.isOpened
     },
@@ -108,7 +118,19 @@ $slide-size: 25rem;
   max-width: $global-max-width;
   width: 100%;
   margin: 0 auto;
+  margin-bottom: 5rem; // .app_footer の height と同じ値にする
   padding: 4rem 0 0;
   position: relative;
+}
+
+.app_footer {
+  width: 100%;
+  height: 5rem; // .app_page の margin-bottom と同じ値にする
+  line-height: 7rem;
+  border-top: solid 0.1rem $gray-text-color;
+  background-color: $color-white;
+  position: fixed;
+  bottom: 0;
+  z-index: 3;
 }
 </style>
