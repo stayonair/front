@@ -10,48 +10,56 @@
       :is-active="isActiveRecord"
       @buttonClick="handleRecord"
     />
+
+    <audio 
+      v-if="previewAudioData" 
+      :src="previewAudioData"
+      controls 
+    />
   </div>
 </template>
 
 <script>
+import firebase from '~/plugins/firebase'
 import RecordButton from '~/components/Atoms/RecordButton'
+import record from '~/utils/record'
+import { mapActions } from 'vuex'
+
+const storageRef = firebase.storage().ref()
 
 export default {
   components: {
     RecordButton
   },
-
   filters: {
     zeroPadding(time) {
       return ('0' + time).slice(-2)
     }
   },
-
   data: () => ({
     isActiveRecord: false,
+    rawAudioData: null,
+    previewAudioData: null,
+    downloadAudioUrl: null,
     timerId: null,
     min: 0,
     sec: 0
   }),
-
   methods: {
-    handleRecord() {
+    ...mapActions('post', ['addAudioUrl']),
+    async handleRecord() {
       // 録音状態だったら
       if (this.isActiveRecord) {
         this.isActiveRecord = false
         clearInterval(this.timerId)
-        this.stopRecording()
+        await this.stopRecording()
+        await this.uploadAudioData(this.rawAudioData)
         return
       }
       this.isActiveRecord = true
       this.updateTimer()
       this.startRecording()
-
-      // 背景、ボタンのスタイルを変更
-      // タイマーのスタート
-      // レコーディング開始
     },
-
     updateTimer() {
       this.timerId = setInterval(() => {
         this.sec++
@@ -61,13 +69,32 @@ export default {
         }
       }, 1000)
     },
-
     startRecording() {
-      console.log('録音スタート♪')
+      record.recStart()
     },
-    stopRecording() {
-      console.log('録音ストップ！！')
-    }
+    async stopRecording() {
+      const res = await record.stopRecording()
+      this.rawAudioData = res
+      
+      const url = URL.createObjectURL(res)
+      this.previewAudioData = url
+    },
+    createId() {
+      return [...Array(2)].reduce((acc) => {
+        return acc + (Math.random().toString(32).slice(-6)).toString()
+      }, '')
+    },
+    async uploadAudioData(data) {
+      const audioRef = storageRef.child(this.createId())
+      await audioRef.put(data).then(snapshot => {
+        console.log(`added firebase storage: ${snapshot.state}!!`)
+      })
+      await audioRef.getDownloadURL().then(url => {
+        this.downloadAudioUrl = url
+        // Vuex に URL を追加する
+        this.addAudioUrl(this.downloadAudioUrl)
+      })
+    },
   }
 }
 </script>
