@@ -32,7 +32,7 @@
         </figure>
       </div>
       <p>
-        きょうのおはなし ( 最大 126 文字 ) <span class="necessary">必須</span>
+        きょうのおはなし (最大 126 文字) <span class="necessary">必須</span>
       </p>
       <textarea
         class="new_text"
@@ -41,13 +41,13 @@
       />
       <div class="new_button__container">
         <app-button
-          class="cancel_button"
+          class="app_button cancel_button"
           text="CANCEL"
           color="gray"
           @click="handleClick"
         />
         <app-button
-          class="post_button"
+          class="app_button post_button"
           text="POST"
           color="yellow"
           @click="handleClick"
@@ -88,39 +88,40 @@ export default {
 }
 
 .label-ef-image {
-  margin: 0 auto;
+  background-color: #fff;
   display: inline-block;
   text-align: center;
-  cursor: pointer;
-  margin-bottom: 2rem;
-  background-color: #fff;
-  padding: 0.5rem 1rem;
   border-radius: 2rem;
+  margin: 0 auto 2rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
 }
 
 .title__container {
-  padding-top: 5rem;
+  display: flex;
+  flex-direction: column;
   background-color: $button-gray;
+  padding-top: 5rem;
   margin-bottom: 2rem;
 }
 
 .title {
   width: 80%;
   color: #ffffff;
-  margin: 0 auto;
   background-color: $gray-text-color;
   font-size: 18px;
   border: 2px dotted #ffffff;
   border-radius: 7px;
-  margin-bottom: 2rem;
+  margin: 0 auto 2rem;
+  padding: 0.5rem;
 }
 
 .necessary {
   font-size: 0.8rem;
-  padding: 0.2rem;
   color: $color-red;
   border: 1px solid $color-red;
   border-radius: 3px;
+  padding: 0.2rem;
 }
 
 .new_text {
@@ -138,13 +139,10 @@ export default {
   padding-top: 2rem;
 }
 
-// .post_button,
-// .cancel_button {
-//   width: 20rem;
-// }
-
-.cancel_button {
-  margin-right: 2rem;
+.app_button {
+  /deep/ .app_button {
+    width: 13rem;
+  }
 }
 
 .post__audio {
