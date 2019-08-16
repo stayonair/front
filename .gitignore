@@ -8,3 +8,5 @@ sw.*
 nohup.out
 
 yarn-error.log
+
+.vscode/
