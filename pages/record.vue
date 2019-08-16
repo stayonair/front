@@ -1,7 +1,7 @@
 <template>
   <div
     class="record__container"
-    :class="{ active: isActiveRecord }"
+    :class="{ 'record__button--active': isActiveRecord }"
   >
     <div class="record__timer">
       {{ min | zeroPadding }}:{{ sec | zeroPadding }}
@@ -79,12 +79,14 @@ export default {
       const url = URL.createObjectURL(res)
       this.previewAudioData = url
     },
+    // ランダムの12桁の ID を生成する
     createId() {
       return [...Array(2)].reduce((acc) => {
         return acc + (Math.random().toString(32).slice(-6)).toString()
       }, '')
     },
     async uploadAudioData(data) {
+      // ここでの12桁の ID がファイル名になる
       const audioRef = storageRef.child(this.createId())
       await audioRef.put(data).then(snapshot => {
         console.log(`added firebase storage: ${snapshot.state}!!`)
@@ -117,7 +119,7 @@ export default {
   color: $color-white;
 }
 
-.active {
+.record__button--active {
   background-color: $color-primary;
 }
 </style>
