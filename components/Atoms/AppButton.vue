@@ -57,7 +57,7 @@ export default {
 
 <style scoped lang="scss">
 .app_button {
-  padding: rem(10px) rem(22px);
+  padding: rem(10px) rem(10px);
   border-radius: rem(20px);
   font: inherit;
   line-height: normal;
