@@ -3,7 +3,7 @@
     <div class="app_input__container">
       <input
         :value="value"
-        :type="inputType"
+        :type="type"
         :name="name"
         :placeholder="placeholder"
         :pattern="pattern"
@@ -31,7 +31,7 @@ export default {
       type: [String, Number],
       default: null
     },
-    inputType: {
+    type: {
       type: String,
       default: ''
     },
