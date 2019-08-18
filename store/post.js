@@ -74,11 +74,21 @@ export const state = () => ({
     これを力院を食ったふりのためをその供的のにしん。事実し来ごまぐれ当りへ一年松山縁を味をして、国爺さんから本位けもつれまし一方、静粛間柄を出来ませて、どう会員のお話も少なく、人など味から思って西洋に通じ世間と聴このがするなけれ、仕方少なくに二カ月も私をしなくです家士を理非け知れと、ここなり云って入っとなっないそうない。ただどんながたの無法とか党派心を香にという、もっの個人が受けので二杯の廃墟が個性に去っべきと起しで。三口はそんな珍を時分へ不愉快によかっ片仮名を解りば、それに目黒ほかならですて、事実の打ち壊さばもその間の力の釣から同時に先生が思わについてお話しに、もしその自信を許さ事を応じないのです。そうして十人のうちの一本を人格が譴責云って、国家のお話に行かので信じんず。
     こののに破るねという吉利個性分りだのも自分ない。`
   },
-  hoge: []
+  hoge: [],
+  audioUrl: ''
 })
+
+export const mutations = {
+  ADD_AUDIO_URL(state, url) {
+    state.audioUrl = url
+  }
+}
 
 export const actions = {
   initPosts: firestoreAction(({ bindFirestoreRef }) => {
     bindFirestoreRef('hoge', postsCollection)
-  })
+  }),
+  addAudioUrl({ commit }, url) {
+    commit('ADD_AUDIO_URL', url)
+  }
 }

@@ -4,8 +4,17 @@
     @click="handleButtonClick"
   >
     <div class="record__button--outside">
-      <div class="record__button--inside">
-        <icon-microphone class="icon_microphone" />
+      <div
+        class="record__button--inside"
+        :class="{ active: isActive }"
+      >
+        <icon-microphone
+          v-if="!isActive"
+          class="icon_microphone"
+        />
+        <div v-if="isActive">
+          <div class="icon_square" />
+        </div>
       </div>
     </div>
   </div>
@@ -17,6 +26,11 @@ import IconMicrophone from '~/components/Atoms/Icons/IconMicrophone'
 export default {
   components: {
     IconMicrophone
+  },
+  props: {
+    isActive: {
+      type: Boolean
+    }
   },
   methods: {
     handleButtonClick() {
@@ -62,5 +76,16 @@ export default {
   /deep/ .icon--microphone {
     width: 3rem;
   }
+}
+
+.active {
+  background-color: $color-white;
+  border: 0.4rem solid $color-primary;
+}
+
+.icon_square {
+  width: 2rem;
+  height: 2rem;
+  background-color: $color-primary;
 }
 </style>
