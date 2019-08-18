@@ -34,7 +34,7 @@ export default {
   name: 'Post',
   layout: 'user',
   components: {
-    PostThumbnail,
+    PostThumbnail
   },
   computed: {
     ...mapState({

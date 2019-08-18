@@ -42,4 +42,9 @@ export default {
   }
 }
 </script>
-Events
+
+<style>
+.drawer-wrap {
+  background: yellow;
+}
+</style>

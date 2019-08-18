@@ -8,9 +8,7 @@
           class="footer__item"
           :class="iconClasses(buttonLink)"
         >
-          <component 
-            :is="getComponent(buttonLink)"
-          />
+          <component :is="getComponent(buttonLink)" />
         </li>
       </ul>
     </div>
@@ -34,7 +32,7 @@ export default {
       default: ''
     }
   },
-  data:() => ({
+  data: () => ({
     buttons: ['user', 'balloon', 'bell'],
     buttonLinks: [
       {
@@ -61,7 +59,6 @@ export default {
       }
       return {}
     }
-
   }
 }
 </script>

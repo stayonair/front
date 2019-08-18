@@ -11,10 +11,10 @@
       @buttonClick="handleRecord"
     />
 
-    <audio 
-      v-if="previewAudioData" 
+    <audio
+      v-if="previewAudioData"
       :src="previewAudioData"
-      controls 
+      controls
     />
   </div>
 </template>
@@ -75,14 +75,20 @@ export default {
     async stopRecording() {
       const res = await record.stopRecording()
       this.rawAudioData = res
-      
+
       const url = URL.createObjectURL(res)
       this.previewAudioData = url
     },
     // ランダムの12桁の ID を生成する
     createId() {
-      return [...Array(2)].reduce((acc) => {
-        return acc + (Math.random().toString(32).slice(-6)).toString()
+      return [...Array(2)].reduce(acc => {
+        return (
+          acc +
+          Math.random()
+            .toString(32)
+            .slice(-6)
+            .toString()
+        )
       }, '')
     },
     async uploadAudioData(data) {
@@ -96,7 +102,7 @@ export default {
         // Vuex に URL を追加する
         this.addAudioUrl(this.downloadAudioUrl)
       })
-    },
+    }
   }
 }
 </script>
