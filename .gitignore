@@ -9,4 +9,5 @@ nohup.out
 
 yarn-error.log
 
-.vscode/
+.vscode/*
+!.vscode/setting.json
