@@ -20,13 +20,18 @@
     <div class="signup__sns__container">
       <app-button
         color="transparent"
-        text="SIGNUP WITH INSTAGRAM"
-        icon="fab fa-instagram"
+        text="SIGNUP WITH FACEBOOK"
+        icon="fab fa-facebook-f"
       />
       <app-button
         color="transparent"
-        text="SIGNUP WITH FACEBOOK"
-        icon="fab fa-facebook-f"
+        text="SIGNUP WITH TWITTER"
+        icon="fab fa-twitter"
+      />
+      <app-button
+        color="transparent"
+        text="SIGNUP WITH INSTAGRAM"
+        icon="fab fa-instagram"
       />
     </div>
 
@@ -41,19 +46,21 @@
           v-model="email"
           type="email"
           name="email"
-          inner-label="Email"
+          placeholder="Email"
         />
         <form-input
           v-model="password"
           type="password"
           name="password"
-          inner-label="Password"
+          placeholder="Password"
+          autocomplete="off"
         />
         <form-input
           v-model="confirmPassword"
           type="password"
           name="password-confirm"
-          inner-label="Password Confirm"
+          placeholder="Password Confirm"
+          autocomplete="off"
         />
         <app-button
           color="white"
@@ -87,19 +94,46 @@ export default {
     confirmPassword: ''
   }),
   methods: {
-    signup() {
+    async signup() {
+      // 入力したパスワードと確認パスワードが一致していない時
       if (this.password !== this.confirmPassword) {
         console.log('パスワードが一致していません')
         return
       }
-      auth
-        .createUserWithEmailAndPassword(this.email, this.password)
-        .then(doc => {
-          console.log(`Created account: ${doc.user.email}`)
-        })
-        .catch(error => {
-          console.error(error)
-        })
+      // 入力したメールアドレスがすでに登録されている時
+      const providers = await auth.fetchSignInMethodsForEmail(this.email)
+      if (providers.findIndex(p => p === firebase.auth.EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD) !== -1) {
+          console.log('登録されているメールアドレスです！')
+          return
+      }
+
+      await auth.createUserWithEmailAndPassword(this.email, this.password)
+      .then(doc => {
+        // メアド確認が終わっていない時
+        if (!doc.user.emailVerified) {
+          // メールを送信して認証する
+          auth.currentUser.sendEmailVerification({
+            // リダイレクト先のURL
+            // 動作確認のため localhost
+            url: 'http://localhost:3000/signup_name'
+          })
+          .then(() => {
+            console.log('Successfully sent email')
+          })
+        }
+      })
+      .catch(e => {
+        console.error(e)
+      })
+
+        
+        
+        // .then(doc => {
+        //   console.log(`Created account: ${doc.user.email}`)
+        // })
+        // .catch(error => {
+        //   console.error(error)
+        // })
     }
   }
 }

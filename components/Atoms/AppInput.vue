@@ -10,11 +10,13 @@
         :disabled="disabled"
         :max="max"
         :min="min"
+        :autocomplete="autocomplete"
         :required="required"
         :class="{ is_error: isError }"
         class="app_input"
         @input="updateInput"
         @blur="blurInput"
+        
       >
       <p class="app_input__inner_label">
         {{ innerLabel }}
@@ -70,6 +72,10 @@ export default {
     innerLabel: {
       type: String,
       default: ''
+    },
+    autocomplete: {
+      type: String,
+      default: ''
     }
   },
   methods: {
@@ -104,6 +110,11 @@ export default {
   transition: 0.2s all;
 
   @include placeholder(#444);
+
+  &::placeholder {
+    text-align: right;
+    background-color: #fff;
+  }
 
   &:hover {
     border-color: color-sub(#444, #111);
