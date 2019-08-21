@@ -16,7 +16,6 @@
         class="app_input"
         @input="updateInput"
         @blur="blurInput"
-        
       >
       <p class="app_input__inner_label">
         {{ innerLabel }}

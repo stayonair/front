@@ -73,9 +73,9 @@
 </template>
 
 <script>
-import FormInput from '~/components/Molecules/FormInput.vue'
-import AppButton from '~/components/Atoms/AppButton.vue'
-import IconBalloon from '~/components/Atoms/Icons/IconBalloon.vue'
+import FormInput from '~/components/Molecules/FormInput'
+import AppButton from '~/components/Atoms/AppButton'
+import IconBalloon from '~/components/Atoms/Icons/IconBalloon'
 
 import firebase from 'firebase/app'
 import 'firebase/auth'
@@ -102,38 +102,36 @@ export default {
       }
       // 入力したメールアドレスがすでに登録されている時
       const providers = await auth.fetchSignInMethodsForEmail(this.email)
-      if (providers.findIndex(p => p === firebase.auth.EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD) !== -1) {
-          console.log('登録されているメールアドレスです！')
-          return
+      if (
+        providers.findIndex(
+          p =>
+            p === firebase.auth.EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD
+        ) !== -1
+      ) {
+        console.log('登録されているメールアドレスです！')
+        return
       }
 
-      await auth.createUserWithEmailAndPassword(this.email, this.password)
-      .then(doc => {
-        // メアド確認が終わっていない時
-        if (!doc.user.emailVerified) {
-          // メールを送信して認証する
-          auth.currentUser.sendEmailVerification({
-            // リダイレクト先のURL
-            // 動作確認のため localhost
-            url: 'http://localhost:3000/signup_name'
-          })
-          .then(() => {
-            console.log('Successfully sent email')
-          })
-        }
-      })
-      .catch(e => {
-        console.error(e)
-      })
-
-        
-        
-        // .then(doc => {
-        //   console.log(`Created account: ${doc.user.email}`)
-        // })
-        // .catch(error => {
-        //   console.error(error)
-        // })
+      await auth
+        .createUserWithEmailAndPassword(this.email, this.password)
+        .then(doc => {
+          // メアド確認が終わっていない時
+          if (!doc.user.emailVerified) {
+            // メールを送信して認証する
+            auth.currentUser
+              .sendEmailVerification({
+                // リダイレクト先のURL
+                // 動作確認のため localhost
+                url: 'http://localhost:3000/signup_name'
+              })
+              .then(() => {
+                console.log('Successfully sent email')
+              })
+          }
+        })
+        .catch(e => {
+          console.error(e)
+        })
     }
   }
 }
@@ -141,8 +139,16 @@ export default {
 
 <style scoped lang="scss">
 .signup__container {
-  background: $color-primary;
+  background: linear-gradient(
+      rgba(46, 211, 211, 0.8),
+      rgba(66, 106, 131, 0.8),
+      rgba(72, 77, 109, 0.8)
+    ),
+    url('../assets/img/bg_main.png');
+  background-size: cover;
+  background-position: top;
   padding-top: 3.5rem;
+  min-height: 100vh;
 }
 
 .soa-logo {
@@ -188,7 +194,6 @@ export default {
 
 .form__container {
   margin: 0 auto;
-  min-height: 100vh;
   text-align: center;
   max-width: 80%;
   /deep/ .app_input__container {
