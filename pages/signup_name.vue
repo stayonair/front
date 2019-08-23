@@ -37,8 +37,7 @@
 import IconBalloon from '~/components/Atoms/Icons/IconBalloon'
 import AppButton from '~/components/Atoms/AppButton'
 
-import firebase from 'firebase/app'
-import 'firebase/auth'
+import firebase from '~/plugins/firebase'
 
 const user = firebase.auth().currentUser
 
@@ -78,7 +77,7 @@ export default {
     url('../assets/img/bg_main.png');
   background-size: cover;
   background-position: top;
-  padding-top: 3.5rem;
+  padding: 3.5rem 0;
   min-height: 100vh;
 }
 

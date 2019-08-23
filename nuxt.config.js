@@ -99,5 +99,8 @@ export default {
   },
   env: {
     INDEXEDDB_ENV
+  },
+  router: {
+    middleware: ['authenticated']
   }
 }

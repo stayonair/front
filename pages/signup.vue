@@ -8,6 +8,7 @@
       <ul class="navigation__items">
         <li class="navigation--select">
           SIGN UP
+          <div class="under-line" />
         </li>
         <li>
           <nuxt-link to="login">
@@ -27,11 +28,6 @@
         color="transparent"
         text="SIGNUP WITH TWITTER"
         icon="fab fa-twitter"
-      />
-      <app-button
-        color="transparent"
-        text="SIGNUP WITH INSTAGRAM"
-        icon="fab fa-instagram"
       />
     </div>
 
@@ -77,8 +73,7 @@ import FormInput from '~/components/Molecules/FormInput'
 import AppButton from '~/components/Atoms/AppButton'
 import IconBalloon from '~/components/Atoms/Icons/IconBalloon'
 
-import firebase from 'firebase/app'
-import 'firebase/auth'
+import firebase from '~/plugins/firebase'
 
 const auth = firebase.auth()
 
@@ -147,7 +142,7 @@ export default {
     url('../assets/img/bg_main.png');
   background-size: cover;
   background-position: top;
-  padding-top: 3.5rem;
+  padding: 3.5rem 0;
   min-height: 100vh;
 }
 
@@ -177,8 +172,14 @@ export default {
 }
 
 .navigation--select {
-  border-bottom: 0.4rem solid $color-white;
   font-weight: bold;
+}
+
+.under-line {
+  width: 100%;
+  height: 0.4rem;
+  background-color: #fff;
+  border-radius: 3rem;
 }
 
 .signup__sns__container {
