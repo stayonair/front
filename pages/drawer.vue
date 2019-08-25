@@ -1,36 +1,57 @@
 <template>
-  <vue-drawer-layout ref="drawerLayout">
-    <div
-      slot="drawer"
-      class="drawer"
-    >
-      <div class="text">
-        This is drawer
-      </div>
-      <a
-        href="javascript:void(0)"
-        class="btn"
-        @click="handleToggleDrawer"
+  <div>
+    <main class="title__container">
+      <textarea
+        class="title"
+        placeholder="タイトルを入力"
+      />
+      <input
+        id="ref-image"
+        type="file"
+        multiple
+        accept="image/jpeg, image/png"
       >
-        Hide Drawer
-      </a>
-    </div>
-    <div
-      slot="content"
-      class="content"
-    >
-      <div class="text">
-        This is content.
-      </div>
-      <a
-        href="javascript:void(0)"
-        class="btn"
-        @click="handleToggleDrawer"
+      <label
+        for="ref-image"
+        class="label-ef-image"
       >
-        Show Drawer
-      </a>
-    </div>
-  </vue-drawer-layout>
+        + サムネイルを画像設定する
+      </label>
+    </main>
+    <vue-drawer-layout ref="drawerLayout">
+      <div
+        slot="drawer"
+        class="drawer"
+      >
+        <div class="text">
+          This is drawer メニュー
+        </div>
+        <a
+          href="javascript:void(0)"
+          class="btn"
+          @click="handleToggleDrawer"
+        >
+          Hide Drawer
+        </a>
+      </div>
+      <div
+        slot="content"
+        class="content"
+      >
+        <div class="text">
+          This is content.
+        </div>
+        <a
+          href="javascript:void(0)"
+          class="btn"
+          @click="handleToggleDrawer"
+        >
+          Show Drawer
+        </a>
+      </div>
+    </vue-drawer-layout>
+  </div>
+
 </template>
 
 <script>
