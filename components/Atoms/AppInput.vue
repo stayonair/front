@@ -129,6 +129,8 @@ export default {
     }
     color: #333;
   }
+  // autocomplete で選択した時、背景色が変化する（Chromeの仕様）
+  // そのため、box-shadow を重ねて色を変えている
   &:-webkit-autofill {
     box-shadow: 0 0 0 1000px $color-white inset !important;
   }

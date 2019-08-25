@@ -111,11 +111,6 @@ export default {
   background-color: transparent;
   color: $color-white;
 }
-// .icon {
-//     line-height: 1.4;
-//     float: left;
-//     padding-left: 1rem;
-// }
 
 .icon {
   position: absolute;
