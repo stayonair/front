@@ -31,38 +31,14 @@
         class="drawer"
       >
         <!-- ⬇プラグインの内容だけど無くて動く -->
-        <!-- <a
+        <a
           href="javascript:void(0)"
           class="btn"
           @click="handleToggleDrawer"
         >
-        </a> -->
+        </a>
         <!-- AppAsideMenuコンポーネントここから-->
-        <div class="app_aside_menu__user">
-        <img
-          :src="user.icon_url"
-          class="app_aside_menu__user_icon"
-          alt="icon_url"
-        >
-        <div class="app_aside_menu__user_account">
-          <p class="app_aside_menu__user_name">
-            @{{ user.name }}
-          </p>
-          <p class="app_aside_menu__user_place">
-            {{ user.place }}
-          </p>
-        </div>
-      </div>
-        <div class="app_aside_menu__items">
-          <p
-            v-for="(item, index) in menuList"
-            :key="index"
-            class="app_aside_menu__item"
-            @click="$router.push(item.path)"
-          >
-            {{ item.label }}
-          </p>
-        </div>
+          <app-aside-menu />
       </div>
       <!-- AppAsideMenuコンポーネントここまで-->
       <!-- ⬇ないと動かない -->
@@ -76,22 +52,22 @@
           class="btn"
           @click="handleToggleDrawer"
         >
-        </a> -->
+        </app-aside-menu> -->
       </div>
     </vue-drawer-layout>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+// import { mapState } from 'vuex'
 import AppHeader from '~/components/Molecules/AppHeader'
-// import AppAsideMenu from '~/components/Organisms/AppAsideMenu'
+import AppAsideMenu from '~/components/Organisms/AppAsideMenu'
 import AppFooter from '~/components/Molecules/AppFooter'
 
 export default {
   components: {
     AppHeader,
-    // AppAsideMenu,
+    AppAsideMenu,
     AppFooter
   },
   data: () => {
@@ -100,11 +76,6 @@ export default {
     }
   },
   computed: {
-    //AppAsideMenuコンポーネントここから
-    ...mapState({
-      user: store => store.user.user
-    }),
-    //AppAsideMenuコンポーネントここまで
     getPath() {
       return this.$route.path
     },
@@ -120,36 +91,6 @@ export default {
         height: '100%'
       }
     },
-    //AppAsideMenuコンポーネントここから
-    menuList() {
-      return [
-        {
-          label: 'ニュースフィード',
-          path: '/news_feed'
-        },
-        {
-          label: '検索',
-          path: '/'
-        },
-        {
-          label: 'メッセージ',
-          path: '/'
-        },
-        {
-          label: 'お知らせ',
-          path: '/'
-        },
-        {
-          label: 'マイページ',
-          path: '/'
-        },
-        {
-          label: '設定',
-          path: '/'
-        }
-      ]
-    },
-    //AppAsideMenuコンポーネントここまで
     classObjectForAppAsideMenu() {
       if (!this.isOpened) {
         return {
@@ -169,13 +110,11 @@ export default {
     }
   },
   methods: {
-    //AppAsideMenuコンポーネントここから
     handleToggleDrawer() {
-      this.$refs.drawerLayout.toggle()
-    },
-    //AppAsideMenuコンポーネントここまで
+       this.$refs.drawerLayout.toggle()
+     },
     toggleMenu() {
-      this.isOpened = !this.isOpened
+      // this.isOpened = !this.isOpened
     }
   }
 }
@@ -188,31 +127,12 @@ export default {
   left: 0;
   max-width: 100vw; // これを入れないとドロワーメニューを閉じるときの挙動がおかしい.
   width: 100%;
-  z-index: 5;
+  z-index: 820; // プラグイン drawer メニュー が818のため
 }
-
-$slide-size: 25rem;
 
 .app_contents {
   display: flex;
 }
-
-//AppAsideMenuコンポーネントここから
-.app_aside_menu {
-  width: $slide-size;
-  transition: transform 0.3s;
-  position: fixed;
-  top: 0;
-  z-index: 4;
-  transition: all 300ms 200ms ease;
-}
-
-// .app_aside_menu--opened ~ .app_page {
-//   transform: translateX($slide-size);
-//   background-color: rgba($background-black, 0.6);
-//   transition: all 300ms 200ms ease;
-// }
-//AppAsideMenuコンポーネントここまで
 
 .app_page {
   transition: all 300ms 200ms ease;
@@ -232,64 +152,6 @@ $slide-size: 25rem;
   background-color: $color-white;
   position: fixed;
   bottom: 0;
-  z-index: 3;
+  z-index: 819; // プラグイン drawer メニュー が818のため
 }
-
-//AppAsideMenuコンポーネントここから
-.drawer {
-  z-index: 900;
-}
-
-.drawer-wrap {
-  max-width: 100vw;
-}
-
-.drawer-layout.dorowa {
-  position: fixed;
-}
-
-.dorowa {
-  /deep/ .drawer {
-    height: 100vh;
-  }
-}
-
-.app_aside_menu__user {
-  box-shadow: inset 0 0 0 25rem rgba($color-brand, 1);
-  padding: 8rem 0 4rem 3rem;
-
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  color: $color-white;
-  font-weight: 100;
-
-  &_icon {
-    border-radius: 50%;
-    background-color: $color-white;
-    margin-right: 0.8rem;
-    height: 4rem;
-    width: 4rem;
-  }
-
-  &_name,
-  &_place {
-    color: $color-white;
-    margin: 0 0.8rem 0 0;
-  }
-}
-
-.app_aside_menu__items {
-  background-image: url('../assets/img/bg_aside.png');
-  background-size: cover;
-  box-shadow: inset 0 0 0 25rem rgba($color-primary, 0.7);
-  height: 100vh;
-  padding-left: 4rem;
-  padding-top: 4rem;
-}
-
-.app_aside_menu__item {
-  color: $color-white;
-}
-//AppAsideMenuコンポーネントここまで
 </style>
