@@ -39,8 +39,6 @@ import AppButton from '~/components/Atoms/AppButton'
 
 import firebase from '~/plugins/firebase'
 
-const user = firebase.auth().currentUser
-
 export default {
   components: {
     IconBalloon,
@@ -50,9 +48,10 @@ export default {
     userName: ''
   }),
   methods: {
-    createName() {
-      user
-        .updateProfile({
+    async createName() {
+      await firebase
+        .auth()
+        .currentUser.updateProfile({
           displayName: this.userName
           // photoURL: ''
         })

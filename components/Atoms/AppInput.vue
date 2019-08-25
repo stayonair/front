@@ -102,7 +102,6 @@ export default {
   line-height: 1;
   border: none;
   border-radius: rem(24px);
-  // position: relative;
 
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -112,7 +111,7 @@ export default {
 
   &::placeholder {
     text-align: right;
-    background-color: #fff;
+    background-color: transparent;
   }
 
   &:hover {
@@ -129,6 +128,9 @@ export default {
       border-color: #333;
     }
     color: #333;
+  }
+  &:-webkit-autofill {
+    box-shadow: 0 0 0 1000px $color-white inset !important;
   }
 }
 

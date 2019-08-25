@@ -2,16 +2,14 @@ import firebase from '~/plugins/firebase'
 
 firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
 
-export default ({ route, store, redirect }) => {
-  if (route.name === 'signup') {
+export default async ({ store }) => {
+  // store にログイン情報があるときは何もしない
+  if (store.state.auth.user) {
     return
   }
-  firebase.auth().onAuthStateChanged(user => {
-    if (!user && route.name !== 'login') {
-      redirect('/login')
-      return
-    }
 
+  await firebase.auth().onAuthStateChanged(user => {
+    // ログインしていたら、store に追加する
     if (user) {
       store.dispatch('auth/setUser', user)
     }

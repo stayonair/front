@@ -23,11 +23,13 @@
         color="transparent"
         text="SIGNUP WITH FACEBOOK"
         icon="fab fa-facebook-f"
+        @click="facebookLogin()"
       />
       <app-button
         color="transparent"
         text="SIGNUP WITH TWITTER"
         icon="fab fa-twitter"
+        @click="twitterLogin()"
       />
     </div>
 
@@ -127,6 +129,18 @@ export default {
         .catch(e => {
           console.error(e)
         })
+    },
+    facebookLogin() {
+      const facebook = new firebase.auth.FacebookAuthProvider()
+      auth.signInWithPopup(facebook).then(() => {
+        this.$router.push('/news_feed')
+      })
+    },
+    twitterLogin() {
+      const twitter = new firebase.auth.TwitterAuthProvider()
+      auth.signInWithPopup(twitter).then(() => {
+        this.$router.push('/news_feed')
+      })
     }
   }
 }

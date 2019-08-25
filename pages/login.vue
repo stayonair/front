@@ -23,12 +23,13 @@
         color="transparent"
         text="LOGIN WITH FACEBOOK"
         icon="fab fa-facebook-f"
+        @click="facebookLogin()"
       />
       <app-button
         color="transparent"
         text="LOGIN WITH TWITTER"
         icon="fab fa-twitter"
-        @click="twitterLogin(twitter)"
+        @click="twitterLogin()"
       />
     </div>
 
@@ -83,16 +84,21 @@ export default {
   }),
   methods: {
     login() {
-      auth.signInWithEmailAndPassword(this.email, this.password).then(doc => {
-        console.log(doc.user)
-        console.log(`logined account: ${doc.user.email}`)
+      auth.signInWithEmailAndPassword(this.email, this.password).then(() => {
+        this.$router.push('/news_feed')
+        console.log(auth.currentUser)
+      })
+    },
+    facebookLogin() {
+      const facebook = new firebase.auth.FacebookAuthProvider()
+      auth.signInWithPopup(facebook).then(() => {
         this.$router.push('/news_feed')
       })
     },
     twitterLogin() {
       const twitter = new firebase.auth.TwitterAuthProvider()
-      auth.signInWithPopup(twitter).then(doc => {
-        console.log(doc)
+      auth.signInWithPopup(twitter).then(() => {
+        this.$router.push('/news_feed')
       })
     }
   }
