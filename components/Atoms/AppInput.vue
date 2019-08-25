@@ -3,13 +3,14 @@
     <div class="app_input__container">
       <input
         :value="value"
-        :type="inputType"
+        :type="type"
         :name="name"
         :placeholder="placeholder"
         :pattern="pattern"
         :disabled="disabled"
         :max="max"
         :min="min"
+        :autocomplete="autocomplete"
         :required="required"
         :class="{ is_error: isError }"
         class="app_input"
@@ -31,7 +32,7 @@ export default {
       type: [String, Number],
       default: null
     },
-    inputType: {
+    type: {
       type: String,
       default: ''
     },
@@ -70,6 +71,10 @@ export default {
     innerLabel: {
       type: String,
       default: ''
+    },
+    autocomplete: {
+      type: String,
+      default: ''
     }
   },
   methods: {
@@ -97,13 +102,17 @@ export default {
   line-height: 1;
   border: none;
   border-radius: rem(24px);
-  // position: relative;
 
   -webkit-appearance: none;
   -moz-appearance: none;
   transition: 0.2s all;
 
   @include placeholder(#444);
+
+  &::placeholder {
+    text-align: right;
+    background-color: transparent;
+  }
 
   &:hover {
     border-color: color-sub(#444, #111);
@@ -119,6 +128,11 @@ export default {
       border-color: #333;
     }
     color: #333;
+  }
+  // autocomplete で選択した時、背景色が変化する（Chromeの仕様）
+  // そのため、box-shadow を重ねて色を変えている
+  &:-webkit-autofill {
+    box-shadow: 0 0 0 1000px $color-white inset !important;
   }
 }
 

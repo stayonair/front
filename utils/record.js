@@ -1,24 +1,25 @@
 // if (!navigator.mediaDevices) {
 //   alert("mediaDevices is unavailable")
 // }
- 
+
 let mediaRecorder = null
 let localstream = {}
 
 function recStart() {
-  navigator.mediaDevices.getUserMedia({ audio: true })
+  navigator.mediaDevices
+    .getUserMedia({ audio: true })
     .then(function(stream) {
-      localstream = stream;
-      mediaRecorder = new MediaRecorder(stream);
-      mediaRecorder.start();
+      localstream = stream
+      mediaRecorder = new MediaRecorder(stream)
+      mediaRecorder.start()
     })
-    .catch(function(e){
-      console.log(e);
+    .catch(function(e) {
+      console.log(e)
     })
 }
 
 function stopRecording() {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     mediaRecorder.stop()
     mediaRecorder.ondataavailable = function(e) {
       resolve(e.data)
