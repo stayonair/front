@@ -64,12 +64,11 @@ export default {
         }
       ]
     }
-  },
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-
 $slide-size: 25rem;
 
 .app_aside_menu {
@@ -89,17 +88,12 @@ $slide-size: 25rem;
 
 .drawer-layout.dorowa {
   position: fixed;
-  // width: 100px;
 }
 
 .dorowa {
   /deep/ .drawer {
     height: 100vh;
   }
-}
-
-.drawer-mask {
-  z-index: 2;
 }
 
 .app_aside_menu__user {
