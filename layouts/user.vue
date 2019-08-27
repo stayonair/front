@@ -72,7 +72,7 @@ export default {
   left: 0;
   max-width: 100vw; // これを入れないとドロワーメニューを閉じるときの挙動がおかしい.
   width: 100%;
-  z-index: 11; // プラグイン drawer メニュー が818のため
+  z-index: 11; // プラグイン drawer メニューに合わせて
 }
 
 .app_page {
@@ -93,6 +93,6 @@ export default {
   background-color: $color-white;
   position: fixed;
   bottom: 0;
-  z-index: 12; // プラグイン drawer メニュー が818のため
+  z-index: 12; // プラグイン drawer メニュー に合わせて
 }
 </style>
