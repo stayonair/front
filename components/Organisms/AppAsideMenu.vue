@@ -98,7 +98,8 @@ export default {
     width: 4rem;
   }
 
-  &_name, &_place {
+  &_name,
+  &_place {
     color: $color-white;
     margin: 0 0.8rem 0 0;
   }

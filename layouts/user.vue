@@ -1,34 +1,39 @@
 <template>
   <div class="app_user_layout">
     <div class="app_header">
-      <app-header
-        @toggle="toggleMenu"
-      />
+      <app-header @toggle="toggleMenu" />
     </div>
-    <div 
-      :style="classObjectForAppContents" 
-      class="app_contents" 
+    <div
+      :style="classObjectForAppContents"
+      class="app_contents"
     >
       <app-aside-menu
-        :class="{'app_aside_menu--opened': menuOpened}"
-        :style="classObjectForAppAsideMenu" 
-        class="app_aside_menu" 
+        :class="{ 'app_aside_menu--opened': menuOpened }"
+        :style="classObjectForAppAsideMenu"
+        class="app_aside_menu"
       />
       <div class="app_page">
         <nuxt />
       </div>
     </div>
+    <app-footer
+      v-if="!menuOpened"
+      class="app_footer"
+      :path="getPath"
+    />
   </div>
 </template>
 
 <script>
 import AppHeader from '~/components/Molecules/AppHeader'
 import AppAsideMenu from '~/components/Organisms/AppAsideMenu'
+import AppFooter from '~/components/Molecules/AppFooter'
 
 export default {
   components: {
     AppHeader,
-    AppAsideMenu
+    AppAsideMenu,
+    AppFooter
   },
   data: () => {
     return {
@@ -36,6 +41,9 @@ export default {
     }
   },
   computed: {
+    getPath() {
+      return this.$route.path
+    },
     menuOpened() {
       return this.isOpened
     },
@@ -51,16 +59,16 @@ export default {
     classObjectForAppAsideMenu() {
       if (!this.isOpened) {
         return {
-          'transform': 'translateX(-100%)'
+          transform: 'translateX(-100%)'
         }
       }
       return {
-        'transform': 'translateX(0)'
+        transform: 'translateX(0)'
       }
     }
   },
   watch: {
-    '$route': function (to, from) {
+    $route: function(to, from) {
       if (to.path !== from.path) {
         this.isOpened = false
       }
@@ -73,7 +81,6 @@ export default {
   }
 }
 </script>
-
 
 <style scoped lang="scss">
 .app_header {
@@ -93,7 +100,7 @@ $slide-size: 25rem;
 
 .app_aside_menu {
   width: $slide-size;
-  transition: transform .3s;
+  transition: transform 0.3s;
   position: fixed;
   top: 0;
   z-index: 4;
@@ -111,8 +118,19 @@ $slide-size: 25rem;
   max-width: $global-max-width;
   width: 100%;
   margin: 0 auto;
+  margin-bottom: 5rem; // .app_footer の height と同じ値にする
   padding: 4rem 0 0;
   position: relative;
 }
 
+.app_footer {
+  width: 100%;
+  height: 5rem; // .app_page の margin-bottom と同じ値にする
+  line-height: 7rem;
+  border-top: solid 0.1rem $gray-text-color;
+  background-color: $color-white;
+  position: fixed;
+  bottom: 0;
+  z-index: 3;
+}
 </style>

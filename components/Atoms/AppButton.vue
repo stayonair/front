@@ -7,6 +7,11 @@
         :class="buttonClasses"
         @click="handleClick"
       >
+        <i
+          v-if="icon"
+          :class="awesomeIcon"
+          class="icon"
+        />
         {{ text }}
       </button>
     </div>
@@ -18,6 +23,10 @@ export default {
   name: 'AppButton',
   props: {
     text: {
+      type: String,
+      default: ''
+    },
+    icon: {
       type: String,
       default: ''
     },
@@ -45,6 +54,9 @@ export default {
       const styles = { app_button: true }
       styles[`is_${this.color}`] = true
       return styles
+    },
+    awesomeIcon() {
+      return this.icon
     }
   },
   methods: {
@@ -57,7 +69,8 @@ export default {
 
 <style scoped lang="scss">
 .app_button {
-  padding: rem(10px) rem(22px);
+  position: relative;
+  padding: rem(10px) rem(10px);
   border-radius: rem(20px);
   font: inherit;
   line-height: normal;
@@ -94,8 +107,14 @@ export default {
   color: $color-white;
 }
 .is_transparent {
-  border-color: $color-white;
-  background-color: none;
+  border: 2px solid $color-white;
+  background-color: transparent;
   color: $color-white;
+}
+
+.icon {
+  position: absolute;
+  top: 1.2rem;
+  left: 1.6rem;
 }
 </style>
