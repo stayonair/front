@@ -64,28 +64,44 @@ export default {
         }
       ]
     }
-  },
-  methods: {
-    getIconTag(tagName) {
-      return `<${tagName} />`
-    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+$slide-size: 25rem;
+
 .app_aside_menu {
-  height: 100vh;
-  padding: 4rem 0 0;
-  background-image: url('../../assets/img/bg_aside.png');
+  width: $slide-size;
+  transition: transform 0.3s;
+  position: fixed;
+  top: 4rem;
+  z-index: 2;
+  transition: all 300ms 200ms ease;
+}
+
+.drawer-wrap {
+  position: fixed;
+  top: 8rem;
+  z-index: 2;
+}
+
+.drawer-layout.dorowa {
+  position: fixed;
+}
+
+.dorowa {
+  /deep/ .drawer {
+    height: 100vh;
+  }
 }
 
 .app_aside_menu__user {
-  box-shadow: inset 0 0 0 25rem rgba($color-brand, 0.6);
-  padding: 4rem 0;
+  box-shadow: inset 0 0 0 25rem rgba($color-brand, 1);
+  padding: 4rem 0 4rem 3rem;
 
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   color: $color-white;
   font-weight: 100;
@@ -106,9 +122,10 @@ export default {
 }
 
 .app_aside_menu__items {
-  box-shadow: inset 0 0 0 25rem rgba($color-primary, 0.6);
+  background-image: url('../../assets/img/bg_aside.png');
+  background-size: cover;
+  box-shadow: inset 0 0 0 25rem rgba($color-primary, 0.7);
   height: 100vh;
-
   padding-left: 4rem;
   padding-top: 4rem;
 }

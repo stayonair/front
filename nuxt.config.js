@@ -69,7 +69,11 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/vue-material', '~/plugins/firebase'],
+  plugins: [
+    '~/plugins/vue-material',
+    '~/plugins/firebase',
+    '~/plugins/vue-drawer-layout'
+  ],
 
   /*
    ** Axios module configuration
