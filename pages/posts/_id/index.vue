@@ -32,9 +32,10 @@
           type="range"
           min="0"
           max="100"
-          step="5"
+          step="1"
+          @click="seekingAudio(audioProgress)"
         >
-        {{ audioCurrentTime }} / {{ audioDuration }}
+        {{ audioCurrentTime | showMinutes }} / {{ audioDuration | showMinutes }}
 
         <div class="post__article">
           <p>
@@ -98,6 +99,17 @@ export default {
     PostThumbnail,
     IconPlay
   },
+  filters: {
+    showMinutes(value) {
+      if (!value) {
+        return ''
+      } else if (value >= 60) {
+        return (value / 60).toFixed(2) + " 分"
+      } else {
+        return value.toFixed(2) + " 秒"
+      }
+    }
+  },
   data: () => ({
     className: '',
     isPlaying: false,
@@ -135,26 +147,26 @@ export default {
       return this.$refs.audio.duration
     },
     playAudio() {
-      // console.log('playAudio の時の audio' + this.$refs.audio);
-      console.log(this.$refs.audio);
-      console.log('readyState ' + this.$refs.audio.readyState);
       console.log('playクリックタイム ' + this.$refs.audio.currentTime);
       this.audioCurrentTime = this.$refs.audio.currentTime
-
       this.$refs.audio.play()
       this.isPlaying = !this.isPlaying
     },
     pauseAudio() {
-      console.log('readyState ' + this.$refs.audio.readyState);
       console.log('pauseクリックタイム ' + this.$refs.audio.currentTime);
       this.audioCurrentTime = this.$refs.audio.currentTime
-
       this.$refs.audio.pause()
       this.isPlaying = !this.isPlaying
     },
     seekingAudio() {
-      console.log("seeking began")
-      console.log(this.audioProgress)
+      if (this.isPlaying) {
+        this.isPlaying = !this.isPlaying
+      }
+      console.log('audioProgress ' + this.audioProgress)
+      this.audioCurrentTime = this.audioDuration / 100 *  this.audioProgress
+      console.log('audioCurrentTime ' + this.audioCurrentTime)
+      this.$refs.audio.currentTime = this.audioCurrentTime
+      this.$refs.audio.play()
     },
   }
 }
