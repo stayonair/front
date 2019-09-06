@@ -28,6 +28,13 @@ import { mapActions } from 'vuex'
 const storageRef = firebase.storage().ref()
 
 export default {
+  head: () => ({
+    script: [
+      {
+        src: '/record/WebAudioRecorder.min.js'
+      }
+    ]
+  }),
   components: {
     RecordButton
   },
@@ -57,8 +64,8 @@ export default {
         return
       }
       this.isActiveRecord = true
+      await this.startRecording()
       this.updateTimer()
-      this.startRecording()
     },
     updateTimer() {
       this.timerId = setInterval(() => {
@@ -70,7 +77,7 @@ export default {
       }, 1000)
     },
     startRecording() {
-      record.recStart()
+      record.startRecording()
     },
     async stopRecording() {
       const res = await record.stopRecording()
