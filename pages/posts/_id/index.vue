@@ -6,37 +6,6 @@
           :post="post"
           class="post__thumbnail"
         />
-        <!-- <figure class="post__audio">
-          <audio
-            class="audio"
-            controls
-            preload="auto"
-            src="http://www.voice-pro.jp/announce/mp3/001-sibutomo.mp3"
-          >
-            <code>audio</code> element
-          </audio>
-        </figure> -->
-        <figure class="post__audio">
-          <audio
-            ref="audio"
-            class="audio"
-            preload="metadata"
-          >
-            <code>audio</code> element
-          </audio>
-        </figure>
-
-        <input
-          v-model="audioProgress"
-          class="input_range"
-          type="range"
-          min="0"
-          max="100"
-          step="1"
-          @click="seekingAudio(audioProgress)"
-        >
-        {{ audioCurrentTime | showMinutes }} / {{ audioDuration | showMinutes }}
-
         <div class="post__article">
           <p>
             {{ post.article }}
@@ -47,39 +16,67 @@
               class="audio__wrapper"
               :class="className"
             >
-              <div
-                class="icon-title__container"
-                @click="changeAudioFooterSize()"
-              >
-                <div class="traveler-icon__container">
-                  <img
-                    :src="post.author.icon_url"
-                    class="traveler-icon"
-                  >
-                </div>
-                <div class="post__title">
-                  {{ post.title }}
-                  <div class="post_thumbnail__author_name">
-                    @{{ post.author.name }}
+              <div class="icon-title-play-btn__wrapper">
+                <div
+                  class="icon-title__container"
+                  @click="changeAudioFooterSize()"
+                >
+                  <div class="traveler-icon__container">
+                    <img
+                      :src="post.author.icon_url"
+                      class="traveler-icon"
+                    >
+                  </div>
+                  <div class="post__title">
+                    {{ post.title }}
+                    <div class="post_thumbnail__author_name">
+                      @{{ post.author.name }}
+                    </div>
                   </div>
                 </div>
+
+                <div
+                  v-if="!isPlaying"
+                  class="audio_controller--play"
+                  @click="playAudio()"
+                >
+                  <icon-play class="icon_play" />
+                </div>
+
+                <div
+                  v-else
+                  @click="pauseAudio()"
+                >
+                  <button>pause</button>
+                </div>
               </div>
 
-              <div
-                v-if="!isPlaying"
-                class="audio_controller--play"
-                @click="playAudio()"
-              >
-                <icon-play class="icon_play" />
-              </div>
+              <!-- range ここから -->
+                <figure class="post__audio">
+                  <audio
+                    ref="audio"
+                    class="audio"
+                    preload="metadata"
+                  >
+                    <code>audio</code> element
+                  </audio>
+                </figure>
 
-              <div
-                v-else
-                @click="pauseAudio()"
-              >
-                <button>pause</button>
-              </div>
+                <div :class="classForRange">
+                  <input
+                  v-model="audioProgress"
+                  class="input_range"
+                  type="range"
+                  min="0"
+                  max="100"
+                  step=""
+                  @click="seekingAudio()"
+                >
+                {{ audioCurrentTime | showMinutes }} / {{ audioDuration | showMinutes }}
+                </div>
+              <!-- range ここまで -->
             </div>
+
           </div>
         </div>
       </div>
@@ -111,7 +108,8 @@ export default {
     }
   },
   data: () => ({
-    className: '',
+    className: 'audio--close',
+    classForRange: 'range--close',
     isPlaying: false,
     audioProgress: 0,
     audioDuration: null, // audioトータル時間
@@ -138,8 +136,13 @@ export default {
     changeAudioFooterSize() {
       if (this.className === 'audio--open') {
         this.className = 'audio--close'
-      } else {
+      } else if(this.className !== 'audio--open') {
         this.className = "audio--open"
+      }
+      if (this.classForRange === 'range--open') {
+        this.classForRange = 'range--close'
+      } else if(this.classForRange !== 'range--open') {
+        this.classForRange = "range--open"
       }
     },
     getDuration() {
@@ -162,11 +165,16 @@ export default {
       if (this.isPlaying) {
         this.isPlaying = !this.isPlaying
       }
+      console.log(this.$refs);
       console.log('audioProgress ' + this.audioProgress)
       this.audioCurrentTime = this.audioDuration / 100 *  this.audioProgress
       console.log('audioCurrentTime ' + this.audioCurrentTime)
       this.$refs.audio.currentTime = this.audioCurrentTime
       this.$refs.audio.play()
+      // const log = () => {
+      //   console.log("test")
+      // }
+      // const timer = setTimeout(log, 1000)
     },
   }
 }
@@ -245,8 +253,14 @@ export default {
   padding: 1rem;
   width: 100vw;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
+}
+
+.icon-title-play-btn__wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 90vw;
 }
 
 .icon-title__container {
@@ -256,7 +270,7 @@ export default {
 
 .traveler-icon {
   background: $color-white;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   width: 4rem;
   height: 4rem;
   border-radius: 50%;
@@ -264,6 +278,7 @@ export default {
 
 .post__title {
   margin-left: 1rem;
+  padding-bottom: 1rem;
 }
 
 .post_thumbnail__author_name {
@@ -276,7 +291,7 @@ export default {
 }
 
 .audio--open {
-  height:20rem;
+  height:18rem;
   transition-property: height;
   transition-duration: 0.2s;
   transition-timing-function:ease-in-out;
@@ -321,5 +336,13 @@ export default {
     border-radius: 50%;
     -webkit-border-radius: 50%;
   }
+}
+
+.range--open {
+  display: block;
+}
+
+.range--close {
+  display: none
 }
 </style>
