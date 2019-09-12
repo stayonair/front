@@ -126,6 +126,6 @@ export default {
 }
 
 .record__button--active {
-  background-color: $color-primary;
+  background-color: $color-brand;
 }
 </style>

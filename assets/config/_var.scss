@@ -1,15 +1,18 @@
 @charset "UTF-8";
 
+
+
 /* general variables */
-$color-brand: #88d7e5;
-$color-primary: #00b8c7;
+$color-brand: #2F7DB3;
+$color-primary: #269EDD;
 $color-yellow: #ffc400;
 $color-red: #f34a80;
-$color-white: #faf8f8;
+$color-pink: #ff7989;
+$color-white: #fafcff;
 
 /* text variables */
 $base-text-color: #333;
-$link-color: $color-primary;
+$link-color: $color-brand;
 $error-text: #b60000;
 $gray-text-color: #999999;
 $dark-gray-text-color: #666666;
@@ -17,7 +20,7 @@ $light-dark-text-color: #cccccc;
 
 /* button variables */
 $button-gray: #707070;
-$button-yellow: $color-yellow;
+$button-pink: $color-pink;
 $button-blue: #0071b2;
 
 /* input variables */
