@@ -10,7 +10,6 @@
           <p>
             {{ post.article }}
           </p>
-          <!-- コンポーネント化予定の audio タグ -->
           <div>
             <div
               class="audio__wrapper"
@@ -52,31 +51,35 @@
               </div>
 
               <!-- range ここから -->
-                <figure class="post__audio">
-                  <audio
-                    ref="audio"
-                    class="audio"
-                    preload="metadata"
-                  >
-                    <code>audio</code> element
-                  </audio>
-                </figure>
+              <figure class="post__audio">
+                <audio
+                  ref="audio"
+                  class="audio"
+                  preload="metadata"
+                >
+                  <code>audio</code> element
+                </audio>
+              </figure>
 
-                <div :class="classForRange">
-                  <input
+              <div :class="classForRange">
+                <input
                   v-model="audioProgress"
                   class="input_range"
                   type="range"
                   min="0"
                   max="100"
-                  step=""
-                  @click="seekingAudio()"
+                  step="0.1"
+                  @change="seekingAudio()"
                 >
-                {{ audioCurrentTime | showMinutes }} / {{ audioDuration | showMinutes }}
-                </div>
+                {{ audioCurrentTime | showMinutes }} /
+                {{ audioDuration | showMinutes }}
+                <p>{{ audioCurrentTime | showMinutes }}</p>
+                <p>{{ audioProgress | showPercents }}%</p>
+                <p>{{ (audioCurrentTime * audioProgress) / 100 }}</p>
+              </div>
+
               <!-- range ここまで -->
             </div>
-
           </div>
         </div>
       </div>
@@ -88,6 +91,7 @@
 import { mapState } from 'vuex'
 import PostThumbnail from '~/components/Molecules/PostThumbnail'
 import IconPlay from '~/components/Atoms/Icons/IconPlay'
+import { clearInterval } from 'timers'
 
 export default {
   name: 'Post',
@@ -99,12 +103,19 @@ export default {
   filters: {
     showMinutes(value) {
       if (!value) {
-        return ''
-      } else if (value >= 60) {
-        return (value / 60).toFixed(2) + " 分"
-      } else {
-        return value.toFixed(2) + " 秒"
+        return '00:00'
       }
+
+      const minute = value > 60 ? value / 60 : '00'
+      const second = ('00' + (value % 60).toFixed(0)).slice(-2)
+      return `${minute}:${second}`
+    },
+    showPercents(value) {
+      if (!value) {
+        return '0'
+      }
+      const percents = parseFloat(value).toFixed(0)
+      return percents
     }
   },
   data: () => ({
@@ -114,11 +125,12 @@ export default {
     audioProgress: 0,
     audioDuration: null, // audioトータル時間
     audioCurrentTime: null, // audio 経過時間
+    timerObj: null,
     audioData: 'http://www.voice-pro.jp/announce/mp3/001-sibutomo.mp3'
   }),
   computed: {
     ...mapState({
-      post: store => store.post.post,
+      post: store => store.post.post
     }),
     getParams() {
       return this.$route.params.id
@@ -136,46 +148,51 @@ export default {
     changeAudioFooterSize() {
       if (this.className === 'audio--open') {
         this.className = 'audio--close'
-      } else if(this.className !== 'audio--open') {
-        this.className = "audio--open"
+      } else if (this.className !== 'audio--open') {
+        this.className = 'audio--open'
       }
       if (this.classForRange === 'range--open') {
         this.classForRange = 'range--close'
-      } else if(this.classForRange !== 'range--open') {
-        this.classForRange = "range--open"
+      } else if (this.classForRange !== 'range--open') {
+        this.classForRange = 'range--open'
       }
-    },
-    getDuration() {
-      console.log(this.$refs)
-      return this.$refs.audio.duration
     },
     playAudio() {
-      console.log('playクリックタイム ' + this.$refs.audio.currentTime);
-      this.audioCurrentTime = this.$refs.audio.currentTime
-      this.$refs.audio.play()
+      if (this.isPlaying) {
+        return
+      }
       this.isPlaying = !this.isPlaying
+      console.log('playクリックタイム ' + this.$refs.audio.currentTime)
+      this.timerObj = setInterval(() => {
+        this.audioProgress =
+          (this.$refs.audio.currentTime / this.$refs.audio.duration) * 100
+        this.audioCurrentTime = this.$refs.audio.currentTime
+      }, 100)
+      this.$refs.audio.play()
     },
     pauseAudio() {
-      console.log('pauseクリックタイム ' + this.$refs.audio.currentTime);
-      this.audioCurrentTime = this.$refs.audio.currentTime
-      this.$refs.audio.pause()
-      this.isPlaying = !this.isPlaying
-    },
-    seekingAudio() {
-      if (this.isPlaying) {
-        this.isPlaying = !this.isPlaying
+      if (!this.isPlaying) {
+        return
       }
-      console.log(this.$refs);
-      console.log('audioProgress ' + this.audioProgress)
-      this.audioCurrentTime = this.audioDuration / 100 *  this.audioProgress
-      console.log('audioCurrentTime ' + this.audioCurrentTime)
-      this.$refs.audio.currentTime = this.audioCurrentTime
-      this.$refs.audio.play()
-      // const log = () => {
-      //   console.log("test")
-      // }
-      // const timer = setTimeout(log, 1000)
+      this.isPlaying = !this.isPlaying
+      window.clearInterval(this.timerObj)
+      this.$refs.audio.pause()
+
+      console.log('pauseクリックタイム ' + this.$refs.audio.currentTime)
     },
+    async seekingAudio() {
+      const onPlaying = this.isPlaying
+      if (this.isPlaying) {
+        console.log('とまって')
+        await this.pauseAudio()
+      }
+      this.audioCurrentTime = (this.audioDuration / 100) * this.audioProgress
+      this.$refs.audio.currentTime = this.audioCurrentTime
+      console.log(`currentTimeは${this.$refs.audio.currentTime}`)
+      if (onPlaying) {
+        this.playAudio()
+      }
+    }
   }
 }
 </script>
@@ -244,13 +261,13 @@ export default {
 
 // コンポーネント化予定の audio タグ について
 .audio__wrapper {
-  height: 7rem;
+  height: 10rem;
   background: $color-primary;
   color: $color-white;
   position: fixed;
   bottom: 5rem;
   left: 0;
-  padding: 1rem;
+  padding: 0.5rem;
   width: 100vw;
   display: flex;
   flex-direction: column;
@@ -270,7 +287,6 @@ export default {
 
 .traveler-icon {
   background: $color-white;
-  margin-top: 0.5rem;
   width: 4rem;
   height: 4rem;
   border-radius: 50%;
@@ -278,7 +294,7 @@ export default {
 
 .post__title {
   margin-left: 1rem;
-  padding-bottom: 1rem;
+  // padding-bottom: 1rem;
 }
 
 .post_thumbnail__author_name {
@@ -291,32 +307,33 @@ export default {
 }
 
 .audio--open {
-  height:18rem;
+  height: 20rem;
   transition-property: height;
   transition-duration: 0.2s;
-  transition-timing-function:ease-in-out;
+  transition-timing-function: ease-in-out;
   -webkit-transition-property: height; // Google Chrome、Safari向け
-  -webkit-transition-duration:0.2s;
-  -webkit-transition-timing-function:ease-in-out;
+  -webkit-transition-duration: 0.2s;
+  -webkit-transition-timing-function: ease-in-out;
 }
 
 .audio--close {
   height: 7rem;
   transition-property: height;
-  transition-duration:0.2s;
-  transition-timing-function:ease-in-out;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
   -webkit-transition-property: height;
-  -webkit-transition-duration:0.2s;
-  -webkit-transition-timing-function:ease-in-out;
+  -webkit-transition-duration: 0.2s;
+  -webkit-transition-timing-function: ease-in-out;
 }
-.input_range{
+
+.input_range {
   width: 20rem;
   margin-left: 1rem;
   -webkit-appearance: none;
   appearance: none;
   background-color: #eaeaea;
   height: 2px;
-  width: 70Vw;
+  width: 70vw;
   border-radius: 6px;
 
   &:focus,
@@ -343,6 +360,6 @@ export default {
 }
 
 .range--close {
-  display: none
+  display: none;
 }
 </style>

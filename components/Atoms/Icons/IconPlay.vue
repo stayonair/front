@@ -37,10 +37,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .icon--play {
-    width: 2rem;
-  }
-  .play--red {
-    fill: red;
-  }
+.icon--play {
+  width: 2rem;
+}
+.play--red {
+  fill: red;
+}
 </style>
