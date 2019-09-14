@@ -5,5 +5,9 @@ jobs:
       - image: circleci/node:8.11.4
     steps:
       - checkout
-      - run: yarn install
-      - run: yarn generate
+      - run:
+        name: install dependencies
+        command: yarn install
+      - run:
+        name: build
+        command: yarn build
