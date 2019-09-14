@@ -5,6 +5,7 @@
         class="app_header"
         @click="handleToggleDrawer"
       />
+      <audio-bar class="post_audio"/>
       <app-footer
         class="app_footer"
         :path="getPath"
@@ -39,12 +40,14 @@
 import AppHeader from '~/components/Molecules/AppHeader'
 import AppAsideMenu from '~/components/Organisms/AppAsideMenu'
 import AppFooter from '~/components/Molecules/AppFooter'
+import AudioBar from '~/components/Organisms/AudioBar'
 
 export default {
   components: {
     AppHeader,
     AppAsideMenu,
-    AppFooter
+    AppFooter,
+    AudioBar
   },
   computed: {
     getPath() {
@@ -95,4 +98,17 @@ export default {
   bottom: 0;
   z-index: 12; // プラグイン drawer メニュー に合わせて
 }
+
+.post_audio {
+  position: fixed;
+  bottom: 0;
+  z-index: 13; 
+  width: 100%;
+  font-size: 1.2rem;
+}
 </style>
+
+
+
+
+

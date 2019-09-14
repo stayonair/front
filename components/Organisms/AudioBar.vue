@@ -28,14 +28,17 @@
           class="audio_controller--play"
           @click="playAudio()"
         >
-          <icon-play class="icon_play" />
+          <div class="icon_contain_circle">
+            <icon-play class="icon_play" />
+          </div>
+          <!-- <icon-play classç="icon_play" /> -->
         </div>
 
         <div
           v-else
           @click="pauseAudio()"
         >
-          <button>pause</button>
+          <icon-pause class="icon_pause" />
         </div>
       </div>
 
@@ -74,12 +77,14 @@
 <script>
 import { mapState } from 'vuex'
 import IconPlay from '~/components/Atoms/Icons/IconPlay'
+import IconPause from '~/components/Atoms/Icons/IconPause'
 
 export default {
   name: 'Post',
   layout: 'user',
   components: {
-    IconPlay
+    IconPlay,
+    IconPause
   },
   filters: {
     showMinutes(value) {
@@ -191,16 +196,9 @@ export default {
 
 .audio__wrapper {
   height: 10rem;
-  background: $color-primary;
-  color: $color-white;
-  position: fixed;
-  bottom: 3rem;
-  left: 0;
-  // position: -webkit-sticky;
-  // position: sticky;
-  // bottom: 3rem;
-  // left: 0;
-  padding: 0.5rem;
+  background: $color-white;
+  color: $dark-gray-text-color;
+  padding: 1rem 0.5rem;
   width: 100vw;
   display: flex;
   flex-direction: column;
@@ -220,6 +218,7 @@ export default {
 
 .traveler-icon {
   background: $color-white;
+  border: #D1D1D1;
   width: 4rem;
   height: 4rem;
   border-radius: 50%;
@@ -234,8 +233,20 @@ export default {
   line-height: 1rem;
 }
 
+.icon_contain_circle {
+  position: relative;
+  background: #269EDD;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+
+}
+
 .icon_play {
-  width: 3rem;
+  position: absolute;
+  top: 0;
+  left: 28%;
+  width: 2rem;
 }
 
 .audio--open {
@@ -263,7 +274,7 @@ export default {
   margin-left: 1rem;
   -webkit-appearance: none;
   appearance: none;
-  background-color: #eaeaea;
+  background-color: $dark-gray-text-color;
   height: 2px;
   width: 70vw;
   border-radius: 6px;
@@ -273,17 +284,42 @@ export default {
     outline: none;
   }
 
-  &::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    cursor: pointer;
-    position: relative;
-    width: 22px;
-    height: 22px;
-    display: block;
-    background-color: #07be19;
-    border-radius: 50%;
-    -webkit-border-radius: 50%;
+  // &::-webkit-slider-thumb {
+  //   -webkit-appearance: none;
+  //   appearance: none;
+  //   cursor: pointer;
+  //   position: relative;
+  //   width: 15px;
+  //   height: 15px;
+  //   display: block;
+  //   // background-color: $dark-gray-text-color;
+  //   background: rgba(0,0,0,0.3);
+  //   border-radius: 50%;
+  //   -webkit-border-radius: 50%;
+  // }
+  input[type="range"].custom {
+	-webkit-appearance: none;
+	appearance: none;
+	background: rgba(0,0,0,0.3);
+	height:5px;
+	width: 400px;
+    position:absolute;
+    left:32px;
+    &:focus {
+	    outline:none;
+    }
+    &::-webkit-slider-thumb{
+        -webkit-appearance: none;
+        appearance: none;
+        background: #008ee0;
+        width: 30px;
+        height: 30px;
+        border-radius:20px;
+        cursor:pointer;
+        -webkit-box-sizing:border-box;
+        box-sizing:border-box;
+        margin-bottom: 2px;
+    }
   }
 }
 

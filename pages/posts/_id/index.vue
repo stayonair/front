@@ -10,7 +10,6 @@
           <p>
             {{ post.article }}
           </p>
-          <audio-bar />
         </div>
       </div>
     </div>
@@ -20,15 +19,13 @@
 <script>
 import { mapState } from 'vuex'
 import PostThumbnail from '~/components/Molecules/PostThumbnail'
-import AudioBar from '~/components/Organisms/AudioBar'
 import { clearInterval } from 'timers'
 
 export default {
   name: 'Post',
   layout: 'user',
   components: {
-    PostThumbnail,
-    AudioBar
+    PostThumbnail
   },
   computed: {
     ...mapState({
@@ -75,11 +72,13 @@ export default {
         }
 
         &__tags {
+
+          
           margin-bottom: 1rem;
         }
 
         @include mobile() {
-          &__title {
+          &__title {  
             font-size: 2.5rem;
           }
         }
