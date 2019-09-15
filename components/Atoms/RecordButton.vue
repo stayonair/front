@@ -65,7 +65,7 @@ export default {
     align-items: center;
     width: 5rem;
     height: 5rem;
-    background-color: $color-yellow;
+    background-color: $color-pink;
     border-radius: 50%;
   }
 }
@@ -80,12 +80,12 @@ export default {
 
 .active {
   background-color: $color-white;
-  border: 0.4rem solid $color-primary;
+  border: 0.4rem solid $color-brand;
 }
 
 .icon_square {
   width: 2rem;
   height: 2rem;
-  background-color: $color-primary;
+  background-color: $color-brand;
 }
 </style>

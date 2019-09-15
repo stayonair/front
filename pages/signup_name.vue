@@ -1,6 +1,6 @@
 <template>
-  <div class="signup_name__container">
-    <div class="soa-logo">
+  <div class="signup_name__container --noon">
+    <div class="app_icon">
       <icon-balloon />
     </div>
 
@@ -21,7 +21,7 @@
           トラベラーネームもリスナーネームと同じ名前になります。
         </p>
 
-        <div class="border--yellow" />
+        <div class="border--white" />
 
         <app-button
           color="white"
@@ -67,25 +67,19 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '~/assets/background.scss';
+
 .signup_name__container {
   background: linear-gradient(
-      rgba(46, 211, 211, 0.8),
-      rgba(66, 106, 131, 0.8),
-      rgba(72, 77, 109, 0.8)
-    ),
-    url('../assets/img/bg_main.png');
-  background-size: cover;
-  background-position: top;
+    180deg, #026CB9 0%, #5BA7D6 75%, #FDDADE 100%
+  );
   padding: 3.5rem 0;
   min-height: 100vh;
 }
 
-.soa-logo {
+.app_icon {
   margin: 0 auto 12rem;
   width: 10rem;
-}
-
-.soa-logo {
   /deep/ .icon--balloon {
     fill: $color-white;
   }
@@ -125,8 +119,8 @@ export default {
   margin-bottom: 3rem;
 }
 
-.border--yellow {
-  background-color: $color-yellow;
+.border--white {
+  background-color: $color-white;
   height: 0.4rem;
   width: 2.4rem;
   margin: 0rem auto 4rem;
@@ -139,6 +133,7 @@ export default {
     padding: 1.4rem 2.4rem;
     border-radius: 2.4rem;
     margin-top: 1rem;
+    font-weight: bold;
   }
 }
 </style>
