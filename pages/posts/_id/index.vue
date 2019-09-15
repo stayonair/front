@@ -19,7 +19,7 @@
 <script>
 import { mapState } from 'vuex'
 import PostThumbnail from '~/components/Molecules/PostThumbnail'
-import { clearInterval } from 'timers'
+// import { clearInterval } from 'timers'
 
 export default {
   name: 'Post',
@@ -34,7 +34,7 @@ export default {
     getParams() {
       return this.$route.params.id
     }
-  },
+  }
 }
 </script>
 
@@ -72,13 +72,11 @@ export default {
         }
 
         &__tags {
-
-          
           margin-bottom: 1rem;
         }
 
         @include mobile() {
-          &__title {  
+          &__title {
             font-size: 2.5rem;
           }
         }
@@ -92,5 +90,4 @@ export default {
   font-size: 1.4rem;
   line-height: 3rem;
 }
-
 </style>

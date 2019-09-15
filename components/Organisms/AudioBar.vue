@@ -1,6 +1,12 @@
 <template>
   <div>
     <div
+      class="mask"
+      :class="classForMask"
+      @click="removeMask()"
+    />
+    <div class="modal" />
+    <div
       class="audio__wrapper"
       :class="className"
     >
@@ -31,7 +37,6 @@
           <div class="icon_contain_circle">
             <icon-play class="icon_play" />
           </div>
-          <!-- <icon-play classç="icon_play" /> -->
         </div>
 
         <div
@@ -61,6 +66,7 @@
           min="0"
           max="100"
           step="0.1"
+          value="0"
           @change="seekingAudio()"
         >
         {{ audioCurrentTime | showMinutes }} /
@@ -70,21 +76,42 @@
         <!-- <p>{{ (audioCurrentTime * audioProgress) / 100 }}</p> -->
       </div>
       <!-- range ここまで -->
+
+      <div class="control-audio-seconds">
+        <div
+          class="icon_undo__container"
+          @click="backAudioSeconds(10)"
+        >
+          <span>10秒戻る</span>
+          <icon-undo class="icon_undo" />
+        </div>
+        <div
+          class="icon_proceed__container"
+          @click="proceedAudioSeconds(30)"
+        >
+          <span>30秒進む</span>
+          <icon-proceed class="icon_proceed" />
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
 import IconPlay from '~/components/Atoms/Icons/IconPlay'
 import IconPause from '~/components/Atoms/Icons/IconPause'
+import IconProceed from '~/components/Atoms/Icons/IconProceed'
+import IconUndo from '~/components/Atoms/Icons/IconUndo'
 
 export default {
   name: 'Post',
   layout: 'user',
   components: {
     IconPlay,
-    IconPause
+    IconPause,
+    IconProceed,
+    IconUndo
   },
   filters: {
     showMinutes(value) {
@@ -105,6 +132,7 @@ export default {
     }
   },
   data: () => ({
+    classForMask: 'mask--hidden',
     className: 'audio--close',
     classForRange: 'range--close',
     isPlaying: false,
@@ -134,8 +162,10 @@ export default {
     changeAudioFooterSize() {
       if (this.className === 'audio--open') {
         this.className = 'audio--close'
+        this.classForMask = 'mask--hidden'
       } else if (this.className !== 'audio--open') {
         this.className = 'audio--open'
+        this.classForMask = 'mask--showed'
       }
       if (this.classForRange === 'range--open') {
         this.classForRange = 'range--close'
@@ -178,14 +208,30 @@ export default {
       if (onPlaying) {
         this.playAudio()
       }
+    },
+    backAudioSeconds(value) {
+      if (!this.isPlaying) {
+        return
+      }
+      this.$refs.audio.currentTime = this.audioCurrentTime - value
+    },
+    proceedAudioSeconds(value) {
+      if (!this.isPlaying) {
+        return
+      }
+      this.$refs.audio.currentTime = this.audioCurrentTime + value
+    },
+    removeMask() {
+      this.classForMask = 'mask--hidden'
+      this.className = 'audio--close'
+      this.classForRange = 'range--close'
     }
   }
 }
-
 </script>
 
 <style lang="scss" scoped>
-  .post__audio {
+.post__audio {
   margin-bottom: 2rem;
   text-align: center;
 
@@ -198,11 +244,14 @@ export default {
   height: 10rem;
   background: $color-white;
   color: $dark-gray-text-color;
-  padding: 1rem 0.5rem;
+  padding: 2rem 0.5rem;
   width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: fixed;
+  left: 0;
+  bottom: 0;
 }
 
 .icon-title-play-btn__wrapper {
@@ -218,7 +267,7 @@ export default {
 
 .traveler-icon {
   background: $color-white;
-  border: #D1D1D1;
+  border: #d1d1d1;
   width: 4rem;
   height: 4rem;
   border-radius: 50%;
@@ -235,18 +284,21 @@ export default {
 
 .icon_contain_circle {
   position: relative;
-  background: #269EDD;
-  width: 4rem;
-  height: 4rem;
+  background: #269edd;
+  width: 3rem;
+  height: 3rem;
   border-radius: 50%;
-
 }
 
 .icon_play {
   position: absolute;
   top: 0;
   left: 28%;
-  width: 2rem;
+  width: 1.5rem;
+}
+
+.icon_pause {
+  margin-top: -1rem;
 }
 
 .audio--open {
@@ -284,42 +336,17 @@ export default {
     outline: none;
   }
 
-  // &::-webkit-slider-thumb {
-  //   -webkit-appearance: none;
-  //   appearance: none;
-  //   cursor: pointer;
-  //   position: relative;
-  //   width: 15px;
-  //   height: 15px;
-  //   display: block;
-  //   // background-color: $dark-gray-text-color;
-  //   background: rgba(0,0,0,0.3);
-  //   border-radius: 50%;
-  //   -webkit-border-radius: 50%;
-  // }
-  input[type="range"].custom {
-	-webkit-appearance: none;
-	appearance: none;
-	background: rgba(0,0,0,0.3);
-	height:5px;
-	width: 400px;
-    position:absolute;
-    left:32px;
-    &:focus {
-	    outline:none;
-    }
-    &::-webkit-slider-thumb{
-        -webkit-appearance: none;
-        appearance: none;
-        background: #008ee0;
-        width: 30px;
-        height: 30px;
-        border-radius:20px;
-        cursor:pointer;
-        -webkit-box-sizing:border-box;
-        box-sizing:border-box;
-        margin-bottom: 2px;
-    }
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    width: 15px;
+    height: 15px;
+    display: block;
+    background-color: $dark-gray-text-color;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
   }
 }
 
@@ -329,5 +356,37 @@ export default {
 
 .range--close {
   display: none;
+}
+
+.control-audio-seconds {
+  display: flex;
+}
+
+.icon_undo__container,
+.icon_proceed__container {
+  width: 7rem;
+  height: 5rem;
+}
+
+.mask {
+  background: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+.modal {
+  width: 100%;
+  background: $color-white;
+}
+
+.mask--hidden {
+  display: none;
+}
+
+.mask--showed {
+  display: block;
 }
 </style>

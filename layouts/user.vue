@@ -5,7 +5,7 @@
         class="app_header"
         @click="handleToggleDrawer"
       />
-      <audio-bar class="post_audio"/>
+      <audio-bar class="post_audio" />
       <app-footer
         class="app_footer"
         :path="getPath"
@@ -102,13 +102,8 @@ export default {
 .post_audio {
   position: fixed;
   bottom: 0;
-  z-index: 13; 
+  z-index: 13;
   width: 100%;
   font-size: 1.2rem;
 }
 </style>
-
-
-
-
-
