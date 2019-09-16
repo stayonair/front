@@ -29,21 +29,25 @@
           </div>
         </div>
 
-        <div
+        <!-- play / pause アイコン ここから-->
+        <!-- <div :class="classForRange">⇓</div> -->
+        <div :class="classForPlayIcon">
+          <div
           v-if="!isPlaying"
           class="audio_controller--play"
           @click="playAudio()"
-        >
-          <div class="icon_contain_circle">
-            <icon-play class="icon_play" />
+          >
+            <div class="icon_contain_circle">
+              <icon-play class="icon_play" />
+            </div>
           </div>
-        </div>
 
-        <div
-          v-else
-          @click="pauseAudio()"
-        >
-          <icon-pause class="icon_pause" />
+          <div
+            v-else
+            @click="pauseAudio()"
+          >
+            <icon-pause class="icon_pause" />
+          </div>
         </div>
       </div>
 
@@ -77,20 +81,44 @@
       </div>
       <!-- range ここまで -->
 
-      <div class="control-audio-seconds">
+      <div 
+        class="control-audio-seconds"
+        :class="classForAudioSeconds"
+      >
         <div
           class="icon_undo__container"
           @click="backAudioSeconds(10)"
         >
-          <span>10秒戻る</span>
           <icon-undo class="icon_undo" />
+          <span>10秒戻る</span>
         </div>
+        
+        <!-- play / pause アイコン ここから-->
+        <div class="icon_play-pause__container">
+          <div
+          v-if="!isPlaying"
+          class="audio_controller--play icon-bigger"
+          @click="playAudio()"
+          >
+            <div class="icon_contain_circle">
+              <icon-play class="icon_play" />
+            </div>
+          </div>
+
+          <div
+            v-else
+            @click="pauseAudio()"
+          >
+            <icon-pause class="icon_pause icon-bigger" />
+          </div>
+        </div>
+
         <div
           class="icon_proceed__container"
           @click="proceedAudioSeconds(30)"
         >
-          <span>30秒進む</span>
           <icon-proceed class="icon_proceed" />
+          <span>30秒進む</span>
         </div>
       </div>
     </div>
@@ -132,9 +160,11 @@ export default {
     }
   },
   data: () => ({
-    classForMask: 'mask--hidden',
+    classForMask: 'hidden',
     className: 'audio--close',
-    classForRange: 'range--close',
+    classForPlayIcon: 'showed',
+    classForRange: 'hidden',
+    classForAudioSeconds: 'hidden',
     isPlaying: false,
     audioProgress: 0,
     audioDuration: null, // audioトータル時間
@@ -162,15 +192,20 @@ export default {
     changeAudioFooterSize() {
       if (this.className === 'audio--open') {
         this.className = 'audio--close'
-        this.classForMask = 'mask--hidden'
+        this.classForMask = 'hidden'
+        this.classForPlayIcon = 'showed'
+        this.classForAudioSeconds = 'hidden'
       } else if (this.className !== 'audio--open') {
         this.className = 'audio--open'
-        this.classForMask = 'mask--showed'
+        this.classForMask = 'showed'
+        this.classForPlayIcon = 'hidden'
+        this.classForAudioSeconds = ''
+
       }
-      if (this.classForRange === 'range--open') {
-        this.classForRange = 'range--close'
-      } else if (this.classForRange !== 'range--open') {
-        this.classForRange = 'range--open'
+      if (this.classForRange === 'showed') {
+        this.classForRange = 'hidden'
+      } else if (this.classForRange !== 'showed') {
+        this.classForRange = 'showed'
       }
     },
     playAudio() {
@@ -199,7 +234,6 @@ export default {
     async seekingAudio() {
       const onPlaying = this.isPlaying
       if (this.isPlaying) {
-        console.log('とまって')
         await this.pauseAudio()
       }
       this.audioCurrentTime = (this.audioDuration / 100) * this.audioProgress
@@ -222,9 +256,9 @@ export default {
       this.$refs.audio.currentTime = this.audioCurrentTime + value
     },
     removeMask() {
-      this.classForMask = 'mask--hidden'
+      this.classForMask = 'hidden'
       this.className = 'audio--close'
-      this.classForRange = 'range--close'
+      this.classForRange = 'hidden'
     }
   }
 }
@@ -275,6 +309,7 @@ export default {
 
 .post__title {
   margin-left: 1rem;
+  width: 70vw;
 }
 
 .post_thumbnail__author_name {
@@ -302,14 +337,14 @@ export default {
 }
 
 .audio--open {
-  height: 20rem;
+  height: 25rem;
   transition-property: height;
   transition-duration: 0.2s;
   transition-timing-function: ease-in-out;
   -webkit-transition-property: height; // Google Chrome、Safari向け
   -webkit-transition-duration: 0.2s;
   -webkit-transition-timing-function: ease-in-out;
-}
+} 
 
 .audio--close {
   height: 7rem;
@@ -350,13 +385,13 @@ export default {
   }
 }
 
-.range--open {
-  display: block;
-}
+// .range--open {
+//   display: block;
+// }
 
-.range--close {
-  display: none;
-}
+// .range--close {
+//   display: none;
+// }
 
 .control-audio-seconds {
   display: flex;
@@ -364,7 +399,7 @@ export default {
 
 .icon_undo__container,
 .icon_proceed__container {
-  width: 7rem;
+  width: 6rem;
   height: 5rem;
 }
 
@@ -382,11 +417,23 @@ export default {
   background: $color-white;
 }
 
-.mask--hidden {
+.hidden {
   display: none;
 }
 
-.mask--showed {
+.showed {
   display: block;
+}
+
+.icon_play-pause__container {
+  margin: 1rem 2rem 0 1.7rem;
+}
+
+.icon-bigger {
+  transform: scale(1.5,1.5)
+}
+
+.showed-audio-seconds {
+  // display: inline;
 }
 </style>
