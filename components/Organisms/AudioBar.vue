@@ -30,12 +30,11 @@
         </div>
 
         <!-- play / pause アイコン ここから-->
-        <!-- <div :class="classForRange">⇓</div> -->
         <div :class="classForPlayIcon">
           <div
-          v-if="!isPlaying"
-          class="audio_controller--play"
-          @click="playAudio()"
+            v-if="!isPlaying"
+            class="audio_controller--play"
+            @click="playAudio()"
           >
             <div class="icon_contain_circle">
               <icon-play class="icon_play" />
@@ -46,9 +45,12 @@
             v-else
             @click="pauseAudio()"
           >
-            <icon-pause class="icon_pause" />
+            <div class="icon_contain_circle">
+              <icon-pause class="icon_pause" />
+            </div>
           </div>
         </div>
+        <!-- play / pause アイコン ここまで-->
       </div>
 
       <!-- range ここから -->
@@ -81,44 +83,47 @@
       </div>
       <!-- range ここまで -->
 
-      <div 
-        class="control-audio-seconds"
-        :class="classForAudioSeconds"
-      >
-        <div
-          class="icon_undo__container"
-          @click="backAudioSeconds(10)"
-        >
-          <icon-undo class="icon_undo" />
-          <span>10秒戻る</span>
-        </div>
-        
-        <!-- play / pause アイコン ここから-->
-        <div class="icon_play-pause__container">
+      <div :class="classForAudioSeconds">
+        <div class="control-audio-seconds">
           <div
-          v-if="!isPlaying"
-          class="audio_controller--play icon-bigger"
-          @click="playAudio()"
+            class="icon_undo__container"
+            @click="backAudioSeconds(10)"
           >
-            <div class="icon_contain_circle">
-              <icon-play class="icon_play" />
+            <icon-undo class="icon_undo" />
+            <span>10秒戻る</span>
+          </div>
+
+          <!-- play / pause アイコン ここから-->
+          <div class="icon_play-pause__container">
+            <div
+              v-if="!isPlaying"
+              class="audio_controller--play icon-bigger"
+              @click="playAudio()"
+            >
+              <div class="icon_contain_circle">
+                <icon-play class="icon_play" />
+              </div>
+            </div>
+
+            <div
+              v-else
+              class="audio_controller--play icon-bigger"
+              @click="pauseAudio()"
+            >
+              <div class="icon_contain_circle">
+                <icon-pause class="icon_pause" />
+              </div>
             </div>
           </div>
+          <!-- play / pause アイコン ここまで-->
 
           <div
-            v-else
-            @click="pauseAudio()"
+            class="icon_proceed__container"
+            @click="proceedAudioSeconds(30)"
           >
-            <icon-pause class="icon_pause icon-bigger" />
+            <icon-proceed class="icon_proceed" />
+            <span>30秒進む</span>
           </div>
-        </div>
-
-        <div
-          class="icon_proceed__container"
-          @click="proceedAudioSeconds(30)"
-        >
-          <icon-proceed class="icon_proceed" />
-          <span>30秒進む</span>
         </div>
       </div>
     </div>
@@ -200,12 +205,13 @@ export default {
         this.classForMask = 'showed'
         this.classForPlayIcon = 'hidden'
         this.classForAudioSeconds = ''
-
       }
       if (this.classForRange === 'showed') {
         this.classForRange = 'hidden'
+        this.classForAudioSeconds = 'hidden'
       } else if (this.classForRange !== 'showed') {
         this.classForRange = 'showed'
+        this.classForAudioSeconds = ''
       }
     },
     playAudio() {
@@ -259,6 +265,8 @@ export default {
       this.classForMask = 'hidden'
       this.className = 'audio--close'
       this.classForRange = 'hidden'
+      this.classForPlayIcon = 'showed'
+      this.classForAudioSeconds = 'hidden'
     }
   }
 }
@@ -333,7 +341,7 @@ export default {
 }
 
 .icon_pause {
-  margin-top: -1rem;
+  margin-top: -0.9rem;
 }
 
 .audio--open {
@@ -344,7 +352,7 @@ export default {
   -webkit-transition-property: height; // Google Chrome、Safari向け
   -webkit-transition-duration: 0.2s;
   -webkit-transition-timing-function: ease-in-out;
-} 
+}
 
 .audio--close {
   height: 7rem;
@@ -385,14 +393,6 @@ export default {
   }
 }
 
-// .range--open {
-//   display: block;
-// }
-
-// .range--close {
-//   display: none;
-// }
-
 .control-audio-seconds {
   display: flex;
 }
@@ -401,6 +401,10 @@ export default {
 .icon_proceed__container {
   width: 6rem;
   height: 5rem;
+}
+
+.icon_proceed {
+  -webkit-transform: scale(-1, 1);
 }
 
 .mask {
@@ -430,10 +434,6 @@ export default {
 }
 
 .icon-bigger {
-  transform: scale(1.5,1.5)
-}
-
-.showed-audio-seconds {
-  // display: inline;
+  transform: scale(1.5, 1.5);
 }
 </style>
