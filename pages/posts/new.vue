@@ -34,11 +34,14 @@
       <p>
         きょうのおはなし (最大 126 文字) <span class="necessary">必須</span>
       </p>
-      <textarea
-        class="new_text"
-        cols="30"
-        rows="10"
-      />
+
+      <div class="text-editor__container">
+        <div
+          id="editor"
+          class="text-editor"
+        />
+      </div>
+
       <div class="new_button__container">
         <app-button
           class="app_button cancel_button"
@@ -50,7 +53,7 @@
           class="app_button post_button"
           text="POST"
           color="yellow"
-          @click="handleClick"
+          @click="uploadPost"
         />
       </div>
     </div>
@@ -59,14 +62,36 @@
 
 <script>
 import AppButton from '~/components/Atoms/AppButton'
+import EditorJS from '@editorjs/editorjs'
 
 export default {
   components: {
     AppButton
   },
+  data:() => ({
+    editor: null
+  }),
+  created() {
+    this.editor = new EditorJS({ 
+      holder: 'editor',
+      data: {
+        "blocks":[{"type":"paragraph","data":{"text":"無添加のシャボン玉石けんならもう安心！！"}},{"type":"paragraph","data":{"text":"天然の保湿成分が含まれるため、肌に潤いを与え、健やかに保ちます。"}},{"type":"paragraph","data":{"text":"お肌のことでお悩みの方は、ぜひ一度無添加シャボン玉石けんをお試しください。"}},{"type":"paragraph","data":{"text":"お求めは<b>0120-0055-95</b>まで。"}}]
+      }
+    })
+  },
   methods: {
+    uploadPost() {
+      this.editor.save().then(data => {
+        console.log(data)
+        const rawPostData = JSON.stringify(data)
+        console.log(rawPostData)
+        // rawPostData を firebase にアップする
+      }).catch(error => {
+        console.log(error)
+      })
+    },
     handleClick() {
-      console.log('clicked!')
+      console.log('Clicked!!')
     }
   }
 }
@@ -153,4 +178,27 @@ export default {
     width: 80%;
   }
 }
+
+.text-editor__container {
+  max-width: 62rem;
+  margin: auto;
+}
+
+.text-editor {
+  font-size: 1.4rem;
+  color: $base-text-color;
+  text-align: left;
+  border: .1rem solid #ccc;
+  border-radius: .3rem;
+  padding: 2.4rem;
+  margin: 0 1rem 1rem;
+  /deep/ .codex-editor__redactor {
+    min-height: 15rem;
+    padding-bottom: 0 !important;
+  }
+  /deep/ .icon--bold {
+    height: 14px;
+  }
+}
+
 </style>
