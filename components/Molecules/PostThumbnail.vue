@@ -61,7 +61,6 @@
 
 <script>
 import formatDateMixins from '~/mixins/formatDateMixins'
-import AppButton from '~/components/Atoms/AppButton'
 
 export default {
   name: 'PostThumbnail',

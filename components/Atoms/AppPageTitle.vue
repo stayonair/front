@@ -20,6 +20,7 @@ export default {
 <style scoped lang="scss">
 .app_page_title {
   font-size: 1.4rem;
+  font-weight: 500;
   color: $color-brand;
 }
 </style>

@@ -15,6 +15,7 @@
             <img
               class="follow_traveler__icon"
               :src="traveler.icon_url"
+              alt="traveler_icon"
             >
           </div>
 
@@ -102,8 +103,8 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 5rem;
-      width: 5rem;
+      height: 4rem;
+      width: 4rem;
       margin-right: 0.7rem;
 
       border: 0.1rem solid $gray-text-color;

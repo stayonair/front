@@ -46,7 +46,7 @@ export default {
   font-size: 2rem;
   display: flex;
   align-items: center;
-  
+
   &--icon {
     width: 3rem;
   }
