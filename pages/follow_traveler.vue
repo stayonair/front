@@ -98,22 +98,22 @@ export default {
     .follow_traveler__profile_text {
       margin: 0;
     }
+  }
+}
 
-    .follow_traveler__icon__wrapper {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 4rem;
-      width: 4rem;
-      margin-right: 0.7rem;
+.follow_traveler__icon__wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 4rem;
+  width: 4rem;
+  margin-right: 0.7rem;
 
-      border: 0.1rem solid $gray-text-color;
-      border-radius: 50%;
+  border: 0.1rem solid $gray-text-color;
+  border-radius: 50%;
 
-      .follow_traveler__icon {
-        width: 3rem;
-      }
-    }
+  .follow_traveler__icon {
+    width: 3rem;
   }
 }
 </style>
