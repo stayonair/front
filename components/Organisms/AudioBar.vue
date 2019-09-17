@@ -2,7 +2,7 @@
   <div>
     <div
       class="mask"
-      :class="classForMask"
+      :class="classForAudioDetail"
       @click="removeMask()"
     />
     <div class="modal" />
@@ -29,7 +29,7 @@
           </div>
         </div>
 
-        <!-- play / pause アイコン ここから-->
+        <!-- play / pause アイコン （小）ここから-->
         <div :class="classForPlayIcon">
           <div
             v-if="!isPlaying"
@@ -50,7 +50,7 @@
             </div>
           </div>
         </div>
-        <!-- play / pause アイコン ここまで-->
+        <!-- play / pause アイコン （小）ここまで-->
       </div>
 
       <!-- range ここから -->
@@ -64,7 +64,7 @@
         </audio>
       </figure>
 
-      <div :class="classForRange">
+      <div :class="classForAudioDetail">
         <input
           v-model="audioProgress"
           class="input_range"
@@ -75,15 +75,13 @@
           value="0"
           @change="seekingAudio()"
         >
-        {{ audioCurrentTime | showMinutes }} /
-        {{ audioDuration | showMinutes }}
-        <!-- <p>{{ audioCurrentTime | showMinutes }}</p> -->
+        {{ audioCurrentTime | showMinutes }} / {{ audioDuration | showMinutes }}
+        <!-- 経過時間 / 全体 -->
         <p>{{ audioProgress | showPercents }}%</p>
-        <!-- <p>{{ (audioCurrentTime * audioProgress) / 100 }}</p> -->
       </div>
       <!-- range ここまで -->
 
-      <div :class="classForAudioSeconds">
+      <div :class="classForAudioDetail">
         <div class="control-audio-seconds">
           <div
             class="icon_undo__container"
@@ -93,7 +91,7 @@
             <span>10秒戻る</span>
           </div>
 
-          <!-- play / pause アイコン ここから-->
+          <!-- play / pause アイコン （大）ここから-->
           <div class="icon_play-pause__container">
             <div
               v-if="!isPlaying"
@@ -115,7 +113,7 @@
               </div>
             </div>
           </div>
-          <!-- play / pause アイコン ここまで-->
+          <!-- play / pause アイコン （大）ここまで-->
 
           <div
             class="icon_proceed__container"
@@ -151,7 +149,6 @@ export default {
       if (!value) {
         return '00:00'
       }
-
       const minute = value > 60 ? value / 60 : '00'
       const second = ('00' + (value % 60).toFixed(0)).slice(-2)
       return `${minute}:${second}`
@@ -165,11 +162,9 @@ export default {
     }
   },
   data: () => ({
-    classForMask: 'hidden',
     className: 'audio--close',
     classForPlayIcon: 'showed',
-    classForRange: 'hidden',
-    classForAudioSeconds: 'hidden',
+    classForAudioDetail: 'hidden',
     isPlaying: false,
     audioProgress: 0,
     audioDuration: null, // audioトータル時間
@@ -197,21 +192,12 @@ export default {
     changeAudioFooterSize() {
       if (this.className === 'audio--open') {
         this.className = 'audio--close'
-        this.classForMask = 'hidden'
         this.classForPlayIcon = 'showed'
-        this.classForAudioSeconds = 'hidden'
+        this.classForAudioDetail = 'hidden'
       } else if (this.className !== 'audio--open') {
         this.className = 'audio--open'
-        this.classForMask = 'showed'
         this.classForPlayIcon = 'hidden'
-        this.classForAudioSeconds = ''
-      }
-      if (this.classForRange === 'showed') {
-        this.classForRange = 'hidden'
-        this.classForAudioSeconds = 'hidden'
-      } else if (this.classForRange !== 'showed') {
-        this.classForRange = 'showed'
-        this.classForAudioSeconds = ''
+        this.classForAudioDetail = 'showed'
       }
     },
     playAudio() {
@@ -219,7 +205,6 @@ export default {
         return
       }
       this.isPlaying = !this.isPlaying
-      console.log('playクリックタイム ' + this.$refs.audio.currentTime)
       this.timerObj = setInterval(() => {
         this.audioProgress =
           (this.$refs.audio.currentTime / this.$refs.audio.duration) * 100
@@ -234,39 +219,47 @@ export default {
       this.isPlaying = !this.isPlaying
       window.clearInterval(this.timerObj)
       this.$refs.audio.pause()
-
-      console.log('pauseクリックタイム ' + this.$refs.audio.currentTime)
     },
     async seekingAudio() {
       const onPlaying = this.isPlaying
       if (this.isPlaying) {
         await this.pauseAudio()
       }
-      this.audioCurrentTime = (this.audioDuration / 100) * this.audioProgress
+      this.audioCurrentTime = (this.audioDuration * this.audioProgress) / 100
       this.$refs.audio.currentTime = this.audioCurrentTime
-      console.log(`currentTimeは${this.$refs.audio.currentTime}`)
       if (onPlaying) {
         this.playAudio()
       }
     },
     backAudioSeconds(value) {
       if (!this.isPlaying) {
-        return
+        this.isPlaying = true
+        this.$refs.audio.currentTime = this.audioCurrentTime - value
+        this.audioProgress =
+          (this.$refs.audio.currentTime / this.$refs.audio.duration) * 100
+        this.isPlaying = false
       }
-      this.$refs.audio.currentTime = this.audioCurrentTime - value
+      if (this.isPlaying) {
+        this.$refs.audio.currentTime = this.audioCurrentTime - value
+      }
     },
     proceedAudioSeconds(value) {
       if (!this.isPlaying) {
-        return
+        this.isPlaying = true
+        this.$refs.audio.currentTime = this.audioCurrentTime + value
+        this.audioProgress =
+          (this.$refs.audio.currentTime / this.$refs.audio.duration) * 100
+        this.isPlaying = false
       }
-      this.$refs.audio.currentTime = this.audioCurrentTime + value
+      if (this.isPlaying) {
+        this.$refs.audio.currentTime = this.audioCurrentTime + value
+      }
     },
     removeMask() {
       this.classForMask = 'hidden'
       this.className = 'audio--close'
-      this.classForRange = 'hidden'
       this.classForPlayIcon = 'showed'
-      this.classForAudioSeconds = 'hidden'
+      this.classForAudioDetail = 'hidden'
     }
   }
 }
@@ -327,7 +320,7 @@ export default {
 
 .icon_contain_circle {
   position: relative;
-  background: #269edd;
+  background: $color-primary;
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
@@ -401,10 +394,6 @@ export default {
 .icon_proceed__container {
   width: 6rem;
   height: 5rem;
-}
-
-.icon_proceed {
-  -webkit-transform: scale(-1, 1);
 }
 
 .mask {

@@ -1,6 +1,6 @@
 <template>
   <svg
-    transform="scale(-1,1)"
+    :class="getClasses"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 50 50"
   >
@@ -26,3 +26,10 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="scss">
+.icon_proceed {
+  transform: scale(-1, 1);
+  -webkit-transform: scale(-1, 1);
+}
+</style>

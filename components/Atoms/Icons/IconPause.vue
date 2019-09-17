@@ -5,8 +5,8 @@
     viewBox="-5 -25 50 60"
   >
     <path
+      class="icon--pause"
       d="M12 38h8V10h-8v28zm16-28v28h8V10h-8z"
-      fill="white"
     />
     <path
       d="M0 0h48v48H0z"
@@ -30,3 +30,12 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="scss">
+// .icon--pause {
+//   fill: $color-white;
+// }
+.icon_pause {
+  fill: $color-white;
+}
+</style>

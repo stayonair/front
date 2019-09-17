@@ -49,7 +49,7 @@
         <app-button
           class="app_button post_button"
           text="POST"
-          color="yellow"
+          color="pink"
           @click="handleClick"
         />
       </div>
