@@ -17,18 +17,21 @@
     </div>
 
     <div class="app_aside_menu__items">
-
-      <p
+      <div
         v-for="(menuItem, index) in menuList"
         :key="index"
         class="app_aside_menu__item"
         @click="$router.push(menuItem.path)">
-        <span class="menu-icon">
-          <component :is="getComponent(menuItem)" />
-        </span>
-        {{ menuItem.label }}
-      </p>
-      
+        <div>
+          <component 
+            class="menu-icon"
+            :is="getComponent(menuItem)"
+          />
+        </div>
+        <div class="menu-label">
+          {{ menuItem.label }}
+        </div>
+      </div> 
     </div>
   </div>
 </template>
@@ -110,56 +113,6 @@ export default {
     ...mapState({
       user: store => store.user.user
     }),
-    // menuList() {
-    //   return [
-    //     {
-    //       icon: 'icon-news-feed',
-    //       label: 'ニュースフィード',
-    //       path: '/news_feed'
-    //     },
-    //     {
-    //       icon: 'https://image.flaticon.com/icons/svg/1808/1808676.svg',
-    //       label: '検索',
-    //       path: '/'
-    //     },
-    //     {
-    //       icon: 'https://images.app.goo.gl/dCiVF6yLVRm81cSn8',
-    //       label: 'マイページ',
-    //       path: '/'
-    //     },
-    //     {
-    //       icon: 'https://images.app.goo.gl/dCiVF6yLVRm81cSn8',
-    //       label: 'フォロートラベラー',
-    //       path: '/'
-    //     },
-    //     {
-    //       icon: 'https://images.app.goo.gl/dCiVF6yLVRm81cSn8',
-    //       label: 'あとで聴くリスト',
-    //       path: '/'
-    //     },
-    //     {
-    //       icon: 'https://images.app.goo.gl/dCiVF6yLVRm81cSn8',
-    //       label: '投稿管理',
-    //       path: '/'
-    //     },
-    //     {
-    //       icon: 'https://images.app.goo.gl/dCiVF6yLVRm81cSn8',
-    //       label: 'アカウント',
-    //       path: '/'
-    //     },
-    //     {
-    //       icon: 'https://images.app.goo.gl/dCiVF6yLVRm81cSn8',
-    //       label: 'カテゴリ',
-    //       path: '/'
-    //     },
-    //     {
-    //       icon: 'https://images.app.goo.gl/dCiVF6yLVRm81cSn8',
-    //       label: 'タグ',
-    //       path: '/'
-    //     }
-    //   ]
-    // },
-    
   },
   methods: {
       getComponent(menuItem) {
@@ -229,10 +182,12 @@ $slide-size: 25rem;
 }
 
 .app_aside_menu__item {
+  display: flex;
   color: $color-white;
+  margin-bottom: 1.5rem;
 }
 
-.menu-icon {
-  padding-top: 1rem;
+.menu-label {
+  padding-left: 1rem;
 }
 </style>

@@ -24,6 +24,7 @@
 <style scoped lang="scss">
   .icon--news-feed {
     width: 1.5rem;
+    margin-left: 0.1rem;
     fill: $color-white;
   }
 </style>
