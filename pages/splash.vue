@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import IconBalloon from '~/components/Atoms/Icons/Iconballoon'
+import IconBalloon from '~/components/Atoms/Icons/IconBalloon'
 
 export default {
   components: {
