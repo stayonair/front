@@ -70,9 +70,7 @@ export default {
 @import '~/assets/background.scss';
 
 .signup_name__container {
-  background: linear-gradient(
-    180deg, #026CB9 0%, #5BA7D6 75%, #FDDADE 100%
-  );
+  background: linear-gradient(180deg, #026cb9 0%, #5ba7d6 75%, #fddade 100%);
   padding: 3.5rem 0;
   min-height: 100vh;
 }

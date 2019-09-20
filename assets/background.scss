@@ -1,9 +1,9 @@
-@mixin noon ($top: 0%, $center: 75%, $bottom: 100%){
+@mixin noon($top: 0%, $center: 75%, $bottom: 100%) {
   background: linear-gradient(
     180deg,
-    #026CB9 $top,
-    #5BA7D6 $center,
-    #FDDADE $bottom
+    #026cb9 $top,
+    #5ba7d6 $center,
+    #fddade $bottom
   );
 }
 
@@ -13,8 +13,6 @@
 .aside_menu--noon {
   @include noon(0%, 60%, 80%);
 }
-
-
 
 // 目的
 // 時間帯ごとに背景色を変えたい

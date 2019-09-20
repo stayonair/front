@@ -16,11 +16,10 @@ export default {
   components: {
     IconBalloon
   }
-
 }
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
 @import '~/assets/background.scss';
 
 .splash__container {
@@ -43,5 +42,4 @@ export default {
   font-size: 5rem;
   color: $color-white;
 }
-
 </style>
