@@ -21,11 +21,12 @@
         v-for="(menuItem, index) in menuList"
         :key="index"
         class="app_aside_menu__item"
-        @click="$router.push(menuItem.path)">
+        @click="$router.push(menuItem.path)"
+      >
         <div>
           <component 
-            class="menu-icon"
             :is="getComponent(menuItem)"
+            class="menu-icon"
           />
         </div>
         <div class="menu-label">
@@ -80,12 +81,12 @@ export default {
         {
           icon: 'follow',
           label: 'フォロートラベラー',
-          path: '/'
+          path: '/follow_traveler'
         },
         {
           icon: 'star',
           label: 'あとで聴くリスト',
-          path: '/'
+          path: '/favorite'
         },
         {
           icon: 'post',
