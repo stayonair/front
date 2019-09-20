@@ -2,6 +2,10 @@ import pkg from './package'
 require('dotenv').config()
 const { INDEXEDDB_ENV } = process.env
 
+if (process.browser) {
+  require('@editorjs/editorjs')
+}
+
 export default {
   mode: 'spa',
 
@@ -99,7 +103,7 @@ export default {
           exclude: /(node_modules)/
         })
       }
-    }
+    },
   },
   env: {
     INDEXEDDB_ENV
