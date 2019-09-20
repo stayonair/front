@@ -1,5 +1,5 @@
 <template>
-  <div class="app_aside_menu">
+  <div class="app_aside_menu aside_menu--noon">
     <div class="app_aside_menu__user">
       <img
         :src="user.icon_url"
@@ -69,6 +69,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~/assets/background.scss';
+
 $slide-size: 25rem;
 
 .app_aside_menu {
@@ -97,9 +99,7 @@ $slide-size: 25rem;
 }
 
 .app_aside_menu__user {
-  box-shadow: inset 0 0 0 25rem rgba($color-brand, 1);
   padding: 4rem 0 4rem 3rem;
-
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -122,9 +122,6 @@ $slide-size: 25rem;
 }
 
 .app_aside_menu__items {
-  background-image: url('../../assets/img/bg_aside.png');
-  background-size: cover;
-  box-shadow: inset 0 0 0 25rem rgba($color-primary, 0.7);
   height: 100vh;
   padding-left: 4rem;
   padding-top: 4rem;
