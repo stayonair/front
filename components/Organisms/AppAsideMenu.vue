@@ -15,56 +15,110 @@
         </p>
       </div>
     </div>
+
     <div class="app_aside_menu__items">
-      <p
-        v-for="(item, index) in menuList"
+      <div
+        v-for="(menuItem, index) in menuList"
         :key="index"
         class="app_aside_menu__item"
-        @click="$router.push(item.path)"
-      >
-        {{ item.label }}
-      </p>
+        @click="$router.push(menuItem.path)">
+        <div>
+          <component 
+            class="menu-icon"
+            :is="getComponent(menuItem)"
+          />
+        </div>
+        <div class="menu-label">
+          {{ menuItem.label }}
+        </div>
+      </div> 
     </div>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import IconNewsFeed from '~/components/Atoms/Icons/IconNewsFeed'
+import IconSearch from '~/components/Atoms/Icons/IconSearch'
+import IconMyPage from '~/components/Atoms/Icons/IconMyPage'
+import IconFollow from '~/components/Atoms/Icons/IconFollow'
+import IconStar from '~/components/Atoms/Icons/IconStar'
+import IconPost from '~/components/Atoms/Icons/IconPost'
+import IconAccount from '~/components/Atoms/Icons/IconAccount'
+import IconCategory from '~/components/Atoms/Icons/IconCategory'
+import IconTag from '~/components/Atoms/Icons/IconTag'
 
 export default {
-  computed: {
-    ...mapState({
-      user: store => store.user.user
-    }),
-    menuList() {
-      return [
+  components: {
+    IconNewsFeed,
+    IconSearch,
+    IconMyPage,
+    IconFollow,
+    IconStar,
+    IconPost,
+    IconAccount,
+    IconCategory,
+    IconTag
+  },
+  data: () => ({
+    menuList: [
         {
+          icon: 'news-feed',
           label: 'ニュースフィード',
           path: '/news_feed'
         },
         {
+          icon: 'search',
           label: '検索',
           path: '/'
         },
         {
-          label: 'メッセージ',
-          path: '/'
-        },
-        {
-          label: 'お知らせ',
-          path: '/'
-        },
-        {
+          icon: 'my-page',
           label: 'マイページ',
           path: '/'
         },
         {
-          label: '設定',
+          icon: 'follow',
+          label: 'フォロートラベラー',
+          path: '/'
+        },
+        {
+          icon: 'star',
+          label: 'あとで聴くリスト',
+          path: '/'
+        },
+        {
+          icon: 'post',
+          label: '投稿管理',
+          path: '/'
+        },
+        {
+          icon: 'account',
+          label: 'アカウント',
+          path: '/'
+        },
+        {
+          icon: 'category',
+          label: 'カテゴリ',
+          path: '/'
+        },
+        {
+          icon: 'tag',
+          label: 'タグ',
           path: '/'
         }
       ]
+  }),
+  computed: {
+    ...mapState({
+      user: store => store.user.user
+    }),
+  },
+  methods: {
+      getComponent(menuItem) {
+        return 'icon-' + menuItem.icon
+      }
     }
-  }
 }
 </script>
 
@@ -128,6 +182,12 @@ $slide-size: 25rem;
 }
 
 .app_aside_menu__item {
+  display: flex;
   color: $color-white;
+  margin-bottom: 1.5rem;
+}
+
+.menu-label {
+  padding-left: 1rem;
 }
 </style>
