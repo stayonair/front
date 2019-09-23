@@ -80,6 +80,7 @@ export const state = () => ({
 
 export const mutations = {
   ADD_AUDIO_URL(state, url) {
+    console.log(url)
     state.audioUrl = url
   }
 }

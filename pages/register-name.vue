@@ -57,6 +57,7 @@ export default {
         })
         .then(() => {
           console.log('Update successful')
+          this.$router.push('/posts')
         })
         .catch(e => {
           console.error(e)

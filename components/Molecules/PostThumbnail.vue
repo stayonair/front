@@ -74,15 +74,15 @@ export default {
   computed: {
     isPostPage() {
       const path = this.$route.path
-      if (path.includes('posts')) {
-        return true
+      if (path === '/posts') {
+        return false
       }
-      return false
+      return true
     }
   },
   methods: {
     goToPrevious() {
-      this.$router.push('/news_feed')
+      this.$router.push('/posts')
     }
   }
 }

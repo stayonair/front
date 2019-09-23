@@ -66,7 +66,7 @@ export default {
         {
           icon: 'news-feed',
           label: 'ニュースフィード',
-          path: '/news_feed'
+          path: '/posts'
         },
         {
           icon: 'search',
@@ -81,7 +81,7 @@ export default {
         {
           icon: 'follow',
           label: 'フォロートラベラー',
-          path: '/follow_traveler'
+          path: '/followering'
         },
         {
           icon: 'star',

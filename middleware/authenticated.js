@@ -3,14 +3,7 @@ import firebase from '~/plugins/firebase'
 firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
 
 export default async ({ route, store, redirect }) => {
-  await firebase.auth().onAuthStateChanged(user => {
-    // ログインしていたら、store に追加する
-    if (user) {
-      store.dispatch('auth/setUser', user)
-    }
-  })
-
-
+  
   // store にログイン情報があるとき
   // 一般閲覧可能なページのときは、何もしない
   if (
@@ -24,10 +17,17 @@ export default async ({ route, store, redirect }) => {
     return
   }
 
+  await firebase.auth().onAuthStateChanged(user => {
+    // ログインしていたら、store に追加する
+    if (user) {
+      store.dispatch('auth/setUser', user)
+    }
+  })
+
   // store にログイン情報がないとき
   // ログインページにリダイレクト
-  if (!store.state.auth.user) {
-    return redirect('/login')
-  }
+  // if (!store.state.auth.user) {
+  //   return redirect('/login')
+  // }
 
 }
