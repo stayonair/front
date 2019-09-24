@@ -75,7 +75,7 @@ export const state = () => ({
     こののに破るねという吉利個性分りだのも自分ない。`
   },
   hoge: [],
-  audioUrl: ''
+  audioUrl: 'http://www.voice-pro.jp/announce/mp3/001-sibutomo.mp3'
 })
 
 export const mutations = {

@@ -25,7 +25,7 @@
             class="audio"
             controls
             preload="auto"
-            src="http://www.voice-pro.jp/announce/mp3/001-sibutomo.mp3"
+            :src="audioUrl"
           >
             <code>audio</code> element
           </audio>
@@ -63,6 +63,7 @@
 <script>
 import AppButton from '~/components/Atoms/AppButton'
 import EditorJS from '@editorjs/editorjs'
+import { mapState } from 'vuex'
 
 export default {
   components: {
@@ -71,6 +72,11 @@ export default {
   data:() => ({
     editor: null
   }),
+  computed: {
+    ...mapState({
+      audioUrl: store => store.post.audioUrl
+    })
+  },
   created() {
     this.editor = new EditorJS({ 
       holder: 'editor',
