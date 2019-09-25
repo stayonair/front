@@ -5,12 +5,19 @@
         class="app_header"
         @click="handleToggleDrawer"
       />
+      <div 
+        class="icon-record__container"
+        @click="$router.push('/record')"
+      >
+        <icon-record />
+      </div>
       <audio-bar class="post_audio" />
       <app-footer
         class="app_footer"
         :path="getPath"
       />
     </div>
+
     <!-- ⬇プラグイン -->
     <vue-drawer-layout
       ref="drawerLayout"
@@ -41,13 +48,16 @@ import AppHeader from '~/components/Molecules/AppHeader'
 import AppAsideMenu from '~/components/Organisms/AppAsideMenu'
 import AppFooter from '~/components/Molecules/AppFooter'
 import AudioBar from '~/components/Organisms/AudioBar'
+import IconRecord from '~/components/Atoms/Icons/IconRecord'
+
 
 export default {
   components: {
     AppHeader,
     AppAsideMenu,
     AppFooter,
-    AudioBar
+    AudioBar,
+    IconRecord
   },
   computed: {
     getPath() {
@@ -57,7 +67,7 @@ export default {
   methods: {
     handleToggleDrawer() {
       this.$refs.drawerLayout.toggle()
-    }
+    },
   }
 }
 </script>
@@ -105,5 +115,20 @@ export default {
   z-index: 13;
   width: 100%;
   font-size: 1.2rem;
+}
+
+.icon-record__container {
+  width: 5rem;
+  height: 5rem;
+  background-color: $color-pink;
+  filter: drop-shadow(3px 3px 3px rgba(0,0,0,0.6));
+  border-radius: 50%;
+  position: fixed;
+  right: 3rem;
+  bottom: 10rem;
+  z-index: 13;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
