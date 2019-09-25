@@ -86,6 +86,7 @@ export default {
         const rawPostData = JSON.stringify(data)
         console.log(rawPostData)
         // rawPostData を firebase にアップする
+        this.$router.push('/news_feed')
       }).catch(error => {
         console.log(error)
       })

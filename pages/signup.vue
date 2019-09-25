@@ -119,7 +119,7 @@ export default {
               .sendEmailVerification({
                 // リダイレクト先のURL
                 // 動作確認のため localhost
-                url: 'http://localhost:3000/signup_name'
+                url: 'http://localhost:3000/register-name'
               })
               .then(() => {
                 console.log('Successfully sent email')
@@ -133,13 +133,13 @@ export default {
     facebookLogin() {
       const facebook = new firebase.auth.FacebookAuthProvider()
       auth.signInWithPopup(facebook).then(() => {
-        this.$router.push('/news_feed')
+        this.$router.push('/posts/')
       })
     },
     twitterLogin() {
       const twitter = new firebase.auth.TwitterAuthProvider()
       auth.signInWithPopup(twitter).then(() => {
-        this.$router.push('/news_feed')
+        this.$router.push('/posts')
       })
     }
   }

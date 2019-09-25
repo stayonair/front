@@ -61,10 +61,11 @@ export default {
         clearInterval(this.timerId)
         await this.stopRecording()
         await this.uploadAudioData(this.rawAudioData)
+        this.$router.push('/posts/new')
         return
       }
-      this.isActiveRecord = true
       await this.startRecording()
+      this.isActiveRecord = true
       this.updateTimer()
     },
     updateTimer() {
