@@ -126,21 +126,13 @@ export default {
 <style lang="scss" scoped>
 @import '~/assets/background.scss';
 
-$slide-size: 25rem;
-
 .app_aside_menu {
-  width: $slide-size;
+  width: 100%;
   transition: transform 0.3s;
   position: fixed;
   top: 4rem;
   z-index: 2;
   transition: all 300ms 200ms ease;
-}
-
-.drawer-wrap {
-  position: fixed;
-  top: 8rem;
-  z-index: 2;
 }
 
 .drawer-layout.dorowa {

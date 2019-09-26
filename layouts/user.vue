@@ -15,7 +15,10 @@
     <vue-drawer-layout
       ref="drawerLayout"
       :z-index="10"
-      :backdrop="false"
+      :backdrop="true"
+      @mask-click="handleMaskClick"
+      :drawer-width="250"
+      :content-drawable="true"
       class="vue_drawer_layout"
     >
       <div
@@ -57,6 +60,9 @@ export default {
   methods: {
     handleToggleDrawer() {
       this.$refs.drawerLayout.toggle()
+    },
+    handleMaskClick() {
+      this.$refs.drawerLayout.toggle(false)
     }
   }
 }
