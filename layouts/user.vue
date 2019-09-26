@@ -7,7 +7,7 @@
       />
       <div 
         class="icon-record__container"
-        @click="$router.push('/record')"
+        @click="$router.push('/recording')"
       >
         <icon-record />
       </div>
