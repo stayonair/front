@@ -16,12 +16,14 @@
       </div>
     </div>
 
-    <div class="app_aside_menu__items">
+    <div 
+      class="app_aside_menu__items"
+    >
       <div
         v-for="(menuItem, index) in menuList"
         :key="index"
         class="app_aside_menu__item"
-        @click="$router.push(menuItem.path)"
+        @click="handleClick(menuItem)"
       >
         <div>
           <component 
@@ -50,6 +52,7 @@ import IconCategory from '~/components/Atoms/Icons/IconCategory'
 import IconTag from '~/components/Atoms/Icons/IconTag'
 
 export default {
+  name: 'AppAsideMenu',
   components: {
     IconNewsFeed,
     IconSearch,
@@ -118,6 +121,10 @@ export default {
   methods: {
       getComponent(menuItem) {
         return 'icon-' + menuItem.icon
+      },
+      handleClick(menuItem) {
+        this.$emit('click')
+        this.$router.push(menuItem.path)
       }
     }
 }
