@@ -1,16 +1,22 @@
 <template>
   <div class="new__container">
     <div class="new">
-      <main class="title__container">
+      <main
+        class="title__container"
+        :style="getThumbnailImage"
+      >
         <textarea
+          v-model="postData.title"
           class="title"
           placeholder="タイトルを入力"
         />
         <input
           id="ref-image"
           type="file"
+          ref="file"
           multiple
           accept="image/jpeg, image/png"
+          @change="inputImage"
         >
         <label
           for="ref-image"
@@ -52,7 +58,7 @@
         <app-button
           class="app_button post_button"
           text="POST"
-          color="yellow"
+          color="pink"
           @click="uploadPost"
         />
       </div>
@@ -64,41 +70,106 @@
 import AppButton from '~/components/Atoms/AppButton'
 import EditorJS from '@editorjs/editorjs'
 import { mapState } from 'vuex'
+import firebase from '~/plugins/firebase'
+import { error } from 'util'
+
+const db = firebase.firestore()
+const thumbnailStorageRef = firebase.storage().ref('thumbnails')
 
 export default {
   components: {
     AppButton
   },
   data:() => ({
-    editor: null
+    editor: null,
+    postData: {
+      title: '',
+      thumbnail_photo_url: '',
+      article: '',
+    },
+    thumbnailImage: null, // ここで使うサムネイルのイメージ
+    rawImageFile: null, // アップロードする イメージファイル
   }),
   computed: {
     ...mapState({
-      audioUrl: store => store.post.audioUrl
-    })
+      postId: store => store.post.postData.id,
+      audioUrl: store => store.post.postData.audioUrl,
+      auth: store => store.auth.user
+    }),
+    getThumbnailImage() {
+      return `background-image: url(${this.thumbnailImage})`
+    }
   },
   created() {
     this.editor = new EditorJS({ 
       holder: 'editor',
-      data: {
-        "blocks":[{"type":"paragraph","data":{"text":"無添加のシャボン玉石けんならもう安心！！"}},{"type":"paragraph","data":{"text":"天然の保湿成分が含まれるため、肌に潤いを与え、健やかに保ちます。"}},{"type":"paragraph","data":{"text":"お肌のことでお悩みの方は、ぜひ一度無添加シャボン玉石けんをお試しください。"}},{"type":"paragraph","data":{"text":"お求めは<b>0120-0055-95</b>まで。"}}]
-      }
+      // data: {
+      //   "blocks":[{"type":"paragraph","data":{"text":"無添加のシャボン玉石けんならもう安心！！"}},{"type":"paragraph","data":{"text":"天然の保湿成分が含まれるため、肌に潤いを与え、健やかに保ちます。"}},{"type":"paragraph","data":{"text":"お肌のことでお悩みの方は、ぜひ一度無添加シャボン玉石けんをお試しください。"}},{"type":"paragraph","data":{"text":"お求めは<b>0120-0055-95</b>まで。"}}]
+      // }
     })
   },
   methods: {
-    uploadPost() {
-      this.editor.save().then(data => {
-        console.log(data)
-        const rawPostData = JSON.stringify(data)
-        console.log(rawPostData)
-        // rawPostData を firebase にアップする
-        this.$router.push('/news_feed')
-      }).catch(error => {
-        console.log(error)
+    inputImage() {
+      const imageFile = this.$refs.file.files[0]
+      const imageUrl = window.URL.createObjectURL(imageFile)
+      // アップロード用のファイルデータ
+      this.rawImageFile = imageFile
+      // 投稿ページ用のサムネイル画像URL
+      this.thumbnailImage = imageUrl
+    },
+    async uploadThumbnailImage(data) {
+      const thumbnailRef = thumbnailStorageRef.child(this.postId)
+      await thumbnailRef.put(data).then(snapshot => {
+        console.log(`upload success!!: ${snapshot.state}`)
+      })
+      await thumbnailRef.getDownloadURL().then(url => {
+        this.postData.thumbnail_photo_url = url
       })
     },
+    async getArticleData() {
+      await this.editor.save().then(data => {
+        this.postData.article = JSON.stringify(data)
+      })
+    },
+    async uploadPost() {
+      if (!this.rawImageFile) {
+        console.log('Nothing Image File')
+        return
+      }
+      // 1, サムネイル画像をアップロードする
+      await this.uploadThumbnailImage(this.rawImageFile)
+
+      // 2, Editor.js のデータを取得
+      await this.getArticleData()
+      
+      // 3, ポストデータを Firebase にアップする
+      const requestPostData = {
+        id: this.postId,
+        author: {
+          uid: this.auth.uid,
+          name: this.auth.displayName,
+          icon_url: this.auth.photoURL
+        },
+        title: this.postData.title,
+        thumbnail_photo_url: this.postData.thumbnail_photo_url,
+        audio_url: this.audioUrl,
+        article: this.postData.article,
+        posted_at: firebase.firestore.FieldValue.serverTimestamp()
+      }
+
+      db.collection('posts').doc(this.postId).set(requestPostData)
+      .then(doc => {
+        console.log(`post data added`)
+      })
+      .catch(e => {
+        console.error(e)
+      })
+      
+      // 4, マイポストページにリダイレクトする
+        // this.$router.push('/my-page')
+    },
     handleClick() {
-      console.log('Clicked!!')
+      console.log('clicked!!')
     }
   }
 }
@@ -133,6 +204,7 @@ export default {
   display: flex;
   flex-direction: column;
   background-color: $button-gray;
+  background-size: cover;
   padding-top: 5rem;
   margin-bottom: 2rem;
 }
