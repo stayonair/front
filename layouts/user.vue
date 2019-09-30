@@ -20,16 +20,19 @@
 
     <!-- ⬇プラグイン -->
     <vue-drawer-layout
+      class="vue_drawer_layout"
       ref="drawerLayout"
       :z-index="10"
-      :backdrop="false"
-      class="vue_drawer_layout"
+      :backdrop="true"
+      :drawer-width="250"
+      :content-drawable="true"
+      @mask-click="handleMaskClick"
     >
       <div
         slot="drawer"
         class="drawer-content"
       >
-        <app-aside-menu />
+        <app-aside-menu @click="hideDrawerMenu"/>
       </div>
       <div
         slot="content"
@@ -68,6 +71,12 @@ export default {
     handleToggleDrawer() {
       this.$refs.drawerLayout.toggle()
     },
+    handleMaskClick() {
+      this.$refs.drawerLayout.toggle(false)
+    },
+    hideDrawerMenu() {
+      this.$refs.drawerLayout.toggle()
+    }
   }
 }
 </script>

@@ -10,12 +10,6 @@
       :is-active="isActiveRecord"
       @buttonClick="handleRecord"
     />
-
-    <audio
-      v-if="previewAudioData"
-      :src="previewAudioData"
-      controls
-    />
   </div>
 </template>
 
@@ -25,7 +19,7 @@ import RecordButton from '~/components/Atoms/RecordButton'
 import record from '~/utils/record'
 import { mapActions } from 'vuex'
 
-const storageRef = firebase.storage().ref()
+const audioStorageRef = firebase.storage().ref('audio')
 
 export default {
   head: () => ({
@@ -47,13 +41,12 @@ export default {
     isActiveRecord: false,
     rawAudioData: null,
     previewAudioData: null,
-    downloadAudioUrl: null,
     timerId: null,
     min: 0,
     sec: 0
   }),
   methods: {
-    ...mapActions('post', ['addAudioUrl']),
+    ...mapActions('post', ['addPostId', 'addAudioUrl']),
     async handleRecord() {
       // 録音状態だったら
       if (this.isActiveRecord) {
@@ -100,15 +93,16 @@ export default {
       }, '')
     },
     async uploadAudioData(data) {
-      // ここでの12桁の ID がファイル名になる
-      const audioRef = storageRef.child(this.createId())
+      // ここでの ID がポストID & ファイル名になる
+      const id = this.createId()
+      const audioRef = audioStorageRef.child(id)
       await audioRef.put(data).then(snapshot => {
         console.log(`added firebase storage: ${snapshot.state}!!`)
       })
       await audioRef.getDownloadURL().then(url => {
-        this.downloadAudioUrl = url
-        // Vuex に URL を追加する
-        this.addAudioUrl(this.downloadAudioUrl)
+        // store に ID と URL を追加する
+        this.addPostId(id)
+        this.addAudioUrl(url)
       })
     }
   }

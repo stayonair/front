@@ -75,13 +75,18 @@ export const state = () => ({
     こののに破るねという吉利個性分りだのも自分ない。`
   },
   hoge: [],
-  audioUrl: ''
+  postData: {
+    id: null,
+    audioUrl: null
+  }
 })
 
 export const mutations = {
+  ADD_POST_ID(state, id) {
+    state.postData.id = id
+  },
   ADD_AUDIO_URL(state, url) {
-    console.log(url)
-    state.audioUrl = url
+    state.postData.audioUrl = url
   }
 }
 
@@ -89,6 +94,9 @@ export const actions = {
   initPosts: firestoreAction(({ bindFirestoreRef }) => {
     bindFirestoreRef('hoge', postsCollection)
   }),
+  addPostId({ commit }, id) {
+    commit('ADD_POST_ID', id)
+  },
   addAudioUrl({ commit }, url) {
     commit('ADD_AUDIO_URL', url)
   }

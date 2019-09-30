@@ -34,7 +34,7 @@ export default {
       type: String,
       default: 'white',
       validator(val) {
-        return ['white', 'gray', 'yellow', 'transparent'].includes(val)
+        return ['white', 'gray', 'pink', 'transparent'].includes(val)
       }
     },
     disabled: {
