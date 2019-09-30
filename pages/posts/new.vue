@@ -102,10 +102,7 @@ export default {
   },
   created() {
     this.editor = new EditorJS({ 
-      holder: 'editor',
-      // data: {
-      //   "blocks":[{"type":"paragraph","data":{"text":"無添加のシャボン玉石けんならもう安心！！"}},{"type":"paragraph","data":{"text":"天然の保湿成分が含まれるため、肌に潤いを与え、健やかに保ちます。"}},{"type":"paragraph","data":{"text":"お肌のことでお悩みの方は、ぜひ一度無添加シャボン玉石けんをお試しください。"}},{"type":"paragraph","data":{"text":"お求めは<b>0120-0055-95</b>まで。"}}]
-      // }
+      holder: 'editor'
     })
   },
   methods: {
