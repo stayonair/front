@@ -71,7 +71,6 @@ import AppButton from '~/components/Atoms/AppButton'
 import EditorJS from '@editorjs/editorjs'
 import { mapState } from 'vuex'
 import firebase from '~/plugins/firebase'
-import { error } from 'util'
 
 const db = firebase.firestore()
 const thumbnailStorageRef = firebase.storage().ref('thumbnails')
@@ -80,6 +79,11 @@ export default {
   components: {
     AppButton
   },
+  middleware({ store, redirect }) {
+    if (!store.state.post.postData.audioUrl) {
+      return redirect('/recording')
+    }
+  },
   data:() => ({
     editor: null,
     postData: {
@@ -87,7 +91,7 @@ export default {
       thumbnail_photo_url: '',
       article: '',
     },
-    thumbnailImage: null, // ここで使うサムネイルのイメージ
+    thumbnailImageUrl: null, // ここで使うサムネイルのイメージURL
     rawImageFile: null, // アップロードする イメージファイル
   }),
   computed: {
@@ -97,7 +101,7 @@ export default {
       auth: store => store.auth.user
     }),
     getThumbnailImage() {
-      return `background-image: url(${this.thumbnailImage})`
+      return `background-image: url(${this.thumbnailImageUrl})`
     }
   },
   created() {
@@ -112,7 +116,7 @@ export default {
       // アップロード用のファイルデータ
       this.rawImageFile = imageFile
       // 投稿ページ用のサムネイル画像URL
-      this.thumbnailImage = imageUrl
+      this.thumbnailImageUrl = imageUrl
     },
     async uploadThumbnailImage(data) {
       const thumbnailRef = thumbnailStorageRef.child(this.postId)
@@ -155,8 +159,8 @@ export default {
       }
 
       db.collection('posts').doc(this.postId).set(requestPostData)
-      .then(doc => {
-        console.log(`post data added`)
+      .then(() => {
+        console.log(`success!! post ID: ${this.postId}`)
       })
       .catch(e => {
         console.error(e)
