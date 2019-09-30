@@ -19,11 +19,11 @@
     <div class="post-category_container">
       <div class="post-category selected">
         投稿済み
-        <div class="bottom-border"></div>
+        <div class="bottom-border" />
       </div>
       <div class="post-category">
         下書き
-        <div class="bottom-border hidden"></div>
+        <div class="bottom-border hidden" />
       </div>
     </div>
 
