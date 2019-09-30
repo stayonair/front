@@ -71,12 +71,12 @@ export default {
         {
           icon: 'search',
           label: '検索',
-          path: '/'
+          path: '/posts'
         },
         {
           icon: 'my-page',
           label: 'マイページ',
-          path: '/'
+          path: '/posts'
         },
         {
           icon: 'follow',
@@ -91,22 +91,22 @@ export default {
         {
           icon: 'post',
           label: '投稿管理',
-          path: '/'
+          path: '/my-posts'
         },
         {
           icon: 'account',
           label: 'アカウント',
-          path: '/'
+          path: '/posts'
         },
         {
           icon: 'category',
           label: 'カテゴリ',
-          path: '/'
+          path: '/posts'
         },
         {
           icon: 'tag',
           label: 'タグ',
-          path: '/'
+          path: '/posts'
         }
       ]
   }),
