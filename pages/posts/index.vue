@@ -5,7 +5,7 @@
         v-for="(post, key) in feedPosts"
         :key="key"
         class="news-feed-post"
-        @click="goToPostPage(key)"
+        @click="goToPostPage(post.id)"
       >
         <post-thumbnail :post="post" />
       </div>
@@ -25,7 +25,7 @@ export default {
   },
   computed: {
     ...mapState({
-      feedPosts: store => store.post.feedPosts
+      feedPosts: store => store.post.posts
     })
   },
   created() {
@@ -33,8 +33,8 @@ export default {
   },
   methods: {
     ...mapActions('post', ['initPosts']),
-    goToPostPage(key) {
-      this.$router.push({ path: `posts/${key}` })
+    goToPostPage(id) {
+      this.$router.push({ path: `posts/${id}` })
     }
   }
 }
@@ -43,6 +43,7 @@ export default {
 <style lang="scss" scoped>
 .news-feed-post__container {
   background: $color-white;
+  margin-bottom: 20rem;
 
   .news-feed-post {
     width: 100%;
