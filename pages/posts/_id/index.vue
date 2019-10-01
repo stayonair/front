@@ -6,16 +6,6 @@
           :post="post"
           class="post__thumbnail"
         />
-        <figure class="post__audio">
-          <audio
-            class="audio"
-            controls
-            preload="auto"
-            src="http://www.voice-pro.jp/announce/mp3/001-sibutomo.mp3"
-          >
-            <code>audio</code> element
-          </audio>
-        </figure>
         <div class="post__article">
           <p>
             {{ post.article }}
@@ -29,6 +19,7 @@
 <script>
 import { mapState } from 'vuex'
 import PostThumbnail from '~/components/Molecules/PostThumbnail'
+// import { clearInterval } from 'timers'
 
 export default {
   name: 'Post',
@@ -91,15 +82,6 @@ export default {
         }
       }
     }
-  }
-}
-
-.post__audio {
-  margin-bottom: 2rem;
-  text-align: center;
-
-  .audio {
-    width: 90%;
   }
 }
 

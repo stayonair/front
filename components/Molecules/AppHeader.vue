@@ -15,7 +15,7 @@
 export default {
   methods: {
     openMenu() {
-      this.$emit('toggle')
+      this.$emit('click')
     }
   }
 }

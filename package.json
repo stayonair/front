@@ -11,9 +11,11 @@
     "generate": "nuxt generate",
     "lint": "eslint --ext .vue,.js --max-warnings 0 --ignore-path .gitignore .",
     "fix": "prettier --write '**/*.{js,vue,scss}' --ignore-path .gitignore && eslint --fix --ext .vue,.js --ignore-path .gitignore .",
-    "precommit": "npm run lint"
+    "deploy": "gh-pages -d dist -b master -m 'Update Site [ci skip]'"
   },
   "dependencies": {
+    "@editorjs/editorjs": "^2.15.1",
+    "@fortawesome/fontawesome-free": "^5.10.1",
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/dotenv": "^1.4.0",
     "@nuxtjs/pwa": "^2.6.0",
@@ -24,11 +26,12 @@
     "node-sass": "^4.12.0",
     "nuxt": "^2.4.0",
     "nuxt-sass-resources-loader": "^2.0.5",
+    "vue-drawer-layout": "^1.3.0",
     "vue-material-design-icons": "^3.2.0",
-    "vuexfire": "^3.1.2",
-    "@fortawesome/fontawesome-free": "^5.10.1"
+    "vuexfire": "^3.1.2"
   },
   "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.10.2",
     "@nuxtjs/eslint-config": "^0.0.1",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.15.1",
@@ -43,6 +46,7 @@
     "eslint-plugin-promise": ">=4.0.1",
     "eslint-plugin-standard": ">=4.0.0",
     "eslint-plugin-vue": "^5.2.2",
+    "netlify-cli": "^2.15.0",
     "nodemon": "^1.18.9",
     "prettier": "^1.16.4",
     "sass-loader": "^7.1.0",

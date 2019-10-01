@@ -2,9 +2,18 @@ import firebase from '~/plugins/firebase'
 
 firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
 
-export default async ({ store }) => {
-  // store にログイン情報があるときは何もしない
-  if (store.state.auth.user) {
+export default async ({ route, store, redirect }) => {
+  
+  // store にログイン情報があるとき
+  // 一般閲覧可能なページのときは、何もしない
+  if (
+    store.state.auth.user ||
+    route.path === '/news_feed' ||
+    route.path === '/search' ||
+    route.path === '/login' ||
+    route.path === '/signup' ||
+    route.path === '/signup_name'
+  ) {
     return
   }
 
@@ -14,4 +23,11 @@ export default async ({ store }) => {
       store.dispatch('auth/setUser', user)
     }
   })
+
+  // store にログイン情報がないとき
+  // ログインページにリダイレクト
+  // if (!store.state.auth.user) {
+  //   return redirect('/login')
+  // }
+
 }

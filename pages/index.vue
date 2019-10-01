@@ -14,6 +14,7 @@
         text="CONTINUE"
       />
     </form>
+    <nuxt-link to="record">録音</nuxt-link>
   </div>
 </template>
 

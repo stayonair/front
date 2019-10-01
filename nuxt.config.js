@@ -2,6 +2,10 @@ import pkg from './package'
 require('dotenv').config()
 const { INDEXEDDB_ENV } = process.env
 
+if (process.browser) {
+  require('@editorjs/editorjs')
+}
+
 export default {
   mode: 'spa',
 
@@ -69,7 +73,11 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/vue-material', '~/plugins/firebase'],
+  plugins: [
+    '~/plugins/vue-material',
+    '~/plugins/firebase',
+    '~/plugins/vue-drawer-layout'
+  ],
 
   /*
    ** Axios module configuration
@@ -95,7 +103,7 @@ export default {
           exclude: /(node_modules)/
         })
       }
-    }
+    },
   },
   env: {
     INDEXEDDB_ENV

@@ -1,26 +1,48 @@
 <template>
   <div class="app_user_layout">
-    <div class="app_header">
-      <app-header @toggle="toggleMenu" />
-    </div>
-    <div
-      :style="classObjectForAppContents"
-      class="app_contents"
-    >
-      <app-aside-menu
-        :class="{ 'app_aside_menu--opened': menuOpened }"
-        :style="classObjectForAppAsideMenu"
-        class="app_aside_menu"
+    <div>
+      <app-header
+        class="app_header"
+        @click="handleToggleDrawer"
       />
-      <div class="app_page">
-        <nuxt />
+      <div 
+        class="icon-record__container"
+        @click="$router.push('/recording')"
+      >
+        <icon-record />
       </div>
+      <audio-bar class="post_audio" />
+      <app-footer
+        class="app_footer"
+        :path="getPath"
+      />
     </div>
-    <app-footer
-      v-if="!menuOpened"
-      class="app_footer"
-      :path="getPath"
-    />
+
+    <!-- ⬇プラグイン -->
+    <vue-drawer-layout
+      class="vue_drawer_layout"
+      ref="drawerLayout"
+      :z-index="10"
+      :backdrop="true"
+      :drawer-width="250"
+      :content-drawable="true"
+      @mask-click="handleMaskClick"
+    >
+      <div
+        slot="drawer"
+        class="drawer-content"
+      >
+        <app-aside-menu @click="hideDrawerMenu"/>
+      </div>
+      <div
+        slot="content"
+        class="content"
+      >
+        <div class="app_page">
+          <nuxt />
+        </div>
+      </div>
+    </vue-drawer-layout>
   </div>
 </template>
 
@@ -28,89 +50,51 @@
 import AppHeader from '~/components/Molecules/AppHeader'
 import AppAsideMenu from '~/components/Organisms/AppAsideMenu'
 import AppFooter from '~/components/Molecules/AppFooter'
+import AudioBar from '~/components/Organisms/AudioBar'
+import IconRecord from '~/components/Atoms/Icons/IconRecord'
+
 
 export default {
   components: {
     AppHeader,
     AppAsideMenu,
-    AppFooter
-  },
-  data: () => {
-    return {
-      isOpened: false
-    }
+    AppFooter,
+    AudioBar,
+    IconRecord
   },
   computed: {
     getPath() {
       return this.$route.path
-    },
-    menuOpened() {
-      return this.isOpened
-    },
-    classObjectForAppContents() {
-      if (!this.isOpened) {
-        return
-      }
-      return {
-        overflow: 'hidden',
-        height: '100%'
-      }
-    },
-    classObjectForAppAsideMenu() {
-      if (!this.isOpened) {
-        return {
-          transform: 'translateX(-100%)'
-        }
-      }
-      return {
-        transform: 'translateX(0)'
-      }
-    }
-  },
-  watch: {
-    $route: function(to, from) {
-      if (to.path !== from.path) {
-        this.isOpened = false
-      }
     }
   },
   methods: {
-    toggleMenu() {
-      this.isOpened = !this.isOpened
+    handleToggleDrawer() {
+      this.$refs.drawerLayout.toggle()
+    },
+    handleMaskClick() {
+      this.$refs.drawerLayout.toggle(false)
+    },
+    hideDrawerMenu() {
+      this.$refs.drawerLayout.toggle()
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
+.vue_drawer_layout {
+  /deep/ .content-wrap {
+    overflow: scroll;
+  }
+}
+
 .app_header {
   position: fixed;
   top: 0;
   left: 0;
   max-width: 100vw; // これを入れないとドロワーメニューを閉じるときの挙動がおかしい.
   width: 100%;
-  z-index: 5;
-}
-
-$slide-size: 25rem;
-
-.app_contents {
-  display: flex;
-}
-
-.app_aside_menu {
-  width: $slide-size;
-  transition: transform 0.3s;
-  position: fixed;
-  top: 0;
-  z-index: 4;
-  transition: all 300ms 200ms ease;
-}
-
-.app_aside_menu--opened ~ .app_page {
-  transform: translateX($slide-size);
-  background-color: rgba($background-black, 0.6);
-  transition: all 300ms 200ms ease;
+  z-index: 11; // プラグイン drawer メニューに合わせて
 }
 
 .app_page {
@@ -131,6 +115,29 @@ $slide-size: 25rem;
   background-color: $color-white;
   position: fixed;
   bottom: 0;
-  z-index: 3;
+  z-index: 12; // プラグイン drawer メニュー に合わせて
+}
+
+.post_audio {
+  position: fixed;
+  bottom: 0;
+  z-index: 13;
+  width: 100%;
+  font-size: 1.2rem;
+}
+
+.icon-record__container {
+  width: 5rem;
+  height: 5rem;
+  background-color: $color-pink;
+  filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.6));
+  border-radius: 50%;
+  position: fixed;
+  right: 3rem;
+  bottom: 10rem;
+  z-index: 13;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
