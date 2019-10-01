@@ -74,7 +74,7 @@ export default {
         {
           icon: 'search',
           label: '検索',
-          path: '/posts'
+          path: '/search'
         },
         {
           icon: 'my-page',
