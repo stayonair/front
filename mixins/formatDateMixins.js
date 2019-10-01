@@ -1,9 +1,15 @@
 export default {
   methods: {
     getPostedAt(postedAt) {
-      const date = new Date(postedAt.replace(/-/g, '-'))
+
+      const date = Number((String(postedAt.seconds) + String(postedAt.nanoseconds)).substring(0, 13))
+      const minDiff = Math.floor((new Date() - date) / 60000)
       const timeDiff = Math.floor((new Date() - date) / 3600000)
       const dateDiff = Math.floor(timeDiff / 24)
+
+      if (timeDiff === 0) {
+        return `${minDiff} minutes ago`
+      }
 
       if (dateDiff === 0) {
         // 24 時間以内の更新の場合、時間を表示する

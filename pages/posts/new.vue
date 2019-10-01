@@ -161,13 +161,12 @@ export default {
       db.collection('posts').doc(this.postId).set(requestPostData)
       .then(() => {
         console.log(`success!! post ID: ${this.postId}`)
+        // 今後マイポスト管理ページに遷移する
+        this.$router.push('/posts')
       })
       .catch(e => {
         console.error(e)
       })
-      
-      // 4, マイポストページにリダイレクトする
-        // this.$router.push('/my-page')
     },
     handleClick() {
       console.log('clicked!!')

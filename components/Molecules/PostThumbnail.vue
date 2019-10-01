@@ -15,21 +15,11 @@
               @click="goToPrevious"
             />
           </div>
-
           <div class="post_thumbnail__header__container">
             <div class="post_thumbnail__header">
               <h1 class="post_thumbnail__header__title">
                 {{ post.title }}
               </h1>
-              <div class="post_thumbnail__header__tags">
-                <span
-                  v-for="(tag, tagIndex) in post.tags"
-                  :key="tagIndex"
-                  class="post_thumbnail__header__tag"
-                >
-                  #{{ tag }}
-                </span>
-              </div>
             </div>
             <div class="post_thumbnail__status">
               <div class="post_thumbnail__author">
@@ -43,12 +33,6 @@
                 </span>
                 <span class="post_thumbnail__posted_at">
                   {{ getPostedAt(post.posted_at) }}
-                </span>
-              </div>
-              <div class="post_thumbnail__like">
-                <heart-icon class="icon__heart" />
-                <span class="post_thumbnail__like_number">
-                  {{ post.like || '' }}
                 </span>
               </div>
             </div>
