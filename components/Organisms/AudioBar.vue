@@ -279,7 +279,7 @@ export default {
   height: 10rem;
   background: $color-white;
   color: $dark-gray-text-color;
-  padding: 2rem 0.5rem;
+  padding: 1.5rem 0.5rem;
   width: 100vw;
   display: flex;
   flex-direction: column;
@@ -311,6 +311,9 @@ export default {
 .post__title {
   margin-left: 1rem;
   width: 70vw;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .post_thumbnail__author_name {
