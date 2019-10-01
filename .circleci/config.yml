@@ -1,30 +1,16 @@
 version: 2
 jobs:
+  test:
+    docker:
+      - image: circleci/node:8.11.4
+    steps:
+      - checkout
+      - run: yarn install
+      - run: yarn test
   build:
     docker:
-      - image: circleci/node:8.11.3
+      - image: circleci/node:8.11.4
     steps:
-      - restore_cache:
-          keys:
-            - source-v1-{{ .Branch }}-{{ .Revision }}
-            - source-v1-{{ .Branch }}-
-            - source-v1-
       - checkout
-      - save_cache:
-          key: source-v1-{{ .Branch }}-{{ .Revision }}
-          paths:
-            - .git
-      - restore_cache:
-          key: v1-npm-deps-{{ checksum "package.json" }}
-      - run: npm install
-      - save_cache:
-          key: v1-npm-deps-{{ checksum "package.json" }}
-          paths:
-            - node_modules
-      - run:
-          name: lint
-          command: |
-            mkdir -p /tmp/test-reports/eslint
-            node_modules/.bin/eslint . --format junit --output-file /tmp/test-reports/eslint/results.xml
-      - store_test_results:
-          path: /tmp/test-reports
+      - run: yarn install
+      - run: yarn generate
