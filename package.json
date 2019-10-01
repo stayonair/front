@@ -11,7 +11,7 @@
     "generate": "nuxt generate",
     "lint": "eslint --ext .vue,.js --max-warnings 0 --ignore-path .gitignore .",
     "fix": "prettier --write '**/*.{js,vue,scss}' --ignore-path .gitignore && eslint --fix --ext .vue,.js --ignore-path .gitignore .",
-    "precommit": "npm run lint"
+    "deploy": "gh-pages -d dist -b master -m 'Update Site [ci skip]'"
   },
   "dependencies": {
     "@editorjs/editorjs": "^2.15.1",
@@ -46,6 +46,7 @@
     "eslint-plugin-promise": ">=4.0.1",
     "eslint-plugin-standard": ">=4.0.0",
     "eslint-plugin-vue": "^5.2.2",
+    "netlify-cli": "^2.15.0",
     "nodemon": "^1.18.9",
     "prettier": "^1.16.4",
     "sass-loader": "^7.1.0",
