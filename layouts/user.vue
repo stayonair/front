@@ -130,7 +130,7 @@ export default {
   width: 5rem;
   height: 5rem;
   background-color: $color-pink;
-  filter: drop-shadow(3px 3px 3px rgba(0,0,0,0.6));
+  filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.6));
   border-radius: 50%;
   position: fixed;
   right: 3rem;
