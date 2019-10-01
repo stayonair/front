@@ -1,6 +1,6 @@
 <template>
-  <div class="signup__container">
-    <div class="soa-logo">
+  <div class="signup__container --noon">
+    <div class="app_icon">
       <icon-balloon />
     </div>
 
@@ -33,7 +33,7 @@
       />
     </div>
 
-    <div class="border--yellow" />
+    <div class="border--white" />
 
     <div class="signup__email__cotainer">
       <form
@@ -119,7 +119,7 @@ export default {
               .sendEmailVerification({
                 // リダイレクト先のURL
                 // 動作確認のため localhost
-                url: 'http://localhost:3000/signup_name'
+                url: 'http://localhost:3000/register-name'
               })
               .then(() => {
                 console.log('Successfully sent email')
@@ -133,13 +133,13 @@ export default {
     facebookLogin() {
       const facebook = new firebase.auth.FacebookAuthProvider()
       auth.signInWithPopup(facebook).then(() => {
-        this.$router.push('/news_feed')
+        this.$router.push('/posts/')
       })
     },
     twitterLogin() {
       const twitter = new firebase.auth.TwitterAuthProvider()
       auth.signInWithPopup(twitter).then(() => {
-        this.$router.push('/news_feed')
+        this.$router.push('/posts')
       })
     }
   }
@@ -147,25 +147,16 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '~/assets/background.scss';
+
 .signup__container {
-  background: linear-gradient(
-      rgba(46, 211, 211, 0.8),
-      rgba(66, 106, 131, 0.8),
-      rgba(72, 77, 109, 0.8)
-    ),
-    url('../assets/img/bg_main.png');
-  background-size: cover;
-  background-position: top;
   padding: 3.5rem 0;
   min-height: 100vh;
 }
 
-.soa-logo {
+.app_icon {
   margin: 0 auto 4rem;
   width: 10rem;
-}
-
-.soa-logo {
   /deep/ .icon--balloon {
     fill: $color-white;
   }
@@ -222,11 +213,12 @@ export default {
     padding: 1.4rem 2.4rem;
     border-radius: 2.4rem;
     margin-top: 1rem;
+    font-weight: bold;
   }
 }
 
-.border--yellow {
-  background-color: $color-yellow;
+.border--white {
+  background-color: $color-white;
   height: 0.4rem;
   width: 2.4rem;
   margin: 0.4rem auto 2rem;

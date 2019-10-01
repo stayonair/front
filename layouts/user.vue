@@ -5,23 +5,34 @@
         class="app_header"
         @click="handleToggleDrawer"
       />
+      <div 
+        class="icon-record__container"
+        @click="$router.push('/recording')"
+      >
+        <icon-record />
+      </div>
+      <audio-bar class="post_audio" />
       <app-footer
         class="app_footer"
         :path="getPath"
       />
     </div>
+
     <!-- ⬇プラグイン -->
     <vue-drawer-layout
+      class="vue_drawer_layout"
       ref="drawerLayout"
       :z-index="10"
-      :backdrop="false"
-      class="vue_drawer_layout"
+      :backdrop="true"
+      :drawer-width="250"
+      :content-drawable="true"
+      @mask-click="handleMaskClick"
     >
       <div
         slot="drawer"
         class="drawer-content"
       >
-        <app-aside-menu />
+        <app-aside-menu @click="hideDrawerMenu"/>
       </div>
       <div
         slot="content"
@@ -39,12 +50,17 @@
 import AppHeader from '~/components/Molecules/AppHeader'
 import AppAsideMenu from '~/components/Organisms/AppAsideMenu'
 import AppFooter from '~/components/Molecules/AppFooter'
+import AudioBar from '~/components/Organisms/AudioBar'
+import IconRecord from '~/components/Atoms/Icons/IconRecord'
+
 
 export default {
   components: {
     AppHeader,
     AppAsideMenu,
-    AppFooter
+    AppFooter,
+    AudioBar,
+    IconRecord
   },
   computed: {
     getPath() {
@@ -53,6 +69,12 @@ export default {
   },
   methods: {
     handleToggleDrawer() {
+      this.$refs.drawerLayout.toggle()
+    },
+    handleMaskClick() {
+      this.$refs.drawerLayout.toggle(false)
+    },
+    hideDrawerMenu() {
       this.$refs.drawerLayout.toggle()
     }
   }
@@ -94,5 +116,28 @@ export default {
   position: fixed;
   bottom: 0;
   z-index: 12; // プラグイン drawer メニュー に合わせて
+}
+
+.post_audio {
+  position: fixed;
+  bottom: 0;
+  z-index: 13;
+  width: 100%;
+  font-size: 1.2rem;
+}
+
+.icon-record__container {
+  width: 5rem;
+  height: 5rem;
+  background-color: $color-pink;
+  filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.6));
+  border-radius: 50%;
+  position: fixed;
+  right: 3rem;
+  bottom: 10rem;
+  z-index: 13;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

@@ -1,16 +1,22 @@
 <template>
   <div class="new__container">
     <div class="new">
-      <main class="title__container">
+      <main
+        class="title__container"
+        :style="getThumbnailImage"
+      >
         <textarea
+          v-model="postData.title"
           class="title"
           placeholder="タイトルを入力"
         />
         <input
           id="ref-image"
           type="file"
+          ref="file"
           multiple
           accept="image/jpeg, image/png"
+          @change="inputImage"
         >
         <label
           for="ref-image"
@@ -25,7 +31,7 @@
             class="audio"
             controls
             preload="auto"
-            src="http://www.voice-pro.jp/announce/mp3/001-sibutomo.mp3"
+            :src="audioUrl"
           >
             <code>audio</code> element
           </audio>
@@ -34,11 +40,14 @@
       <p>
         きょうのおはなし (最大 126 文字) <span class="necessary">必須</span>
       </p>
-      <textarea
-        class="new_text"
-        cols="30"
-        rows="10"
-      />
+
+      <div class="text-editor__container">
+        <div
+          id="editor"
+          class="text-editor"
+        />
+      </div>
+
       <div class="new_button__container">
         <app-button
           class="app_button cancel_button"
@@ -49,8 +58,8 @@
         <app-button
           class="app_button post_button"
           text="POST"
-          color="yellow"
-          @click="handleClick"
+          color="pink"
+          @click="uploadPost"
         />
       </div>
     </div>
@@ -59,14 +68,108 @@
 
 <script>
 import AppButton from '~/components/Atoms/AppButton'
+import EditorJS from '@editorjs/editorjs'
+import { mapState } from 'vuex'
+import firebase from '~/plugins/firebase'
+
+const db = firebase.firestore()
+const thumbnailStorageRef = firebase.storage().ref('thumbnails')
 
 export default {
   components: {
     AppButton
   },
+  middleware({ store, redirect }) {
+    if (!store.state.post.postData.audioUrl) {
+      return redirect('/recording')
+    }
+  },
+  data:() => ({
+    editor: null,
+    postData: {
+      title: '',
+      thumbnail_photo_url: '',
+      article: '',
+    },
+    thumbnailImageUrl: null, // ここで使うサムネイルのイメージURL
+    rawImageFile: null, // アップロードする イメージファイル
+  }),
+  computed: {
+    ...mapState({
+      postId: store => store.post.postData.id,
+      audioUrl: store => store.post.postData.audioUrl,
+      auth: store => store.auth.user
+    }),
+    getThumbnailImage() {
+      return `background-image: url(${this.thumbnailImageUrl})`
+    }
+  },
+  created() {
+    this.editor = new EditorJS({ 
+      holder: 'editor'
+    })
+  },
   methods: {
+    inputImage() {
+      const imageFile = this.$refs.file.files[0]
+      const imageUrl = window.URL.createObjectURL(imageFile)
+      // アップロード用のファイルデータ
+      this.rawImageFile = imageFile
+      // 投稿ページ用のサムネイル画像URL
+      this.thumbnailImageUrl = imageUrl
+    },
+    async uploadThumbnailImage(data) {
+      const thumbnailRef = thumbnailStorageRef.child(this.postId)
+      await thumbnailRef.put(data).then(snapshot => {
+        console.log(`upload success!!: ${snapshot.state}`)
+      })
+      await thumbnailRef.getDownloadURL().then(url => {
+        this.postData.thumbnail_photo_url = url
+      })
+    },
+    async getArticleData() {
+      await this.editor.save().then(data => {
+        this.postData.article = JSON.stringify(data)
+      })
+    },
+    async uploadPost() {
+      if (!this.rawImageFile) {
+        console.log('Nothing Image File')
+        return
+      }
+      // 1, サムネイル画像をアップロードする
+      await this.uploadThumbnailImage(this.rawImageFile)
+
+      // 2, Editor.js のデータを取得
+      await this.getArticleData()
+      
+      // 3, ポストデータを Firebase にアップする
+      const requestPostData = {
+        id: this.postId,
+        author: {
+          uid: this.auth.uid,
+          name: this.auth.displayName,
+          icon_url: this.auth.photoURL
+        },
+        title: this.postData.title,
+        thumbnail_photo_url: this.postData.thumbnail_photo_url,
+        audio_url: this.audioUrl,
+        article: this.postData.article,
+        posted_at: firebase.firestore.FieldValue.serverTimestamp()
+      }
+
+      db.collection('posts').doc(this.postId).set(requestPostData)
+      .then(() => {
+        console.log(`success!! post ID: ${this.postId}`)
+        // 今後マイポスト管理ページに遷移する
+        this.$router.push('/posts')
+      })
+      .catch(e => {
+        console.error(e)
+      })
+    },
     handleClick() {
-      console.log('clicked!')
+      console.log('clicked!!')
     }
   }
 }
@@ -101,6 +204,7 @@ export default {
   display: flex;
   flex-direction: column;
   background-color: $button-gray;
+  background-size: cover;
   padding-top: 5rem;
   margin-bottom: 2rem;
 }
@@ -153,4 +257,27 @@ export default {
     width: 80%;
   }
 }
+
+.text-editor__container {
+  max-width: 62rem;
+  margin: auto;
+}
+
+.text-editor {
+  font-size: 1.4rem;
+  color: $base-text-color;
+  text-align: left;
+  border: .1rem solid #ccc;
+  border-radius: .3rem;
+  padding: 2.4rem;
+  margin: 0 1rem 1rem;
+  /deep/ .codex-editor__redactor {
+    min-height: 15rem;
+    padding-bottom: 0 !important;
+  }
+  /deep/ .icon--bold {
+    height: 14px;
+  }
+}
+
 </style>

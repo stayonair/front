@@ -34,7 +34,7 @@ export default {
       type: String,
       default: 'white',
       validator(val) {
-        return ['white', 'gray', 'yellow', 'transparent'].includes(val)
+        return ['white', 'gray', 'pink', 'transparent'].includes(val)
       }
     },
     disabled: {
@@ -94,16 +94,16 @@ export default {
 .is_white {
   border: solid 1px $color-white;
   background-color: $color-white;
-  color: $color-primary;
+  color: $link-color;
 }
 .is_gray {
   border: solid 1px $button-gray;
   background-color: $button-gray;
   color: $color-white;
 }
-.is_yellow {
-  border-color: $button-yellow;
-  background-color: $button-yellow;
+.is_pink {
+  border: solid 1px $button-pink;
+  background-color: $button-pink;
   color: $color-white;
 }
 .is_transparent {
