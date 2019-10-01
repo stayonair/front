@@ -309,7 +309,7 @@ export default {
 }
 
 .post__title {
-  margin-left: 1rem;
+  margin-left: 0.7rem;
   width: 70vw;
   overflow: hidden;
   white-space: nowrap;
@@ -326,6 +326,7 @@ export default {
   background: $color-primary;
   width: 3rem;
   height: 3rem;
+  margin-top: 0.3rem;
   border-radius: 50%;
 }
 
