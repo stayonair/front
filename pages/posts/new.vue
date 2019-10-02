@@ -70,10 +70,9 @@
 import AppButton from '~/components/Atoms/AppButton'
 import EditorJS from '@editorjs/editorjs'
 import { mapState } from 'vuex'
-import firebase from '~/plugins/firebase'
+import firebase, { db, storage } from '~/plugins/firebase'
 
-const db = firebase.firestore()
-const thumbnailStorageRef = firebase.storage().ref('thumbnails')
+const thumbnailStorageRef = storage.ref('thumbnails')
 
 export default {
   components: {
