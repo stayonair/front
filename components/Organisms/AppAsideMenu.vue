@@ -84,7 +84,7 @@ export default {
         {
           icon: 'follow',
           label: 'フォロートラベラー',
-          path: '/followering'
+          path: '/following'
         },
         {
           icon: 'star',
@@ -135,6 +135,7 @@ export default {
 
 .app_aside_menu {
   width: 100%;
+  height: 100%;
   transition: transform 0.3s;
   position: fixed;
   top: 4rem;
@@ -190,4 +191,5 @@ export default {
 .menu-label {
   padding-left: 1rem;
 }
+
 </style>
