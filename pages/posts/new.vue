@@ -128,7 +128,8 @@ export default {
     },
     async getArticleData() {
       await this.editor.save().then(data => {
-        this.postData.article = JSON.stringify(data)
+        console.log(data.blocks)
+        this.postData.article = JSON.stringify(data.blocks)
       })
     },
     async uploadPost() {

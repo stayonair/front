@@ -9,10 +9,12 @@
         <div class="post-audio__container">
           <audio :src="post.audio_url" controls/>
         </div>
-        <div class="post__article">
-          <p>
-            {{ post.article }}
-          </p>
+        <div
+          v-for="(doc , index) in post.article"
+          :key="index"
+          class="post__article"
+        >
+        <p v-html="doc.data.text" />
         </div>
       </div>
     </div>
@@ -35,8 +37,11 @@ export default {
   async asyncData({ params }) {
       return await postsCollection.doc(params.id).get()
         .then(doc => {
+          const data = doc.data()
+          const articleData = JSON.parse(data.article)
+          data.article = articleData
           return  {
-            post: doc.data()
+            post: data
           }
         })
   }
