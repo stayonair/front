@@ -323,7 +323,7 @@ export default {
 
 .icon_contain_circle {
   position: relative;
-  background: $color-primary;
+  background: $dark-gray-text-color;
   width: 3rem;
   height: 3rem;
   margin-top: 0.3rem;
@@ -342,7 +342,7 @@ export default {
 }
 
 .audio--open {
-  height: 25rem;
+  height: 28rem;
   transition-property: height;
   transition-duration: 0.2s;
   transition-timing-function: ease-in-out;
@@ -352,7 +352,7 @@ export default {
 }
 
 .audio--close {
-  height: 7rem;
+  height: 12rem;
   transition-property: height;
   transition-duration: 0.2s;
   transition-timing-function: ease-in-out;
