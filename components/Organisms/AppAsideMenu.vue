@@ -191,5 +191,4 @@ export default {
 .menu-label {
   padding-left: 1rem;
 }
-
 </style>
