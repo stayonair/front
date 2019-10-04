@@ -1,6 +1,6 @@
 import pkg from './package'
 require('dotenv').config()
-const { INDEXEDDB_ENV } = process.env
+const { APIKEY, AUTHDOMAIN, DATABASEURL, PROJECTID, STORAGEBUCKET, MESSAGINGSENDERID, APPID } = process.env
 
 if (process.browser) {
   require('@editorjs/editorjs')
@@ -106,7 +106,13 @@ export default {
     },
   },
   env: {
-    INDEXEDDB_ENV
+    APIKEY,
+    AUTHDOMAIN,
+    DATABASEURL,
+    PROJECTID,
+    STORAGEBUCKET,
+    MESSAGINGSENDERID,
+    APPID
   },
   router: {
     middleware: ['authenticated']
