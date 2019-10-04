@@ -88,6 +88,12 @@ export default {
   }
 }
 
+.vue_drawer_layout {
+  /deep/.drawer-mask {
+    height: 500rem;
+  }
+}
+
 .app_header {
   position: fixed;
   top: 0;
