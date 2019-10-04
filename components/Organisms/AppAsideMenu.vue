@@ -99,7 +99,7 @@ export default {
         {
           icon: 'account',
           label: 'アカウント',
-          path: '/posts'
+          path: '/my-account'
         },
         {
           icon: 'category',
