@@ -17,23 +17,26 @@
         >
           <div class="traveler-icon__container">
             <img
-              :src="post.author.icon_url"
+              :src="audio.author.icon_url"
               class="traveler-icon"
             >
           </div>
           <div class="post__title">
-            {{ post.title }}
+            {{ audio.title }}
             <div class="post_thumbnail__author_name">
-              @{{ post.author.name }}
+              @{{ audio.author.name }}
             </div>
           </div>
         </div>
 
         <!-- play / pause アイコン （小）ここから-->
-        <div :class="classForPlayIcon">
+        <div
+          :class="classForPlayIcon"
+          class="icon_controls__container"
+        >
           <div
             v-if="!isPlaying"
-            class="audio_controller--play"
+            class="audio_controller --play"
             @click="playAudio()"
           >
             <div class="icon_contain_circle">
@@ -43,11 +46,15 @@
 
           <div
             v-else
+            class="audio_controller --pause"
             @click="pauseAudio()"
           >
             <div class="icon_contain_circle">
               <icon-pause class="icon_pause" />
             </div>
+          </div>
+          <div class="icon_close__container">
+            <span @click="closeAudioBar()">✕</span>
           </div>
         </div>
         <!-- play / pause アイコン （小）ここまで-->
@@ -129,7 +136,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import IconPlay from '~/components/Atoms/Icons/IconPlay'
 import IconPause from '~/components/Atoms/Icons/IconPause'
 import IconProceed from '~/components/Atoms/Icons/IconProceed'
@@ -170,25 +177,37 @@ export default {
     audioDuration: null, // audioトータル時間
     audioCurrentTime: null, // audio 経過時間
     timerObj: null,
-    audioData: 'http://www.voice-pro.jp/announce/mp3/001-sibutomo.mp3'
+    // audioData: 'http://www.voice-pro.jp/announce/mp3/001-sibutomo.mp3'
   }),
   computed: {
     ...mapState({
-      post: store => store.post.post
+      post: store => store.post.post,
+      audio: store => store.audio.audioData
     }),
     getParams() {
       return this.$route.params.id
     }
   },
   async mounted() {
-    const audio = new Audio(this.audioData)
+    // audio data を template の audio タグ と紐付ける
+    const audio = new Audio(this.audio.audio_url)
     this.$refs.audio = audio
+    console.log(this.$refs)
     await audio.load()
     audio.onloadedmetadata = () => {
       this.audioDuration = audio.duration
     }
+
+    // store に audio 情報があったら playAudio() を発火
+    if(this.audio) {
+      this.playAudio()
+    }
+  },
+  beforeDestroy() {
+    this.pauseAudio()
   },
   methods: {
+    ...mapActions('audio',['resetAudioData']),
     changeAudioFooterSize() {
       if (this.className === 'audio--open') {
         this.className = 'audio--close'
@@ -260,6 +279,9 @@ export default {
       this.className = 'audio--close'
       this.classForPlayIcon = 'showed'
       this.classForAudioDetail = 'hidden'
+    },
+    closeAudioBar() {
+      this.resetAudioData()
     }
   }
 }
@@ -318,7 +340,17 @@ export default {
 
 .post_thumbnail__author_name {
   font-size: 1.2rem;
-  line-height: 1rem;
+  line-height: 1.4rem;
+}
+
+.icon_controls__container {
+  position: relative;
+}
+
+.audio_controller {
+  position: absolute;
+  top: .5rem;
+  right: 4rem;
 }
 
 .icon_contain_circle {
@@ -339,6 +371,13 @@ export default {
 
 .icon_pause {
   margin-top: -0.9rem;
+}
+
+.icon_close__container {
+  position: absolute;
+  top: .8rem;
+  right: 0rem;
+  font-size: 2rem;
 }
 
 .audio--open {
