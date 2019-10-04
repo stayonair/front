@@ -7,6 +7,7 @@
           :key="index"
           class="footer__item"
           :class="iconClasses(buttonLink)"
+          @click="$router.push(buttonLink.path)"
         >
           <component :is="getComponent(buttonLink)" />
         </li>
@@ -16,15 +17,15 @@
 </template>
 
 <script>
-import IconUser from '~/components/Atoms/Icons/IconUser'
 import IconBalloon from '~/components/Atoms/Icons/IconBalloon'
-import IconBell from '~/components/Atoms/Icons/IconBell'
+import IconRecord from '~/components/Atoms/Icons/IconRecord'
+import IconStar from '~/components/Atoms/Icons/IconStar'
 
 export default {
   components: {
-    IconUser,
     IconBalloon,
-    IconBell
+    IconRecord,
+    IconStar
   },
   props: {
     path: {
@@ -33,19 +34,22 @@ export default {
     }
   },
   data: () => ({
-    buttons: ['user', 'balloon', 'bell'],
+    buttons: ['balloon', 'record', 'star'],
     buttonLinks: [
       {
-        icon: 'user',
-        link: 'my_page'
-      },
-      {
         icon: 'balloon',
-        link: 'news_feed'
+        link: 'posts',
+        path: '/posts'
       },
       {
-        icon: 'bell',
-        link: 'notice'
+        icon: 'record',
+        link: 'recording',
+        path: '/recording'
+      },
+      {
+        icon: 'star',
+        link: 'favorite',
+        path: '/favorite'
       }
     ]
   }),
@@ -74,9 +78,10 @@ export default {
     &.is_path {
       /deep/ {
         .icon {
-          &--bell,
-          &--user,
           &--balloon {
+            fill: $color-primary;
+          }
+          &--star-shape {
             fill: $color-primary;
           }
         }
@@ -85,13 +90,32 @@ export default {
 
     /deep/ {
       .icon {
-        &--bell,
-        &--user,
-        &--balloon {
+        &--balloon,
+        &--record {
           height: 3rem;
           width: 3rem;
           fill: $dark-gray-text-color;
         }
+      }
+
+      .icon--record {
+          fill: $color-white;
+          background-color: $color-pink;
+          border-radius: 50%;
+          padding: 0.9rem;
+          width: 5rem;
+          height: 5rem;
+          margin-bottom: 0.5rem;
+        }
+
+      .icon--star {
+        height: 3rem;
+        width: 3rem;
+        fill: none;
+      }
+      
+      .icon--star-shape {
+        fill: $dark-gray-text-color;
       }
     }
   }

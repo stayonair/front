@@ -6,10 +6,15 @@
           :post="post"
           class="post__thumbnail"
         />
-        <div class="post__article">
-          <p>
-            {{ post.article }}
-          </p>
+        <div class="post-audio__container">
+          <audio :src="post.audio_url" controls/>
+        </div>
+        <div
+          v-for="(doc , index) in post.article"
+          :key="index"
+          class="post__article"
+        >
+        <p v-html="doc.data.text" />
         </div>
       </div>
     </div>
@@ -17,9 +22,11 @@
 </template>
 
 <script>
+import { db } from '~/plugins/firebase'
 import { mapState } from 'vuex'
 import PostThumbnail from '~/components/Molecules/PostThumbnail'
-// import { clearInterval } from 'timers'
+
+const postsCollection = db.collection('posts')
 
 export default {
   name: 'Post',
@@ -27,13 +34,16 @@ export default {
   components: {
     PostThumbnail
   },
-  computed: {
-    ...mapState({
-      post: store => store.post.post
-    }),
-    getParams() {
-      return this.$route.params.id
-    }
+  async asyncData({ params }) {
+      return await postsCollection.doc(params.id).get()
+        .then(doc => {
+          const data = doc.data()
+          const articleData = JSON.parse(data.article)
+          data.article = articleData
+          return  {
+            post: data
+          }
+        })
   }
 }
 </script>
@@ -90,4 +100,10 @@ export default {
   font-size: 1.4rem;
   line-height: 3rem;
 }
+
+.post-audio__container {
+  text-align: center;
+  padding: 3rem 0;
+}
+
 </style>

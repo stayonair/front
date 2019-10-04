@@ -9,7 +9,7 @@
         class="icon-record__container"
         @click="$router.push('/recording')"
       >
-        <icon-record />
+        <!-- <icon-record /> 宙に浮いた録音アイコン。念の為残してます-->
       </div>
       <audio-bar class="post_audio" />
       <app-footer
@@ -51,7 +51,7 @@ import AppHeader from '~/components/Molecules/AppHeader'
 import AppAsideMenu from '~/components/Organisms/AppAsideMenu'
 import AppFooter from '~/components/Molecules/AppFooter'
 import AudioBar from '~/components/Organisms/AudioBar'
-import IconRecord from '~/components/Atoms/Icons/IconRecord'
+// import IconRecord from '~/components/Atoms/Icons/IconRecord'
 
 
 export default {
@@ -60,7 +60,7 @@ export default {
     AppAsideMenu,
     AppFooter,
     AudioBar,
-    IconRecord
+    // IconRecord
   },
   computed: {
     getPath() {
@@ -85,6 +85,12 @@ export default {
 .vue_drawer_layout {
   /deep/ .content-wrap {
     overflow: scroll;
+  }
+}
+
+.vue_drawer_layout {
+  /deep/.drawer-mask {
+    height: 500rem;
   }
 }
 
@@ -121,23 +127,25 @@ export default {
 .post_audio {
   position: fixed;
   bottom: 0;
-  z-index: 13;
+  z-index: 12;
   width: 100%;
   font-size: 1.2rem;
 }
 
-.icon-record__container {
-  width: 5rem;
-  height: 5rem;
-  background-color: $color-pink;
-  filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.6));
-  border-radius: 50%;
-  position: fixed;
-  right: 3rem;
-  bottom: 10rem;
-  z-index: 13;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+// 宙に浮いた録音アイコン。念の為残してます
+// .icon-record__container {
+//   width: 5rem;
+//   height: 5rem;
+//   background-color: $color-pink;
+//   filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.6));
+//   border-radius: 50%;
+//   position: fixed;
+//   right: 3rem;
+//   bottom: 10rem;
+//   z-index: 13;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// }
+
 </style>

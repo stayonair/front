@@ -8,6 +8,7 @@ export default {
       const dateDiff = Math.floor(timeDiff / 24)
 
       if (timeDiff === 0) {
+        // 1時間以内の更新の場合、分を表示する
         return `${minDiff} minutes ago`
       }
 
