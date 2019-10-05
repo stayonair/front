@@ -11,7 +11,10 @@
       >
         <!-- <icon-record /> 宙に浮いた録音アイコン。念の為残してます-->
       </div>
-      <audio-bar class="post_audio" />
+      <audio-bar
+        v-if="isAudioData"
+        class="post_audio"
+      />
       <app-footer
         class="app_footer"
         :path="getPath"
@@ -47,6 +50,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import AppHeader from '~/components/Molecules/AppHeader'
 import AppAsideMenu from '~/components/Organisms/AppAsideMenu'
 import AppFooter from '~/components/Molecules/AppFooter'
@@ -63,8 +67,17 @@ export default {
     // IconRecord
   },
   computed: {
+    ...mapState({
+      audioData: store => store.audio.audioData
+    }),
     getPath() {
       return this.$route.path
+    },
+    isAudioData() {
+      if (this.audioData) {
+        return true
+      }
+      return false
     }
   },
   methods: {
