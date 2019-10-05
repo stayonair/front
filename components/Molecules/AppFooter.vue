@@ -38,17 +38,14 @@ export default {
     buttonLinks: [
       {
         icon: 'balloon',
-        link: 'posts',
         path: '/posts'
       },
       {
         icon: 'record',
-        link: 'recording',
         path: '/recording'
       },
       {
         icon: 'star',
-        link: 'favorite',
         path: '/favorite'
       }
     ]
@@ -58,7 +55,7 @@ export default {
       return 'icon-' + buttonLink.icon
     },
     iconClasses(buttonLink) {
-      if (this.path.includes(buttonLink.link)) {
+      if (this.path === buttonLink.path) {
         return { is_path: true }
       }
       return {}
