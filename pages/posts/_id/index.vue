@@ -152,7 +152,6 @@ export default {
   padding: 3rem 0;
 }
 
-
 // 仮再生ボタン
 .episode-play__container {
   display: flex;
@@ -182,5 +181,4 @@ export default {
   font-weight: bold;
   margin-bottom: 0
 }
-
 </style>
