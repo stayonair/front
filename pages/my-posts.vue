@@ -54,11 +54,7 @@ export default {
       feedPosts: store => store.post.posts,
     })
   },
-  created() {
-    this.initPosts()
-  },
   methods: {
-    ...mapActions('post', ['initPosts']),
     isAuthorId(uid) {
       if (uid === this.auth.uid) {
         return true
