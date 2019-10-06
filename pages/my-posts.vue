@@ -27,7 +27,7 @@
         v-for="(post, index) in feedPosts"
         :key="index"
         class="my-posts"
-        @click="goToPostPage(post.id)"
+        @click="goToEditPage(post.id)"
       >
         <post-thumbnail
           v-if="isAuthorId(post.author.uid)"
@@ -54,11 +54,7 @@ export default {
       feedPosts: store => store.post.posts,
     })
   },
-  created() {
-    this.initPosts()
-  },
   methods: {
-    ...mapActions('post', ['initPosts']),
     isAuthorId(uid) {
       if (uid === this.auth.uid) {
         return true
@@ -66,8 +62,8 @@ export default {
         return false
       }
     },
-    goToPostPage(key) {
-      this.$router.push({ path: `posts/${key}` })
+    goToEditPage(id) {
+      this.$router.push({ path: `post-edit`, query: {id: id} })
     }
   }
 }

@@ -68,7 +68,7 @@ import FormInput from '~/components/Molecules/FormInput'
 import AppButton from '~/components/Atoms/AppButton'
 import IconBalloon from '~/components/Atoms/Icons/IconBalloon'
 
-import { auth } from '~/plugins/firebase'
+import firebase, { auth } from '~/plugins/firebase'
 
 export default {
   components: {
