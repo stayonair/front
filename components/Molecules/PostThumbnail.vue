@@ -58,7 +58,10 @@ export default {
   computed: {
     isPostPage() {
       const path = this.$route.path
-      if (path === '/posts') {
+      if (
+        path === '/posts' ||
+        path === '/my-posts'
+      ) {
         return false
       }
       return true
