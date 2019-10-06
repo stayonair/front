@@ -2,20 +2,16 @@
   <div class="my-posts__wrapper">
     <div class="my-posts__user_container">
       <img
-        :src="user.icon_url"
+        :src="auth.photoURL"
         class="my-posts__user_icon"
         alt="icon_url"
       >
       <div class="my-posts__user_account">
         <p class="my-posts__user_name">
-          @{{ user.name }}
-        </p>
-        <p class="my-posts__user_place">
-          {{ user.place }}
+          @{{ auth.displayName }}
         </p>
       </div>
     </div>
-
     <div class="post-category_container">
       <div class="post-category selected">
         投稿済み
@@ -26,15 +22,17 @@
         <div class="bottom-border hidden" />
       </div>
     </div>
-
     <div class="my-posts__container">
       <div
-        v-for="(post, key) in feedPosts"
-        :key="key"
+        v-for="(post, index) in feedPosts"
+        :key="index"
         class="my-posts"
-        @click="goToPostPage(key)"
+        @click="goToEditPage(post.id)"
       >
-        <post-thumbnail :post="post" />
+        <post-thumbnail
+          v-if="isAuthorId(post.author.uid)"
+          :post="post"
+        />
       </div>
     </div>
   </div>
@@ -52,17 +50,20 @@ export default {
   },
   computed: {
     ...mapState({
-      user: store => store.user.user,
-      feedPosts: store => store.post.feedPosts,
+      auth: store => store.auth.user,
+      feedPosts: store => store.post.posts,
     })
   },
-  created() {
-    this.initPosts()
-  },
   methods: {
-    ...mapActions('post', ['initPosts']),
-    goToPostPage(key) {
-      this.$router.push({ path: `posts/${key}` })
+    isAuthorId(uid) {
+      if (uid === this.auth.uid) {
+        return true
+      } else {
+        return false
+      }
+    },
+    goToEditPage(id) {
+      this.$router.push({ path: `post-edit`, query: {id: id} })
     }
   }
 }

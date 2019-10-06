@@ -6,8 +6,19 @@
           :post="post"
           class="post__thumbnail"
         />
-        <div class="post-audio__container">
-          <audio :src="post.audio_url" controls/>
+        <div class="episode-play__container">
+          <div
+            class="icon-play__container"
+            @click="audioPlay"
+          >
+            <icon-play class="icon-play"/>
+          </div>
+          <p
+            class="episode-play__text"
+            @click="audioPlay"
+          >
+            Play Episode
+          </p>
         </div>
         <div
           v-for="(doc , index) in post.article"
@@ -23,8 +34,9 @@
 
 <script>
 import { db } from '~/plugins/firebase'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import PostThumbnail from '~/components/Molecules/PostThumbnail'
+import IconPlay from '~/components/Atoms/Icons/IconPlay'
 
 const postsCollection = db.collection('posts')
 
@@ -32,7 +44,8 @@ export default {
   name: 'Post',
   layout: 'user',
   components: {
-    PostThumbnail
+    PostThumbnail,
+    IconPlay
   },
   async asyncData({ params }) {
       return await postsCollection.doc(params.id).get()
@@ -44,6 +57,38 @@ export default {
             post: data
           }
         })
+  },
+  computed: {
+    ...mapState({
+      audio: store => store.audio.audioData
+    }),
+  },
+  methods: {
+    ...mapActions('audio',['setAudioData', 'resetAudioData']),
+    async audioPlay() {
+      await this.setAudio()
+    },
+    async setAudio() {
+      const data = {
+        author: {
+          name: this.post.author.name,
+          icon_url: this.post.author.icon_url,
+        },
+        title: this.post.title,
+        audio_url: this.post.audio_url
+      }
+
+      if (this.audio) {
+        await this.resetAudio()
+        this.setAudioData(data)
+        return
+      }
+
+      this.setAudioData(data)
+    },
+    resetAudio() {
+      this.resetAudioData()
+    }
   }
 }
 </script>
@@ -51,6 +96,7 @@ export default {
 <style lang="scss" scoped>
 .post__container {
   background-color: $color-white;
+  margin-bottom: 12rem;
 }
 
 .post__thumbnail /deep/ {
@@ -106,4 +152,33 @@ export default {
   padding: 3rem 0;
 }
 
+// 仮再生ボタン
+.episode-play__container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 3rem;
+}
+
+.icon-play__container {
+  position: relative;
+  width: 4rem;
+  height: 4rem;
+  background-color: $button-gray;
+  border-radius: 50%;
+  margin-right: 1.4rem;
+}
+
+.icon-play {
+  position: absolute;
+  width: 2rem;
+  fill: #fff;
+  left: 30%;
+}
+
+.episode-play__text {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0
+}
 </style>
