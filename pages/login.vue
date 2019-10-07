@@ -83,20 +83,20 @@ export default {
   methods: {
     login() {
       auth.signInWithEmailAndPassword(this.email, this.password).then(() => {
-        this.$router.push('/news_feed')
+        this.$router.push('/')
         console.log(auth.currentUser)
       })
     },
     facebookLogin() {
       const facebook = new firebase.auth.FacebookAuthProvider()
       auth.signInWithPopup(facebook).then(() => {
-        this.$router.push('/news_feed')
+        this.$router.push('/')
       })
     },
     twitterLogin() {
       const twitter = new firebase.auth.TwitterAuthProvider()
       auth.signInWithPopup(twitter).then(() => {
-        this.$router.push('/news_feed')
+        this.$router.push('/')
       })
     }
   }

@@ -1,77 +1,67 @@
 <template>
-  <div class="signin__container">
-    <form
-      class="form__container"
-      @submit.prevent="sendForm"
-    >
-      <form-input
-        v-model="formData.email"
-        name="form-input"
-        inner-label="Email"
-      />
-      <app-button
-        color="white"
-        text="CONTINUE"
-      />
-    </form>
-    <nuxt-link to="record">録音</nuxt-link>
+  <div class="news-feed-post__wrapper">
+    <div class="news-feed-post__container">
+      <div
+        v-for="(post, key) in feedPosts"
+        :key="key"
+        class="news-feed-post"
+        @click="goToPostPage(post.id)"
+      >
+        <post-thumbnail :post="post" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import FormInput from '~/components/Molecules/FormInput.vue'
-import AppButton from '~/components/Atoms/AppButton.vue'
+import { mapState, mapActions } from 'vuex'
+import PostThumbnail from '~/components/Molecules/PostThumbnail'
 
 export default {
+  name: 'NewsFeed',
+  layout: 'user',
   components: {
-    FormInput,
-    AppButton
+    PostThumbnail
   },
-  data: () => {
-    return {
-      formData: {
-        email: ''
-      }
-    }
+  computed: {
+    ...mapState({
+      feedPosts: store => store.post.posts
+    })
+  },
+  created() {
+    this.initPosts()
   },
   methods: {
-    sendForm() {
-      console.log(this.formData)
+    ...mapActions('post', ['initPosts']),
+    goToPostPage(id) {
+      this.$router.push({ path: `posts/${id}` })
     }
   }
 }
 </script>
 
-<style lang="scss">
-.form__container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  background: $background-black;
-}
+<style lang="scss" scoped>
+.news-feed-post__container {
+  background: $color-white;
+  margin-bottom: 20rem;
 
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
+  .news-feed-post {
+    width: 100%;
+    height: auto;
+    max-width: 50rem;
+    max-height: 30rem;
+    margin: 0 auto;
+    box-shadow: inset 0 0 0 25rem rgba(0, 30, 40, 0.6);
+    transition: all 0.4s;
 
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
+    &:not(:last-child) {
+      margin-bottom: 4rem;
+    }
 
-.links {
-  padding-top: 15px;
+    &:hover {
+      opacity: 0.8;
+      transform: scale(0.99, 0.99);
+    }
+  }
 }
 </style>

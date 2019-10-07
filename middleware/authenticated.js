@@ -8,7 +8,7 @@ export default async ({ route, store, redirect }) => {
   // 一般閲覧可能なページのときは、何もしない
   if (
     store.state.auth.user ||
-    route.path === '/news_feed' ||
+    route.path === '/' ||
     route.path === '/search' ||
     route.path === '/login' ||
     route.path === '/signup' ||
