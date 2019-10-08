@@ -83,6 +83,9 @@ export default {
     AppButton,
     IconBalloon
   },
+  asyncData: context => ({
+    baseUrl: context.env.baseUrl
+  }),
   data: () => ({
     email: '',
     password: '',
@@ -90,6 +93,8 @@ export default {
   }),
   methods: {
     async signup() {
+      console.log(`${this.baseUrl}register-name/`)
+      return
       // 入力したパスワードと確認パスワードが一致していない時
       if (this.password !== this.confirmPassword) {
         console.log('パスワードが一致していません')
@@ -117,7 +122,7 @@ export default {
               .sendEmailVerification({
                 // リダイレクト先のURL
                 // 動作確認のため localhost
-                url: 'https://stayonair.jp/register-name/'
+                url: `${this.baseUrl}register-name/`
               })
               .then(() => {
                 console.log('Successfully sent email')

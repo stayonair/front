@@ -112,7 +112,8 @@ export default {
     PROJECTID,
     STORAGEBUCKET,
     MESSAGINGSENDERID,
-    APPID
+    APPID,
+    baseUrl: process.env.BASE_URL || 'https://stayonair.jp/'
   },
   router: {
     middleware: ['authenticated']
