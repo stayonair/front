@@ -7,7 +7,7 @@
           class="post_thumbnail__header__wrapper"
         >
           <div
-            v-if="isPostPage"
+            v-if="isListPage"
             class="post_thumbnail__nav"
           >
             <left-arrow-icon
@@ -21,11 +21,6 @@
                 {{ post.title }}
               </h1>
             </div>
-            <post-profile 
-              :icon-url="post.author.icon_url"
-              :name="post.author.name"
-              :posted-at="post.posted_at"
-            />
           </div>
         </div>
       </div>
@@ -34,13 +29,9 @@
 </template>
 
 <script>
-import PostProfile from '~/components/Atoms/PostProfile'
 
 export default {
   name: 'PostThumbnail',
-  components: {
-    PostProfile
-  },
   props: {
     post: {
       type: Object,
@@ -48,15 +39,9 @@ export default {
     }
   },
   computed: {
-    isPostPage() {
-      const path = this.$route.path
-      if (
-        !path.includes('/posts') &&
-        !path.includes('/my-posts')
-      ) {
-        return false
-      }
-      return true
+    isListPage() {
+      const { path } = this.$route
+      return (path.match(/\//g) || []).length > 1
     }
   },
   methods: {
@@ -69,6 +54,10 @@ export default {
 
 <style lang="scss" scoped>
 @import '~/assets/post.scss';
+.post_thumbnail__nav {
+  height: 2rem;
+}
+
 .icon__arrow {
   cursor: pointer;
 }

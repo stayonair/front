@@ -39,5 +39,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~/assets/post.scss';  
+@import '~/assets/post.scss';
 </style>

@@ -4,7 +4,13 @@
       <div class="post">
         <post-thumbnail
           :post="post"
-          class="post__thumbnail"
+          class="post_thumbnail"
+        />
+        <post-profile
+          :icon-url="post.author.icon_url"
+          :name="post.author.name"
+          :posted-at="post.posted_at"
+          class="post_profile"
         />
         <div class="episode-play__container">
           <div
@@ -36,6 +42,7 @@
 import { db } from '~/plugins/firebase'
 import { mapState, mapActions } from 'vuex'
 import PostThumbnail from '~/components/Molecules/PostThumbnail'
+import PostProfile from '~/components/Atoms/PostProfile'
 import IconPlay from '~/components/Atoms/Icons/IconPlay'
 
 const postsCollection = db.collection('posts')
@@ -45,6 +52,7 @@ export default {
   layout: 'user',
   components: {
     PostThumbnail,
+    PostProfile,
     IconPlay
   },
   async asyncData({ params }) {
@@ -99,8 +107,12 @@ export default {
   margin-bottom: 12rem;
 }
 
-.post__thumbnail /deep/ {
+.post_thumbnail /deep/ {
   margin-bottom: 3rem;
+
+    @include mobile() {
+      margin-bottom: 1.5rem;
+    }
 
   .post_thumbnail__header__wrapper {
     padding: 8rem 10rem;
@@ -123,21 +135,26 @@ export default {
       }
 
       .post_thumbnail__header {
-        &__title {
-          margin-bottom: 5rem;
-        }
-
         &__tags {
           margin-bottom: 1rem;
         }
 
         @include mobile() {
           &__title {
-            font-size: 2.5rem;
+            font-size: 2rem;
+            font-weight: 200;
           }
         }
       }
     }
+  }
+}
+
+.post_profile {
+  padding-left: 10rem;
+
+  @include mobile() {
+    padding-left: 3rem;
   }
 }
 
