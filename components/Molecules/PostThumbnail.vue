@@ -21,21 +21,11 @@
                 {{ post.title }}
               </h1>
             </div>
-            <div class="post_thumbnail__status">
-              <div class="post_thumbnail__author">
-                <img
-                  :src="post.author.icon_url"
-                  class="post_thumbnail__author_icon"
-                  alt="icon_url"
-                >
-                <span class="post_thumbnail__author_name">
-                  @{{ post.author.name }}
-                </span>
-                <span class="post_thumbnail__posted_at">
-                  {{ getPostedAt(post.posted_at) }}
-                </span>
-              </div>
-            </div>
+            <post-profile 
+              :icon-url="post.author.icon_url"
+              :name="post.author.name"
+              :posted-at="post.posted_at"
+            />
           </div>
         </div>
       </div>
@@ -44,11 +34,13 @@
 </template>
 
 <script>
-import formatDateMixins from '~/mixins/formatDateMixins'
+import PostProfile from '~/components/Atoms/PostProfile'
 
 export default {
   name: 'PostThumbnail',
-  mixins: [formatDateMixins],
+  components: {
+    PostProfile
+  },
   props: {
     post: {
       type: Object,
@@ -59,8 +51,8 @@ export default {
     isPostPage() {
       const path = this.$route.path
       if (
-        path === '/posts' ||
-        path === '/my-posts'
+        !path.includes('/posts') &&
+        !path.includes('/my-posts')
       ) {
         return false
       }

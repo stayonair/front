@@ -109,7 +109,7 @@ export default {
       padding: 5rem;
     }
     @include mobile() {
-      padding: 3rem 1rem 2rem;
+      padding: 1.5rem;
     }
 
     .post_thumbnail__header__container {
