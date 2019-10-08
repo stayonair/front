@@ -69,7 +69,7 @@ export default {
         {
           icon: 'news-feed',
           label: 'ニュースフィード',
-          path: '/posts'
+          path: '/'
         },
         {
           icon: 'search',
@@ -79,7 +79,7 @@ export default {
         {
           icon: 'my-page',
           label: 'マイページ',
-          path: '/posts'
+          path: '/'
         },
         {
           icon: 'follow',
@@ -104,12 +104,12 @@ export default {
         {
           icon: 'category',
           label: 'カテゴリ',
-          path: '/posts'
+          path: '/'
         },
         {
           icon: 'tag',
           label: 'タグ',
-          path: '/posts'
+          path: '/'
         }
       ]
   }),

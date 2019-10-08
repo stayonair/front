@@ -17,6 +17,10 @@ export default async ({ route, store, redirect }) => {
     return
   }
 
+  if (route.path === '/posts') {
+    return redirect('/')
+  }
+
   await firebase.auth().onAuthStateChanged(user => {
     // ログインしていたら、store に追加する
     if (user) {

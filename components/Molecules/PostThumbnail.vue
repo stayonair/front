@@ -60,7 +60,6 @@ export default {
       const path = this.$route.path
       if (
         path === '/' ||
-        path === '/posts' ||
         path === '/my-posts'
       ) {
         return false
@@ -70,7 +69,7 @@ export default {
   },
   methods: {
     goToPrevious() {
-      this.$router.push('/posts')
+      this.$router.push('/')
     }
   }
 }

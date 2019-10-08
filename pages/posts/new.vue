@@ -162,7 +162,7 @@ export default {
       .then(() => {
         console.log(`success!! post ID: ${this.postId}`)
         // 今後マイポスト管理ページに遷移する
-        this.$router.push('/posts')
+        this.$router.push('/my-posts')
       })
       .catch(e => {
         console.error(e)
