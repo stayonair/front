@@ -56,6 +56,11 @@ export default {
 @import '~/assets/post.scss';
 .post_thumbnail__nav {
   height: 2rem;
+  margin-bottom: 2rem;
+
+  @include mobile {
+    margin: 0;
+  }
 }
 
 .icon__arrow {

@@ -67,7 +67,6 @@ export default {
     width: 100%;
     height: auto;
     max-width: 50rem;
-    max-height: 30rem;
     margin: 0 auto;
     padding-bottom: 1rem;
     transition: all 0.4s;

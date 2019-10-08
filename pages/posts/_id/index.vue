@@ -115,20 +115,23 @@ export default {
     }
 
   .post_thumbnail__header__wrapper {
-    padding: 8rem 10rem;
+    padding: 2rem 10rem 5rem;
 
     @include tablet() {
-      padding: 5rem;
+      padding: 3rem;
     }
     @include mobile() {
       padding: 1.5rem;
     }
 
     .post_thumbnail__header__container {
-      padding: 1rem 5rem;
+      max-width: 50rem;
+      margin: 0 auto 3rem;
+      padding: 5rem;
 
       @include tablet() {
-        padding: 0;
+        padding: 4rem;
+        margin-bottom: 4rem;
       }
       @include mobile() {
         padding: 0;
@@ -159,9 +162,15 @@ export default {
 }
 
 .post__article {
+  margin: 0 auto;
   padding: 0 5rem;
+  max-width: 60rem;
   font-size: 1.4rem;
   line-height: 3rem;
+
+  @include mobile {
+    padding: 0 3rem;
+  }
 }
 
 .post-audio__container {
