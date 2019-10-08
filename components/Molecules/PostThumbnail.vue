@@ -21,6 +21,11 @@
                 {{ post.title }}
               </h1>
             </div>
+            <play-episode
+              v-if="isListPage"
+              class="play_episode"
+              @handleAudioPlay="handleAudioPlay"
+            />
           </div>
         </div>
       </div>
@@ -29,9 +34,13 @@
 </template>
 
 <script>
+import PlayEpisode from '~/components/Molecules/PlayEpisode'
 
 export default {
   name: 'PostThumbnail',
+  components: {
+    PlayEpisode
+  },
   props: {
     post: {
       type: Object,
@@ -47,6 +56,9 @@ export default {
   methods: {
     goToPrevious() {
       this.$router.push('/posts')
+    },
+    handleAudioPlay() {
+      this.$emit('handleAudioPlay')
     }
   }
 }
@@ -61,6 +73,15 @@ export default {
   @include mobile {
     margin: 0;
   }
+}
+
+.post_thumbnail__header__wrapper {
+  position: relative;
+}
+.play_episode {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
 }
 
 .icon__arrow {
