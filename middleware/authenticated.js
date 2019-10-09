@@ -25,7 +25,6 @@ export default async ({ route, store, redirect }) => {
     store.state.auth.user ||
     isGeneralPage(route.path)
   ) {
-    console.log('一般ページ')
     return
   }
 

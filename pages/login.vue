@@ -84,7 +84,6 @@ export default {
     login() {
       auth.signInWithEmailAndPassword(this.email, this.password).then(() => {
         this.$router.push('/')
-        console.log(auth.currentUser)
       })
     },
     facebookLogin() {

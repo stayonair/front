@@ -93,8 +93,6 @@ export default {
   }),
   methods: {
     async signup() {
-      console.log(`${this.baseUrl}register-name/`)
-      return
       // 入力したパスワードと確認パスワードが一致していない時
       if (this.password !== this.confirmPassword) {
         console.log('パスワードが一致していません')
