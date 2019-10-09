@@ -1,8 +1,6 @@
 <template>
   <div class="app_user_layout">
     <div>
-      <icon-loading class="loading_icon hidden"/>
-
       <app-header
         class="app_header"
         @click="handleToggleDrawer"
@@ -57,16 +55,13 @@ import AppHeader from '~/components/Molecules/AppHeader'
 import AppAsideMenu from '~/components/Organisms/AppAsideMenu'
 import AppFooter from '~/components/Molecules/AppFooter'
 import AudioBar from '~/components/Organisms/AudioBar'
-import IconLoading from '~/components/Atoms/Icons/IconLoading'
-
 
 export default {
   components: {
     AppHeader,
     AppAsideMenu,
     AppFooter,
-    AudioBar,
-    IconLoading
+    AudioBar
   },
   computed: {
     ...mapState({
@@ -102,39 +97,6 @@ export default {
   /deep/ .content-wrap {
     overflow: scroll;
   }
-}
-
-.loading_icon {
-  position: absolute;
-  -webkit-animation: loading_icon 5s linear infinite;
-  animation: loading_icon 5s linear infinite;
-  left: 69rem;
-
-  @include tablet() {
-    left: 34rem;
-  }
-
-  @include mobile() {
-    left: 15rem;
-  }
-}
-
-@-webkit-keyframes loading_icon {
-	0% { -webkit-transform: rotate(0deg); }
-	100% { -webkit-transform: rotate(360deg); }
-}
-
-@keyframes loading_icon {
-	0% { transform: rotate(0deg); }
-	100% { transform: rotate(360deg); }
-}
-
-.hidden {
-  // display: none;
-}
-
-.showed {
-  display: block;
 }
 
 .vue_drawer_layout {
