@@ -56,8 +56,8 @@ export default {
           // photoURL: ''
         })
         .then(() => {
-          console.log('Update successful')
-          this.$router.push('/posts')
+          console.log('Profile update successful')
+          this.$router.push('/')
         })
         .catch(e => {
           console.error(e)
