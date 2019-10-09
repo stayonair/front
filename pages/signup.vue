@@ -83,6 +83,9 @@ export default {
     AppButton,
     IconBalloon
   },
+  asyncData: context => ({
+    baseUrl: context.env.baseUrl
+  }),
   data: () => ({
     email: '',
     password: '',
@@ -117,10 +120,11 @@ export default {
               .sendEmailVerification({
                 // リダイレクト先のURL
                 // 動作確認のため localhost
-                url: 'http://localhost:3000/register-name'
+                url: `${this.baseUrl}register-name/`
               })
               .then(() => {
                 console.log('Successfully sent email')
+                // メールを送信したことがわかるページに遷移する
               })
           }
         })
@@ -131,13 +135,13 @@ export default {
     facebookLogin() {
       const facebook = new firebase.auth.FacebookAuthProvider()
       auth.signInWithPopup(facebook).then(() => {
-        this.$router.push('/posts/')
+        this.$router.push('/register-name')
       })
     },
     twitterLogin() {
       const twitter = new firebase.auth.TwitterAuthProvider()
       auth.signInWithPopup(twitter).then(() => {
-        this.$router.push('/posts')
+        this.$router.push('/register-name')
       })
     }
   }

@@ -59,7 +59,7 @@ export default {
     isPostPage() {
       const path = this.$route.path
       if (
-        path === '/posts' ||
+        path === '/' ||
         path === '/my-posts'
       ) {
         return false
@@ -69,7 +69,7 @@ export default {
   },
   methods: {
     goToPrevious() {
-      this.$router.push('/posts')
+      this.$router.push('/')
     }
   }
 }
