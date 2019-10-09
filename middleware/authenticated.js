@@ -2,18 +2,30 @@ import firebase from '~/plugins/firebase'
 
 firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
 
+// 一般閲覧可能なページのパスリスト
+const pathList = [
+  '/',
+  '/search',
+  '/login',
+  '/signup',
+  '/register-name'
+]
+
+// 一般ページかどうかチェックする関数
+const isGeneralPage = path => {
+  return pathList.some(_path => {
+    return path === _path
+  })
+}
+
 export default async ({ route, store, redirect }) => {
   
   // store にログイン情報があるとき
-  // 一般閲覧可能なページのときは、何もしない
   if (
     store.state.auth.user ||
-    route.path === '/' ||
-    route.path === '/search' ||
-    route.path === '/login' ||
-    route.path === '/signup' ||
-    route.path === '/signup_name'
+    isGeneralPage(route.path)
   ) {
+    console.log('一般ページ')
     return
   }
 
