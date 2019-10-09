@@ -1,16 +1,18 @@
 <template>
   <div class="app_user_layout">
     <div>
+      <icon-loading class="loading_icon hidden"/>
+
       <app-header
         class="app_header"
         @click="handleToggleDrawer"
       />
-      <div 
+      <!-- <div 
         class="icon-record__container"
         @click="$router.push('/recording')"
-      >
+      > -->
         <!-- <icon-record /> 宙に浮いた録音アイコン。念の為残してます-->
-      </div>
+      <!-- </div> -->
       <audio-bar
         v-if="isAudioData"
         class="post_audio"
@@ -55,7 +57,7 @@ import AppHeader from '~/components/Molecules/AppHeader'
 import AppAsideMenu from '~/components/Organisms/AppAsideMenu'
 import AppFooter from '~/components/Molecules/AppFooter'
 import AudioBar from '~/components/Organisms/AudioBar'
-// import IconRecord from '~/components/Atoms/Icons/IconRecord'
+import IconLoading from '~/components/Atoms/Icons/IconLoading'
 
 
 export default {
@@ -64,7 +66,7 @@ export default {
     AppAsideMenu,
     AppFooter,
     AudioBar,
-    // IconRecord
+    IconLoading
   },
   computed: {
     ...mapState({
@@ -96,9 +98,43 @@ export default {
 
 <style scoped lang="scss">
 .vue_drawer_layout {
+  position: relative;
   /deep/ .content-wrap {
     overflow: scroll;
   }
+}
+
+.loading_icon {
+  position: absolute;
+  -webkit-animation: loading_icon 5s linear infinite;
+  animation: loading_icon 5s linear infinite;
+  left: 69rem;
+
+  @include tablet() {
+    left: 34rem;
+  }
+
+  @include mobile() {
+    left: 15rem;
+  }
+}
+
+@-webkit-keyframes loading_icon {
+	0% { -webkit-transform: rotate(0deg); }
+	100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes loading_icon {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
+
+.hidden {
+  // display: none;
+}
+
+.showed {
+  display: block;
 }
 
 .vue_drawer_layout {
