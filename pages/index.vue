@@ -80,7 +80,7 @@ export default {
   position: absolute;
   -webkit-animation: loading_icon 5s linear infinite;
   animation: loading_icon 5s linear infinite;
-  left: 69rem;
+  left: 59rem;
 
   @include tablet() {
     left: 34rem;

@@ -1,5 +1,9 @@
 <template>
   <div class="new__container">
+    <icon-loading
+      v-if="isLoading"
+      class="loading_icon"
+    />
     <div class="new">
       <main
         class="title__container"
@@ -68,6 +72,7 @@
 
 <script>
 import AppButton from '~/components/Atoms/AppButton'
+import IconLoading from '~/components/Atoms/Icons/IconLoading'
 import EditorJS from '@editorjs/editorjs'
 import { mapState } from 'vuex'
 import firebase, { db, storage } from '~/plugins/firebase'
@@ -76,7 +81,8 @@ const thumbnailStorageRef = storage.ref('thumbnails')
 
 export default {
   components: {
-    AppButton
+    AppButton,
+    IconLoading
   },
   middleware({ store, redirect }) {
     if (!store.state.post.postData.audioUrl) {
@@ -84,6 +90,7 @@ export default {
     }
   },
   data:() => ({
+    isLoading: false,
     editor: null,
     postData: {
       title: '',
@@ -133,6 +140,7 @@ export default {
       })
     },
     async uploadPost() {
+      this.isLoading = true
       if (!this.rawImageFile) {
         console.log('Nothing Image File')
         return
@@ -160,6 +168,7 @@ export default {
 
       db.collection('posts').doc(this.postId).set(requestPostData)
       .then(() => {
+        this.isLoading = false
         console.log(`success!! post ID: ${this.postId}`)
         // 今後マイポスト管理ページに遷移する
         this.$router.push('/my-posts')
@@ -280,4 +289,28 @@ export default {
   }
 }
 
+.loading_icon {
+  position: absolute;
+  -webkit-animation: loading_icon 5s linear infinite;
+  animation: loading_icon 5s linear infinite;
+  left: 59rem;
+
+  @include tablet() {
+    left: 34rem;
+  }
+
+  @include mobile() {
+    left: 15rem;
+  }
+}
+
+@-webkit-keyframes loading_icon {
+	0% { -webkit-transform: rotate(0deg); }
+	100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes loading_icon {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
 </style>
