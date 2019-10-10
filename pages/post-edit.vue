@@ -133,7 +133,6 @@ export default {
     },
     async getArticleData() {
       await this.editor.save().then(data => {
-        console.log(data)
         this.post.article = JSON.stringify(data.blocks)
       })
     },
