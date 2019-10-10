@@ -12,8 +12,8 @@
         />
         <input
           id="ref-image"
-          type="file"
           ref="file"
+          type="file"
           multiple
           accept="image/jpeg, image/png"
           @change="inputImage"
@@ -162,7 +162,7 @@ export default {
       .then(() => {
         console.log(`success!! post ID: ${this.postId}`)
         // 今後マイポスト管理ページに遷移する
-        this.$router.push('/posts')
+        this.$router.push('/my-posts')
       })
       .catch(e => {
         console.error(e)

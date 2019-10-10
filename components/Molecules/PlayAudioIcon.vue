@@ -4,7 +4,7 @@
       class="icon-play__container"
       @click="audioPlay"
     >
-      <icon-play class="icon-play"/>
+      <icon-play class="icon-play" />
     </div>
   </div>
 </template>
@@ -13,7 +13,7 @@
 import IconPlay from '~/components/Atoms/Icons/IconPlay'
 
 export default {
-  name: 'PlayEpisode',
+  name: 'PlayAudioIcon',
   components: {
     IconPlay
   },

@@ -38,7 +38,7 @@ export default {
     buttonLinks: [
       {
         icon: 'balloon',
-        path: '/posts'
+        path: '/'
       },
       {
         icon: 'record',

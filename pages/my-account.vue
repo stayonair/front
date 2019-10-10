@@ -5,11 +5,13 @@
       @submit.prevent=""
     >
       <div class="save__wrapper">
-        <div class="edit-title">Settings</div>
+        <div class="edit-title">
+          Settings
+        </div>
         <app-button
-            class="button--submit"
-            text="Save"
-          />
+          class="button--submit"
+          text="Save"
+        />
       </div>
       
       <div class="my-account__user_container">
@@ -28,7 +30,7 @@
                 multiple
                 accept="image/jpeg, image/png"
               >
-              <div class="boxFileSelect"></div>
+              <div class="boxFileSelect" />
             </label>
           </div>
         </div>
@@ -44,32 +46,32 @@
       </div>
 
       <div class="setting-form__container">
-          <form-input
-            class="setting-detail"
-            type="register-name"
-            name="register-name"
-            placeholder="New Register Name"
-          />
-          <form-input
-            class="setting-detail"
-            type="email"
-            name="email"
-            placeholder="New Email"
-          />
-          <form-input
-            class="setting-detail"
-            type="password"
-            name="password"
-            placeholder="New Password"
-            autocomplete="off"
-          />
-          <form-input
-            class="setting-detail"
-            type="password"
-            name="password-confirm"
-            placeholder="New Password Confirm"
-            autocomplete="off"
-          />
+        <form-input
+          class="setting-detail"
+          type="register-name"
+          name="register-name"
+          placeholder="New Register Name"
+        />
+        <form-input
+          class="setting-detail"
+          type="email"
+          name="email"
+          placeholder="New Email"
+        />
+        <form-input
+          class="setting-detail"
+          type="password"
+          name="password"
+          placeholder="New Password"
+          autocomplete="off"
+        />
+        <form-input
+          class="setting-detail"
+          type="password"
+          name="password-confirm"
+          placeholder="New Password Confirm"
+          autocomplete="off"
+        />
       </div>
     </form>
   </div>
@@ -82,7 +84,7 @@ import FormInput from '~/components/Molecules/FormInput'
 import AppButton from '~/components/Atoms/AppButton'
 
 export default {
-  name: 'my-account',
+  name: 'MyAccount',
   layout: 'user',
   components: {
     IconCamera,

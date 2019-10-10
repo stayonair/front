@@ -76,7 +76,8 @@ export default {
   plugins: [
     '~/plugins/vue-material',
     '~/plugins/firebase',
-    '~/plugins/vue-drawer-layout'
+    '~/plugins/vue-drawer-layout',
+    '~/plugins/sanitize-html'
   ],
 
   /*
@@ -112,7 +113,8 @@ export default {
     PROJECTID,
     STORAGEBUCKET,
     MESSAGINGSENDERID,
-    APPID
+    APPID,
+    baseUrl: process.env.BASE_URL || 'https://stayonair.jp/'
   },
   router: {
     middleware: ['authenticated']

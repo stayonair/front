@@ -5,7 +5,7 @@
         <post-thumbnail
           :post="post"
           class="post_thumbnail"
-          @handleAudioPlay="audioPlay"
+          @playAudio="playAudio"
         />
         <post-profile
           :icon-url="post.author.icon_url"
@@ -18,7 +18,7 @@
           :key="index"
           class="post__article"
         >
-        <p v-html="doc.data.text" />
+          <p>{{ $sanitize(doc.data.text) }}</p>
         </div>
       </div>
     </div>
@@ -28,8 +28,8 @@
 <script>
 import { db } from '~/plugins/firebase'
 import { mapState, mapActions } from 'vuex'
-import PostThumbnail from '~/components/Molecules/PostThumbnail'
 import PostProfile from '~/components/Atoms/PostProfile'
+import PostThumbnail from '~/components/Molecules/PostThumbnail'
 
 const postsCollection = db.collection('posts')
 
@@ -37,8 +37,8 @@ export default {
   name: 'Post',
   layout: 'user',
   components: {
-    PostThumbnail,
-    PostProfile
+    PostProfile,
+    PostThumbnail
   },
   async asyncData({ params }) {
     return await postsCollection.doc(params.id).get()
@@ -58,7 +58,7 @@ export default {
   },
   methods: {
     ...mapActions('audio',['setAudioData', 'resetAudioData']),
-    async audioPlay() {
+    async playAudio() {
       await this.setAudio()
     },
     async setAudio() {

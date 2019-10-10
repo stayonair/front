@@ -23,8 +23,8 @@
 
     <!-- ⬇プラグイン -->
     <vue-drawer-layout
-      class="vue_drawer_layout"
       ref="drawerLayout"
+      class="vue_drawer_layout"
       :z-index="10"
       :backdrop="true"
       :drawer-width="250"
@@ -35,7 +35,7 @@
         slot="drawer"
         class="drawer-content"
       >
-        <app-aside-menu @click="hideDrawerMenu"/>
+        <app-aside-menu @click="hideDrawerMenu" />
       </div>
       <div
         slot="content"

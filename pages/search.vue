@@ -42,7 +42,7 @@ import PostThumbnail from '~/components/Molecules/PostThumbnail'
 import IconSearch from '~/components/Atoms/Icons/IconSearch'
 
 export default {
-  name: 'search',
+  name: 'Search',
   layout: 'user',
   components: {
     PostThumbnail,

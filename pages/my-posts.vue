@@ -39,11 +39,11 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState } from 'vuex'
 import PostThumbnail from '~/components/Molecules/PostThumbnail'
 
 export default {
-  name: 'my-posts',
+  name: 'MyPosts',
   layout: 'user',
   components: {
     PostThumbnail

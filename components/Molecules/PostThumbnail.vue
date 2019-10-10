@@ -7,7 +7,7 @@
           class="post_thumbnail__header__wrapper"
         >
           <div
-            v-if="isListPage"
+            v-if="isSinglePostPage"
             class="post_thumbnail__nav"
           >
             <left-arrow-icon
@@ -21,9 +21,9 @@
                 {{ post.title }}
               </h1>
             </div>
-            <play-episode
-              v-if="isListPage"
-              class="play_episode"
+            <play-audio-icon
+              v-if="isSinglePostPage"
+              class="play_audio__icon"
               @handleAudioPlay="handleAudioPlay"
             />
           </div>
@@ -34,12 +34,12 @@
 </template>
 
 <script>
-import PlayEpisode from '~/components/Molecules/PlayEpisode'
+import PlayAudioIcon from '~/components/Molecules/PlayAudioIcon'
 
 export default {
   name: 'PostThumbnail',
   components: {
-    PlayEpisode
+    PlayAudioIcon
   },
   props: {
     post: {
@@ -48,17 +48,17 @@ export default {
     }
   },
   computed: {
-    isListPage() {
+    isSinglePostPage() {
       const { path } = this.$route
       return (path.match(/\//g) || []).length > 1
     }
   },
   methods: {
     goToPrevious() {
-      this.$router.push('/posts')
+      this.$router.push('/')
     },
     handleAudioPlay() {
-      this.$emit('handleAudioPlay')
+      this.$emit('playAudio')
     }
   }
 }
@@ -78,7 +78,7 @@ export default {
 .post_thumbnail__header__wrapper {
   position: relative;
 }
-.play_episode {
+.play_audio__icon {
   position: absolute;
   right: 1rem;
   bottom: 1rem;
