@@ -93,8 +93,8 @@ export const mutations = {
 }
 
 export const actions = {
-  initPosts: firestoreAction(({ bindFirestoreRef }) => {
-    bindFirestoreRef('posts', postsCollection.orderBy('posted_at', 'desc'))
+  initPosts: firestoreAction( async ({ bindFirestoreRef }) => {
+    await bindFirestoreRef('posts', postsCollection.orderBy('posted_at', 'desc'))
   }),
   addPostId({ commit }, id) {
     commit('ADD_POST_ID', id)
