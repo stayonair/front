@@ -20,7 +20,7 @@
           ref="file"
           multiple
           accept="image/jpeg, image/png"
-          @change="inputImage"
+          @change="inputImage()"
         >
         <label
           for="ref-image"
@@ -57,13 +57,13 @@
           class="app_button cancel_button"
           text="CANCEL"
           color="gray"
-          @click="handleClick"
+          @click="handleClick()"
         />
         <app-button
           class="app_button post_button"
           text="POST"
           color="pink"
-          @click="uploadPost"
+          @click="uploadPost()"
         />
       </div>
     </div>
@@ -91,6 +91,7 @@ export default {
   },
   data:() => ({
     isLoading: false,
+    isDisabled: false,
     editor: null,
     postData: {
       title: '',
@@ -141,10 +142,12 @@ export default {
     },
     async uploadPost() {
       this.isLoading = true
-      if (!this.rawImageFile) {
-        console.log('Nothing Image File')
+      
+      if (this.isDisabled) {
         return
       }
+      this.isDisabled = true
+      
       // 1, サムネイル画像をアップロードする
       await this.uploadThumbnailImage(this.rawImageFile)
 
@@ -169,6 +172,7 @@ export default {
       db.collection('posts').doc(this.postId).set(requestPostData)
       .then(() => {
         this.isLoading = false
+        this.isDisabled = false
         console.log(`success!! post ID: ${this.postId}`)
         // 今後マイポスト管理ページに遷移する
         this.$router.push('/my-posts')
@@ -178,7 +182,11 @@ export default {
       })
     },
     handleClick() {
+      this.isLoading = true
+      this.isDisabled = true
       console.log('clicked!!')
+      this.isLoading = false
+      this.isDisabled = false
     }
   }
 }
@@ -296,11 +304,11 @@ export default {
   left: 59rem;
 
   @include tablet() {
-    left: 34rem;
+    left: 35.5rem;
   }
 
   @include mobile() {
-    left: 15rem;
+    left: 16rem;
   }
 }
 

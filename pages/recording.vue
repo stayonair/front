@@ -46,6 +46,7 @@ export default {
   data: () => ({
     isActiveRecord: false,
     isLoading: false,
+    isDisabled: false,
     rawAudioData: null,
     previewAudioData: null,
     timerId: null,
@@ -57,7 +58,6 @@ export default {
     async handleRecord() {
       // 録音状態だったら
       if (this.isActiveRecord) {
-        // this.isActiveRecord = false
         clearInterval(this.timerId)
         await this.stopRecording()
         await this.uploadAudioData(this.rawAudioData)
@@ -102,6 +102,10 @@ export default {
     async uploadAudioData(data) {
       // ここでの ID がポストID & ファイル名になる
       this.isLoading = true
+      if (this.isDisabled) {
+        return
+      }
+      this.isDisabled = true
       const id = this.createId()
       const audioRef = audioStorageRef.child(id)
       await audioRef.put(data).then(snapshot => {
@@ -112,6 +116,7 @@ export default {
         this.addPostId(id)
         this.addAudioUrl(url)
         this.isLoading = false
+        this.isDisabled = false
       })
     }
   }
@@ -147,11 +152,11 @@ export default {
   left: 59rem;
 
   @include tablet() {
-    left: 34rem;
+    left: 35.5rem;
   }
 
   @include mobile() {
-    left: 15rem;
+    left: 16rem;
   }
 }
 

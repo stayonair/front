@@ -30,7 +30,8 @@ export default {
     PostThumbnail
   },
   data:() => ({
-    isLoading: false
+    isLoading: false,
+    isDisabled: false
   }),
   computed: {
     ...mapState({
@@ -39,8 +40,13 @@ export default {
   },
   async created() {
     this.isLoading = true
+    if (this.isDisabled) {
+      return
+    }
+    this.isDisabled = true
     await this.initPosts()
     this.isLoading = false
+    this.isDisabled = false
   },
   methods: {
     ...mapActions('post', ['initPosts']),
@@ -83,11 +89,11 @@ export default {
   left: 59rem;
 
   @include tablet() {
-    left: 34rem;
+    left: 35.5rem;
   }
 
   @include mobile() {
-    left: 15rem;
+    left: 16rem;
   }
 }
 
