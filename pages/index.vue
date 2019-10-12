@@ -1,5 +1,9 @@
 <template>
   <div class="news-feed-post__wrapper">
+    <icon-loading
+      v-if="isLoading"
+      class="loading_icon"
+    />
     <div class="news-feed-post__container">
       <div
         v-for="(post, key) in feedPosts"
@@ -15,21 +19,34 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import IconLoading from '~/components/Atoms/Icons/IconLoading'
 import PostThumbnail from '~/components/Molecules/PostThumbnail'
 
 export default {
   name: 'NewsFeed',
   layout: 'user',
   components: {
+    IconLoading,
     PostThumbnail
   },
+  data:() => ({
+    isLoading: false,
+    isDisabled: false
+  }),
   computed: {
     ...mapState({
       feedPosts: store => store.post.posts
     })
   },
-  created() {
-    this.initPosts()
+  async created() {
+    this.isLoading = true
+    if (this.isDisabled) {
+      return
+    }
+    this.isDisabled = true
+    await this.initPosts()
+    this.isLoading = false
+    this.isDisabled = false
   },
   methods: {
     ...mapActions('post', ['initPosts']),
@@ -64,4 +81,30 @@ export default {
     }
   }
 }
+
+.loading_icon {
+  position: absolute;
+  -webkit-animation: loading_icon 5s linear infinite;
+  animation: loading_icon 5s linear infinite;
+  left: 59rem;
+
+  @include tablet() {
+    left: 35.5rem;
+  }
+
+  @include mobile() {
+    left: 16rem;
+  }
+}
+
+@-webkit-keyframes loading_icon {
+	0% { -webkit-transform: rotate(0deg); }
+	100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes loading_icon {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
 </style>
+
