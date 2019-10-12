@@ -90,6 +90,7 @@ export default {
 .post__container {
   background-color: $color-white;
   margin-bottom: 12rem;
+  height: 100%;
 }
 
 .post_thumbnail /deep/ {
@@ -147,7 +148,7 @@ export default {
 }
 
 .post__article {
-  margin: 0 auto;
+  margin: 4rem auto 0;
   padding: 0 5rem;
   max-width: 60rem;
   font-size: 1.4rem;
