@@ -11,9 +11,7 @@ html {
 body {
   position: relative;
   min-height: 100vh;
-  // padding-top: 10rem;
-  // padding-bottom: 8rem;
-  background-color: #fafbfd;
+  background-color: $color-white;
   color: $base-text-color;
   font-family: $global-font-family;
   font-size: 1rem;

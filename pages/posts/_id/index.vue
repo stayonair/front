@@ -4,28 +4,21 @@
       <div class="post">
         <post-thumbnail
           :post="post"
-          class="post__thumbnail"
+          class="post_thumbnail"
+          @playAudio="playAudio"
         />
-        <div class="episode-play__container">
-          <div
-            class="icon-play__container"
-            @click="audioPlay"
-          >
-            <icon-play class="icon-play"/>
-          </div>
-          <p
-            class="episode-play__text"
-            @click="audioPlay"
-          >
-            Play Episode
-          </p>
-        </div>
+        <post-profile
+          :icon-url="post.author.icon_url"
+          :name="post.author.name"
+          :posted-at="post.posted_at"
+          class="post_profile"
+        />
         <div
           v-for="(doc , index) in post.article"
           :key="index"
           class="post__article"
         >
-        <p v-html="doc.data.text" />
+          <p>{{ $sanitize(doc.data.text) }}</p>
         </div>
       </div>
     </div>
@@ -35,8 +28,8 @@
 <script>
 import { db } from '~/plugins/firebase'
 import { mapState, mapActions } from 'vuex'
+import PostProfile from '~/components/Atoms/PostProfile'
 import PostThumbnail from '~/components/Molecules/PostThumbnail'
-import IconPlay from '~/components/Atoms/Icons/IconPlay'
 
 const postsCollection = db.collection('posts')
 
@@ -44,19 +37,19 @@ export default {
   name: 'Post',
   layout: 'user',
   components: {
-    PostThumbnail,
-    IconPlay
+    PostProfile,
+    PostThumbnail
   },
   async asyncData({ params }) {
-      return await postsCollection.doc(params.id).get()
-        .then(doc => {
-          const data = doc.data()
-          const articleData = JSON.parse(data.article)
-          data.article = articleData
-          return  {
-            post: data
-          }
-        })
+    return await postsCollection.doc(params.id).get()
+      .then(doc => {
+        const data = doc.data()
+        const articleData = JSON.parse(data.article)
+        data.article = articleData
+        return  {
+          post: data
+        }
+      })
   },
   computed: {
     ...mapState({
@@ -65,7 +58,7 @@ export default {
   },
   methods: {
     ...mapActions('audio',['setAudioData', 'resetAudioData']),
-    async audioPlay() {
+    async playAudio() {
       await this.setAudio()
     },
     async setAudio() {
@@ -97,43 +90,48 @@ export default {
 .post__container {
   background-color: $color-white;
   margin-bottom: 12rem;
+  height: 100%;
 }
 
-.post__thumbnail /deep/ {
+.post_thumbnail /deep/ {
   margin-bottom: 3rem;
 
+    @include mobile() {
+      margin-bottom: 1.5rem;
+    }
+
   .post_thumbnail__header__wrapper {
-    padding: 8rem 10rem;
+    padding: 2rem 10rem 5rem;
 
     @include tablet() {
-      padding: 5rem;
+      padding: 3rem;
     }
     @include mobile() {
-      padding: 3rem 1rem 2rem;
+      padding: 1.5rem;
     }
 
     .post_thumbnail__header__container {
-      padding: 1rem 5rem;
+      max-width: 50rem;
+      margin: 0 auto 3rem;
+      padding: 5rem;
 
       @include tablet() {
-        padding: 0;
+        padding: 4rem;
+        margin-bottom: 4rem;
       }
       @include mobile() {
         padding: 0;
       }
 
       .post_thumbnail__header {
-        &__title {
-          margin-bottom: 5rem;
-        }
-
         &__tags {
           margin-bottom: 1rem;
         }
 
         @include mobile() {
           &__title {
-            font-size: 2.5rem;
+            font-size: 2rem;
+            font-weight: 200;
           }
         }
       }
@@ -141,44 +139,28 @@ export default {
   }
 }
 
+.post_profile {
+  padding-left: 10rem;
+
+  @include mobile() {
+    padding-left: 3rem;
+  }
+}
+
 .post__article {
+  margin: 4rem auto 0;
   padding: 0 5rem;
+  max-width: 60rem;
   font-size: 1.4rem;
   line-height: 3rem;
+
+  @include mobile {
+    padding: 0 3rem;
+  }
 }
 
 .post-audio__container {
   text-align: center;
   padding: 3rem 0;
-}
-
-// 仮再生ボタン
-.episode-play__container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 3rem;
-}
-
-.icon-play__container {
-  position: relative;
-  width: 4rem;
-  height: 4rem;
-  background-color: $button-gray;
-  border-radius: 50%;
-  margin-right: 1.4rem;
-}
-
-.icon-play {
-  position: absolute;
-  width: 2rem;
-  fill: #fff;
-  left: 30%;
-}
-
-.episode-play__text {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 0
 }
 </style>

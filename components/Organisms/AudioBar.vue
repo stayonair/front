@@ -1,19 +1,19 @@
 <template>
   <div>
     <div
+      v-if="isOpened"
       class="mask"
-      :class="classForAudioDetail"
-      @click="removeMask()"
+      @click="isOpened = !isOpened"
     />
     <div class="modal" />
     <div
       class="audio__wrapper"
-      :class="className"
+      :class="isOpened ? 'audio--open' : 'audio--close'"
     >
       <div class="icon-title-play-btn__wrapper">
         <div
           class="icon-title__container"
-          @click="changeAudioFooterSize()"
+          @click="isOpened = !isOpened"
         >
           <div class="traveler-icon__container">
             <img
@@ -31,7 +31,7 @@
 
         <!-- play / pause アイコン （小）ここから-->
         <div
-          :class="classForPlayIcon"
+          v-if="!isOpened"
           class="icon_controls__container"
         >
           <div
@@ -54,7 +54,7 @@
             </div>
           </div>
           <div class="icon_close__container">
-            <span @click="closeAudioBar()">✕</span>
+            <span @click="resetAudioData()">✕</span>
           </div>
         </div>
         <!-- play / pause アイコン （小）ここまで-->
@@ -71,7 +71,11 @@
         </audio>
       </figure>
 
-      <div :class="classForAudioDetail">
+      <div
+        v-if="isOpened"
+        class="input_range__container"
+      >
+        {{ audioDuration * audioProgress / 100 | convertToMinites }}
         <input
           v-model="audioProgress"
           class="input_range"
@@ -82,13 +86,12 @@
           value="0"
           @change="seekingAudio()"
         >
-        {{ audioCurrentTime | showMinutes }} / {{ audioDuration | showMinutes }}
+        {{ audioDuration | convertToMinites }}
         <!-- 経過時間 / 全体 -->
-        <p>{{ audioProgress | showPercents }}%</p>
       </div>
       <!-- range ここまで -->
 
-      <div :class="classForAudioDetail">
+      <div v-if="isOpened">
         <div class="control-audio-seconds">
           <div
             class="icon_undo__container"
@@ -152,32 +155,22 @@ export default {
     IconUndo
   },
   filters: {
-    showMinutes(value) {
+    convertToMinites(value) {
       if (!value) {
         return '00:00'
       }
-      const minute = value > 60 ? value / 60 : '00'
+      const minute = value > 60 ? ('00' + (value / 60).toFixed(0)).slice(-2) : '00'
       const second = ('00' + (value % 60).toFixed(0)).slice(-2)
       return `${minute}:${second}`
-    },
-    showPercents(value) {
-      if (!value) {
-        return '0'
-      }
-      const percents = parseFloat(value).toFixed(0)
-      return percents
     }
   },
   data: () => ({
-    className: 'audio--close',
-    classForPlayIcon: 'showed',
-    classForAudioDetail: 'hidden',
+    isOpened: false,
     isPlaying: false,
     audioProgress: 0,
     audioDuration: null, // audioトータル時間
     audioCurrentTime: null, // audio 経過時間
     timerObj: null,
-    // audioData: 'http://www.voice-pro.jp/announce/mp3/001-sibutomo.mp3'
   }),
   computed: {
     ...mapState({
@@ -192,7 +185,6 @@ export default {
     // audio data を template の audio タグ と紐付ける
     const audio = new Audio(this.audio.audio_url)
     this.$refs.audio = audio
-    console.log(this.$refs)
     await audio.load()
     audio.onloadedmetadata = () => {
       this.audioDuration = audio.duration
@@ -208,17 +200,6 @@ export default {
   },
   methods: {
     ...mapActions('audio',['resetAudioData']),
-    changeAudioFooterSize() {
-      if (this.className === 'audio--open') {
-        this.className = 'audio--close'
-        this.classForPlayIcon = 'showed'
-        this.classForAudioDetail = 'hidden'
-      } else if (this.className !== 'audio--open') {
-        this.className = 'audio--open'
-        this.classForPlayIcon = 'hidden'
-        this.classForAudioDetail = 'showed'
-      }
-    },
     playAudio() {
       if (this.isPlaying) {
         return
@@ -273,15 +254,6 @@ export default {
       if (this.isPlaying) {
         this.$refs.audio.currentTime = this.audioCurrentTime + value
       }
-    },
-    removeMask() {
-      this.classForMask = 'hidden'
-      this.className = 'audio--close'
-      this.classForPlayIcon = 'showed'
-      this.classForAudioDetail = 'hidden'
-    },
-    closeAudioBar() {
-      this.resetAudioData()
     }
   }
 }
@@ -301,7 +273,8 @@ export default {
   height: 10rem;
   background: $color-white;
   color: $dark-gray-text-color;
-  padding: 1.5rem 0.5rem;
+  border-top: 0.1rem solid $dark-gray-text-color;
+  padding: 1.2rem 0.5rem 1.5rem;
   width: 100vw;
   display: flex;
   flex-direction: column;
@@ -365,11 +338,15 @@ export default {
 .icon_play {
   position: absolute;
   top: 0;
-  left: 28%;
-  width: 1.5rem;
+  left: 30%;
+  width: 1.3rem;
 }
 
 .icon_pause {
+  position: absolute;
+  width: 2.2rem;
+  left: 2px;
+  top: 1px;
   margin-top: -0.9rem;
 }
 
@@ -402,13 +379,16 @@ export default {
 
 .input_range {
   width: 20rem;
-  margin-left: 1rem;
   -webkit-appearance: none;
   appearance: none;
   background-color: $dark-gray-text-color;
   height: 2px;
   width: 70vw;
   border-radius: 6px;
+
+  &__container {
+    margin-bottom: 2.5rem;
+  }
 
   &:focus,
   &:active {
@@ -451,14 +431,6 @@ export default {
 .modal {
   width: 100%;
   background: $color-white;
-}
-
-.hidden {
-  display: none;
-}
-
-.showed {
-  display: block;
 }
 
 .icon_play-pause__container {

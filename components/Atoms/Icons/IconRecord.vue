@@ -1,11 +1,11 @@
 <template>
   <!-- <?xml version="1.0"?> -->
   <svg
+    id="Capa_1" 
     class="icon--record" 
     xmlns="http://www.w3.org/2000/svg" 
     xmlns:xlink="http://www.w3.org/1999/xlink" 
     version="1.1" 
-    id="Capa_1" 
     x="0px" 
     y="0px" 
     viewBox="0 0 484.5 484.5" 
