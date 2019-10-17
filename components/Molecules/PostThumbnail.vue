@@ -7,7 +7,7 @@
           class="post_thumbnail__header__wrapper"
         >
           <div
-            v-if="isPostPage"
+            v-if="isSinglePostPage"
             class="post_thumbnail__nav"
           >
             <left-arrow-icon
@@ -21,21 +21,11 @@
                 {{ post.title }}
               </h1>
             </div>
-            <div class="post_thumbnail__status">
-              <div class="post_thumbnail__author">
-                <img
-                  :src="post.author.icon_url"
-                  class="post_thumbnail__author_icon"
-                  alt="icon_url"
-                >
-                <span class="post_thumbnail__author_name">
-                  @{{ post.author.name }}
-                </span>
-                <span class="post_thumbnail__posted_at">
-                  {{ getPostedAt(post.posted_at) }}
-                </span>
-              </div>
-            </div>
+            <play-audio-icon
+              v-if="isSinglePostPage"
+              class="play_audio__icon"
+              @handleAudioPlay="handleAudioPlay"
+            />
           </div>
         </div>
       </div>
@@ -44,11 +34,13 @@
 </template>
 
 <script>
-import formatDateMixins from '~/mixins/formatDateMixins'
+import PlayAudioIcon from '~/components/Molecules/PlayAudioIcon'
 
 export default {
   name: 'PostThumbnail',
-  mixins: [formatDateMixins],
+  components: {
+    PlayAudioIcon
+  },
   props: {
     post: {
       type: Object,
@@ -56,20 +48,17 @@ export default {
     }
   },
   computed: {
-    isPostPage() {
-      const path = this.$route.path
-      if (
-        path === '/posts' ||
-        path === '/my-posts'
-      ) {
-        return false
-      }
-      return true
+    isSinglePostPage() {
+      const { path } = this.$route
+      return (path.match(/\//g) || []).length > 1
     }
   },
   methods: {
     goToPrevious() {
-      this.$router.push('/posts')
+      this.$router.push('/')
+    },
+    handleAudioPlay() {
+      this.$emit('playAudio')
     }
   }
 }
@@ -77,6 +66,24 @@ export default {
 
 <style lang="scss" scoped>
 @import '~/assets/post.scss';
+.post_thumbnail__nav {
+  height: 2rem;
+  margin-bottom: 2rem;
+
+  @include mobile {
+    margin: 0;
+  }
+}
+
+.post_thumbnail__header__wrapper {
+  position: relative;
+}
+.play_audio__icon {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+}
+
 .icon__arrow {
   cursor: pointer;
 }

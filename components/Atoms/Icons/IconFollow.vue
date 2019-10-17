@@ -1,9 +1,10 @@
 <template>
   <!-- <?xml version="1.0" ?><!DOCTYPE svg  PUBLIC '-//W3C//DTD SVG 1.1//EN'  'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'> -->
   <svg 
+    id="Layer_1" 
     class="icon--follow"
     enable-background="new 0 0 91 91" 
-    height="91px" id="Layer_1" 
+    height="91px"
     version="1.1" 
     viewBox="0 0 91 91" 
     width="91px" 

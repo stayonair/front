@@ -1,7 +1,7 @@
 <template>
   <svg 
-    class="icon--category" 
     id="Layer_1" 
+    class="icon--category" 
     data-name="Layer 1" 
     xmlns="http://www.w3.org/2000/svg" 
     viewBox="0 0 32 32"

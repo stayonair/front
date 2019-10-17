@@ -1,10 +1,10 @@
 <template>
   <!-- <?xml version="1.0" ?><!DOCTYPE svg  PUBLIC '-//W3C//DTD SVG 1.1//EN'  'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'> -->
   <svg 
+    id="icon" 
     class="icon--post"
     enable-background="new 0 0 130 130" 
     height="130px" 
-    id="icon" 
     version="1.1" 
     viewBox="0 0 130 130" 
     width="130px" 

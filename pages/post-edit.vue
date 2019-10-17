@@ -12,8 +12,8 @@
         />
         <input
           id="ref-image"
-          type="file"
           ref="file"
+          type="file"
           multiple
           accept="image/jpeg, image/png"
           @change="inputImage"
@@ -70,7 +70,7 @@
 import AppButton from '~/components/Atoms/AppButton'
 import EditorJS from '@editorjs/editorjs'
 import { mapState } from 'vuex'
-import firebase, { db, storage } from '~/plugins/firebase'
+import { db, storage } from '~/plugins/firebase'
 
 const postsCollection = db.collection('posts')
 const thumbnailStorageRef = storage.ref('thumbnails')
@@ -133,7 +133,6 @@ export default {
     },
     async getArticleData() {
       await this.editor.save().then(data => {
-        console.log(data)
         this.post.article = JSON.stringify(data.blocks)
       })
     },
