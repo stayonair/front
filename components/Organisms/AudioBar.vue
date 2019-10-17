@@ -185,6 +185,7 @@ export default {
     // audio data を template の audio タグ と紐付ける
     const audio = new Audio(this.audio.audio_url)
     this.$refs.audio = audio
+    console.log(this.$refs)
     await audio.load()
     audio.onloadedmetadata = () => {
       this.audioDuration = audio.duration
