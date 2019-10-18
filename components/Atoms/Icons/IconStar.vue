@@ -13,7 +13,7 @@
     <path 
       d="M0 0h24v24H0z" 
     />
-</svg>
+  </svg>
 </template>
 
 <style scoped lang="scss">

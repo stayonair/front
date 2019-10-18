@@ -3,6 +3,10 @@
     class="record__container"
     :class="{ 'record__button--active': isActiveRecord }"
   >
+    <icon-loading 
+      v-if="isLoading"
+      class="loading_icon"
+    />
     <div class="record__timer">
       {{ min | zeroPadding }}:{{ sec | zeroPadding }}
     </div>
@@ -16,6 +20,7 @@
 <script>
 import firebase from '~/plugins/firebase'
 import RecordButton from '~/components/Atoms/RecordButton'
+import IconLoading from '~/components/Atoms/Icons/IconLoading'
 import record from '~/utils/record'
 import { mapActions } from 'vuex'
 
@@ -30,7 +35,8 @@ export default {
     ]
   }),
   components: {
-    RecordButton
+    RecordButton,
+    IconLoading
   },
   filters: {
     zeroPadding(time) {
@@ -39,6 +45,8 @@ export default {
   },
   data: () => ({
     isActiveRecord: false,
+    isLoading: false,
+    isDisabled: false,
     rawAudioData: null,
     previewAudioData: null,
     timerId: null,
@@ -50,7 +58,6 @@ export default {
     async handleRecord() {
       // 録音状態だったら
       if (this.isActiveRecord) {
-        this.isActiveRecord = false
         clearInterval(this.timerId)
         await this.stopRecording()
         await this.uploadAudioData(this.rawAudioData)
@@ -94,6 +101,11 @@ export default {
     },
     async uploadAudioData(data) {
       // ここでの ID がポストID & ファイル名になる
+      this.isLoading = true
+      if (this.isDisabled) {
+        return
+      }
+      this.isDisabled = true
       const id = this.createId()
       const audioRef = audioStorageRef.child(id)
       await audioRef.put(data).then(snapshot => {
@@ -103,6 +115,8 @@ export default {
         // store に ID と URL を追加する
         this.addPostId(id)
         this.addAudioUrl(url)
+        this.isLoading = false
+        this.isDisabled = false
       })
     }
   }
@@ -129,5 +143,30 @@ export default {
 
 .record__button--active {
   background-color: $color-brand;
+}
+
+.loading_icon {
+  position: absolute;
+  -webkit-animation: loading_icon 5s linear infinite;
+  animation: loading_icon 5s linear infinite;
+  left: 59rem;
+
+  @include tablet() {
+    left: 35.5rem;
+  }
+
+  @include mobile() {
+    left: 16rem;
+  }
+}
+
+@-webkit-keyframes loading_icon {
+	0% { -webkit-transform: rotate(0deg); }
+	100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes loading_icon {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
 }
 </style>

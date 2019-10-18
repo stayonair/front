@@ -76,7 +76,8 @@ export default {
   plugins: [
     '~/plugins/vue-material',
     '~/plugins/firebase',
-    '~/plugins/vue-drawer-layout'
+    '~/plugins/vue-drawer-layout',
+    '~/plugins/sanitize-html'
   ],
 
   /*

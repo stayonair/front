@@ -5,12 +5,12 @@
         class="app_header"
         @click="handleToggleDrawer"
       />
-      <div 
+      <!-- <div 
         class="icon-record__container"
         @click="$router.push('/recording')"
-      >
+      > -->
         <!-- <icon-record /> 宙に浮いた録音アイコン。念の為残してます-->
-      </div>
+      <!-- </div> -->
       <audio-bar
         v-if="isAudioData"
         class="post_audio"
@@ -23,8 +23,8 @@
 
     <!-- ⬇プラグイン -->
     <vue-drawer-layout
-      class="vue_drawer_layout"
       ref="drawerLayout"
+      class="vue_drawer_layout"
       :z-index="10"
       :backdrop="true"
       :drawer-width="250"
@@ -35,7 +35,7 @@
         slot="drawer"
         class="drawer-content"
       >
-        <app-aside-menu @click="hideDrawerMenu"/>
+        <app-aside-menu @click="hideDrawerMenu" />
       </div>
       <div
         slot="content"
@@ -55,16 +55,13 @@ import AppHeader from '~/components/Molecules/AppHeader'
 import AppAsideMenu from '~/components/Organisms/AppAsideMenu'
 import AppFooter from '~/components/Molecules/AppFooter'
 import AudioBar from '~/components/Organisms/AudioBar'
-// import IconRecord from '~/components/Atoms/Icons/IconRecord'
-
 
 export default {
   components: {
     AppHeader,
     AppAsideMenu,
     AppFooter,
-    AudioBar,
-    // IconRecord
+    AudioBar
   },
   computed: {
     ...mapState({
@@ -96,6 +93,7 @@ export default {
 
 <style scoped lang="scss">
 .vue_drawer_layout {
+  position: relative;
   /deep/ .content-wrap {
     overflow: scroll;
   }

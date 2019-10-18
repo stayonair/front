@@ -8,20 +8,25 @@
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
-  padding: 2rem 1rem;
+  padding: 3rem 5rem;
+  margin-bottom: 1rem;
 
   width: 100%;
-  height: auto;
-  box-shadow: inset 0 0 0 25rem rgba(0, 30, 40, 0.6);
+  min-height: 25rem;
+  box-shadow: inset 0 0 0 25rem rgba(0, 30, 40, 0.45);
+
+  @include mobile {
+    padding: 2rem 1rem;
+    min-height: 18rem;
+  }
 
   .post_thumbnail__header {
     padding: 0 2rem;
 
     &__title {
-      font-size: 3rem;
-      font-weight: 500;
+      font-size: 2rem;
+      font-weight: 300;
       line-height: 4rem;
-      margin-bottom: 1rem;
     }
 
     &__tags {
@@ -36,16 +41,16 @@
   }
 }
 
-.post_thumbnail__status {
+.post_profile {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
   padding: 0 2rem;
+  font-size: 1.5rem;
 
-  .post_thumbnail__author {
+  .post_profile__author {
     display: flex;
     align-items: center;
-    color: $color-white;
     font-weight: 100;
 
     &_icon {
@@ -57,9 +62,22 @@
     }
 
     &_name {
-      color: $color-white;
+      color: $base-text-color;
+      font-weight: 300;
       margin-right: 0.8rem;
+
+      @include mobile() {
+        font-size: 1rem;
+      }  
     }
+  }
+
+  &__posted_at {
+    color: $base-text-color;
+
+    @include mobile() {
+      font-size: 1rem;
+    } 
   }
 
   .post_thumbnail__like {
