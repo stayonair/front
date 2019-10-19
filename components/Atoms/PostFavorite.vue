@@ -44,11 +44,9 @@ export default {
   methods: {
     likeHandle() {
       this.$emit('like')
-      console.log('いいね')
     },
     favoriteHandle() {
       this.$emit('favo')
-      console.log('おきにいり')
     }
   }
 }
@@ -60,13 +58,13 @@ export default {
 }
 
 .like_button {
-  margin-right: 1rem;
+  margin-right: 1.2rem;
 }
 
 .favorite_button {
   /deep/ {
     .icon--star {
-      width: 3rem;
+      width: 2.4rem;
     }
     .icon--star-shape {
       fill: $color-yellow;

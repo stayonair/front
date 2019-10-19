@@ -19,6 +19,18 @@ const isGeneralPage = path => {
 }
 
 export default async ({ route, store, redirect }) => {
+
+  // store にログイン情報がないとき
+  if (!store.state.auth.user) {
+    await firebase.auth().onAuthStateChanged(user => {
+      // ログインしていたら、store に追加する
+      if (user) {
+        store.dispatch('auth/setUser', user)
+      } else {
+        return redirect('/login')
+      }
+    })
+  }
   
   // store にログイン情報があるとき
   if (
@@ -28,21 +40,9 @@ export default async ({ route, store, redirect }) => {
     return
   }
 
-  if (route.path === '/posts') {
-    return redirect('/')
-  }
-
-  await firebase.auth().onAuthStateChanged(user => {
-    // ログインしていたら、store に追加する
-    if (user) {
-      store.dispatch('auth/setUser', user)
-    }
-  })
-
-  // store にログイン情報がないとき
-  // ログインページにリダイレクト
-  // if (!store.state.auth.user) {
-  //   return redirect('/login')
+  // if (route.path === '/posts') {
+  //   return redirect('/')
   // }
+
 
 }

@@ -24,7 +24,7 @@
 
 <style lang="scss" scoped>
 .icon--heart {
-  width: 3rem;
+  width: 2.4rem;
   fill: $color-pink;
 }
 </style>

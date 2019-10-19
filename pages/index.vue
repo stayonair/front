@@ -20,7 +20,11 @@
           :name="post.author.name"
           :posted-at="post.posted_at"
         />
-        <post-favorite />
+        <post-favorite
+          @like="postLike(isLike(post.likes, authUid), post.id, authUid)"
+          :isLike="isLike(post.likes, authUid)"
+          @favo="addFavorite"
+        />
       </div>
     </div>
   </div>
@@ -28,10 +32,13 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import firebase, { db } from '~/plugins/firebase'
 import PostProfile from '~/components/Atoms/PostProfile'
 import PostFavorite from '~/components/Atoms/PostFavorite'
 import IconLoading from '~/components/Atoms/Icons/IconLoading'
 import PostThumbnail from '~/components/Molecules/PostThumbnail'
+
+const postsCollection = db.collection('posts')
 
 export default {
   name: 'NewsFeed',
@@ -48,8 +55,10 @@ export default {
   }),
   computed: {
     ...mapState({
-      feedPosts: store => store.post.posts
-    })
+      feedPosts: store => store.post.posts,
+      authUid: store => store.auth.user.uid
+    }),
+    
   },
   async created() {
     this.isLoading = true
@@ -64,8 +73,27 @@ export default {
   methods: {
     ...mapActions('post', ['initPosts']),
     goToPostPage(id) {
-      console.log(id)
       this.$router.push({ path: `posts/${id}` })
+    },
+    isLike(likes, uid) {
+      return likes.some(_uid => {
+        return uid === _uid
+      })
+    },
+    postLike(isLike, postId, uid) {
+      if (isLike) {
+        postsCollection.doc(postId).update({
+        likes: firebase.firestore.FieldValue.arrayRemove(uid)
+      })
+        return
+      }
+
+      postsCollection.doc(postId).update({
+        likes: firebase.firestore.FieldValue.arrayUnion(uid)
+      })
+    },
+    addFavorite() {
+      console.log('add favorite')
     }
   }
 }
