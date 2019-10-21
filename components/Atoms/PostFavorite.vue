@@ -1,44 +1,49 @@
 <template>
   <div class="post-favorite__container">
     <div
-      class="like_button"
       @click="likeHandle"
+      class="like_button__container"
     >
-      <icon-like v-if="isLike"/>
-      <icon-heart v-else />
+      <icon-heart
+        class="like_button"
+        :class="{'like_button--like': existLike}"
+      />
+      <span class="like_total">{{ totalLikes }}</span>
     </div>
     <div
-      class="favorite_button"
       @click="favoriteHandle"
     >
-      <icon-favorite v-if="isFavorite"/>
-      <icon-star v-else />
+      <icon-star
+        class="favorite_button"
+        :class="{'favorite_button--fave': existFavorite}"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import IconHeart from '~/components/Atoms/Icons/IconHeart'
-import IconLike from '~/components/Atoms/Icons/IconLike'
 import IconStar from '~/components/Atoms/Icons/IconStar'
-import IconFavorite from '~/components/Atoms/Icons/IconFavorite'
+import { type } from 'os'
 
 export default {
   name: 'PostFavorite',
   components: {
     IconHeart,
-    IconLike,
-    IconStar,
-    IconFavorite
+    IconStar
   },
   props : {
-    isLike: {
+    existLike: {
       type: Boolean,
       default: false
     },
-    isFavorite: {
+    existFavorite: {
       type: Boolean,
       default: false
+    },
+    totalLikes: {
+      type: Number,
+      default: 0
     }
   },
   methods: {
@@ -46,7 +51,7 @@ export default {
       this.$emit('like')
     },
     favoriteHandle() {
-      this.$emit('favo')
+      this.$emit('fave')
     }
   }
 }
@@ -57,18 +62,35 @@ export default {
   display: flex;
 }
 
+.like_button__container {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+}
+
 .like_button {
-  margin-right: 1.2rem;
+  margin-right: .3rem;
+  &--like {
+    fill: $color-pink;
+  }
+}
+
+.like_total {
+  width: .8rem;
+  color: $color-gray;
+  font-size: 1rem;
 }
 
 .favorite_button {
+  width: 2.4rem;
   /deep/ {
-    .icon--star {
-      width: 2.4rem;
-    }
-    .icon--star-shape {
+    .icon--star--outline {
       fill: $color-yellow;
     }
+  }
+
+  &--fave {
+    fill: $color-yellow;
   }
 }
 </style>

@@ -78,7 +78,7 @@ export default {
           &--balloon {
             fill: $color-primary;
           }
-          &--star-shape {
+          &--star {
             fill: $color-primary;
           }
         }
@@ -108,12 +108,9 @@ export default {
       .icon--star {
         height: 3rem;
         width: 3rem;
-        fill: none;
-      }
-      
-      .icon--star-shape {
         fill: $dark-gray-text-color;
       }
+
     }
   }
 }

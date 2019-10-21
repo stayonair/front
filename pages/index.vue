@@ -22,8 +22,10 @@
         />
         <post-favorite
           @like="postLike(isLike(post.likes, authUid), post.id, authUid)"
-          :isLike="isLike(post.likes, authUid)"
-          @favo="addFavorite"
+          :existLike="isLike(post.likes, authUid)"
+          :totalLikes="post.likes.length"
+          @fave="addFavorite"
+          :existFavorite="isFavorite()"
         />
       </div>
     </div>
@@ -79,6 +81,10 @@ export default {
       return likes.some(_uid => {
         return uid === _uid
       })
+    },
+    isFavorite() {
+      // お気に入りかどうか
+      return false
     },
     postLike(isLike, postId, uid) {
       if (isLike) {
