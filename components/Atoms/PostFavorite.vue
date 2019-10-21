@@ -24,7 +24,6 @@
 <script>
 import IconHeart from '~/components/Atoms/Icons/IconHeart'
 import IconStar from '~/components/Atoms/Icons/IconStar'
-import { type } from 'os'
 
 export default {
   name: 'PostFavorite',
