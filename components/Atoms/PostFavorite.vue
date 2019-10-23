@@ -1,21 +1,21 @@
 <template>
   <div class="post-favorite__container">
     <div
-      @click="likeHandle"
-      class="like_button__container"
+      @click="handleLikeClick"
+      class="like_icon__container"
     >
       <icon-heart
-        class="like_button"
-        :class="{'like_button--like': existLike}"
+        class="like_icon"
+        :class="{'like_icon--active': existLike}"
       />
       <span class="like_total">{{ totalLikes }}</span>
     </div>
     <div
-      @click="favoriteHandle"
+      @click="handleFavoriteClick"
     >
       <icon-star
-        class="favorite_button"
-        :class="{'favorite_button--fave': existFavorite}"
+        class="favorite_icon"
+        :class="{'favorite_icon--active': existFavorite}"
       />
     </div>
   </div>
@@ -46,10 +46,10 @@ export default {
     }
   },
   methods: {
-    likeHandle() {
+    handleLikeClick() {
       this.$emit('like')
     },
-    favoriteHandle() {
+    handleFavoriteClick() {
       this.$emit('fave')
     }
   }
@@ -61,15 +61,15 @@ export default {
   display: flex;
 }
 
-.like_button__container {
+.like_icon__container {
   display: flex;
   align-items: center;
   margin-right: 1rem;
 }
 
-.like_button {
+.like_icon {
   margin-right: .3rem;
-  &--like {
+  &--active {
     fill: $color-pink;
   }
 }
@@ -80,7 +80,7 @@ export default {
   font-size: 1rem;
 }
 
-.favorite_button {
+.favorite_icon {
   width: 2.4rem;
   /deep/ {
     .icon--star--outline {
@@ -88,7 +88,7 @@ export default {
     }
   }
 
-  &--fave {
+  &--active {
     fill: $color-yellow;
   }
 }
