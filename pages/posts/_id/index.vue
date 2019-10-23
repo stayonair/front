@@ -7,12 +7,21 @@
           class="post_thumbnail"
           @playAudio="playAudio"
         />
-        <post-profile
-          :icon-url="post.author.icon_url"
-          :name="post.author.name"
-          :posted-at="post.posted_at"
-          class="post_profile"
-        />
+        <div class="post_profile__container">
+          <post-profile
+            :icon-url="post.author.icon_url"
+            :name="post.author.name"
+            :posted-at="post.posted_at"
+            class="post_profile"
+          />
+          <post-favorite
+            @like="postLike(isLike(post.likes, authUid), post.id, authUid)"
+            :existLike="isLike(post.likes, authUid)"
+            :totalLikes="post.likes.length"
+            @fave="addFavorite"
+            :existFavorite="isFavorite()"
+          />
+        </div>
         <div
           v-for="(doc , index) in post.article"
           :key="index"
@@ -26,10 +35,11 @@
 </template>
 
 <script>
-import { db } from '~/plugins/firebase'
+import firebase, { db } from '~/plugins/firebase'
 import { mapState, mapActions } from 'vuex'
 import PostProfile from '~/components/Atoms/PostProfile'
 import PostThumbnail from '~/components/Molecules/PostThumbnail'
+import PostFavorite from '~/components/Atoms/PostFavorite'
 import IconPlay from '~/components/Atoms/Icons/IconPlay'
 
 const postsCollection = db.collection('posts')
@@ -39,7 +49,8 @@ export default {
   layout: 'user',
   components: {
     PostProfile,
-    PostThumbnail
+    PostThumbnail,
+    PostFavorite
   },
   async asyncData({ params }) {
     return await postsCollection.doc(params.id).get()
@@ -54,7 +65,8 @@ export default {
   },
   computed: {
     ...mapState({
-      audio: store => store.audio.audioData
+      audio: store => store.audio.audioData,
+      authUid: store => store.auth.user.uid
     }),
   },
   methods: {
@@ -82,6 +94,36 @@ export default {
     },
     resetAudio() {
       this.resetAudioData()
+    },
+    isLike(likes, uid) {
+      return likes.some(_uid => {
+        return uid === _uid
+      })
+    },
+    isFavorite() {
+      // お気に入りかどうか
+      return false
+    },
+    postLike(isLike, postId, uid) {
+      if (isLike) {
+        postsCollection.doc(postId).update({
+        likes: firebase.firestore.FieldValue.arrayRemove(uid)
+      })
+      .then(() => {
+        this.post.likes = this.post.likes.filter(uid => uid !== this.authUid)
+      })
+        return
+      }
+
+      postsCollection.doc(postId).update({
+        likes: firebase.firestore.FieldValue.arrayUnion(uid)
+      })
+      .then(() => {
+        this.post.likes.push(this.authUid)
+      })
+    },
+    addFavorite() {
+      console.log('add favorite')
     }
   }
 }
@@ -140,11 +182,15 @@ export default {
   }
 }
 
-.post_profile {
-  padding-left: 10rem;
+.post_profile__container {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 32rem;
+  margin-bottom: 2rem;
 
   @include mobile() {
-    padding-left: 3rem;
+    padding: 0 2rem;
+    margin-bottom: 1rem
   }
 }
 
