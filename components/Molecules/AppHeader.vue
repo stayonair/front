@@ -7,12 +7,24 @@
     <p class="app_logo">
       StayOnAir
     </p>
-    <settings-icon class="icon-setting" />
+    <div class="app_aside_menu__user">
+      <img
+        :src="photoUrl"
+        class="app_aside_menu__user_icon"
+        alt=""
+      >
+    </div>
   </header>
 </template>
 
 <script>
 export default {
+  props: {
+    photoUrl: {
+      type: String,
+      default: ''
+    }
+  },
   methods: {
     openMenu() {
       this.$emit('click')
@@ -30,8 +42,8 @@ export default {
   margin: 0 auto;
   padding: 0 1rem;
   width: 100%;
-  height: 4rem;
-  line-height: 4rem;
+  height: 6rem;
+  line-height: 6rem;
 }
 
 .app_logo {
@@ -48,6 +60,16 @@ export default {
 
   &-menu {
     color: $color-primary;
+  }
+}
+
+.app_aside_menu__user {
+  &_icon {
+    border-radius: 50%;
+    background-color: $color-white;
+    height: 4rem;
+    width: 4rem;
+    margin-top: 1rem;
   }
 }
 </style>

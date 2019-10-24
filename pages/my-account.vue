@@ -17,7 +17,7 @@
       <div class="my-account__user_container">
         <div class="image__wrapper">
           <img
-            :src="user.icon_url"
+            :src="auth.photoURL"
             class="my-account__user_icon"
             alt="icon_url"
           >
@@ -37,7 +37,7 @@
 
         <div class="my-account__user_account">
           <p class="my-account__user_name">
-            @{{ user.name }}
+            @{{ auth.displayName }}
           </p>
           <p class="my-account__user_email">
             myemailaddress@com
@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState } from 'vuex'
 import IconCamera from '~/components/Atoms/Icons/IconCamera'
 import FormInput from '~/components/Molecules/FormInput'
 import AppButton from '~/components/Atoms/AppButton'
@@ -93,17 +93,8 @@ export default {
   },
   computed: {
     ...mapState({
-      user: store => store.user.user,
+      auth: store => store.auth.user,
     })
-  },
-  created() {
-    this.initPosts()
-  },
-  methods: {
-    ...mapActions('post', ['initPosts']),
-    goToPostPage(key) {
-      this.$router.push({ path: `posts/${key}` })
-    }
   }
 }
 </script>

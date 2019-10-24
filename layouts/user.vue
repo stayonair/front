@@ -3,6 +3,7 @@
     <div>
       <app-header
         class="app_header"
+        :photo-url="getPhotoURL"
         @click="handleToggleDrawer"
       />
       <audio-bar
@@ -59,10 +60,17 @@ export default {
   },
   computed: {
     ...mapState({
-      audioData: store => store.audio.audioData
+      audioData: store => store.audio.audioData,
+      auth: store => store.auth.user
     }),
     getPath() {
       return this.$route.path
+    },
+    getPhotoURL() {
+      if (this.auth) {
+        return this.auth.photoURL
+      }
+      return ''
     },
     isAudioData() {
       if (this.audioData) {
@@ -114,7 +122,7 @@ export default {
   width: 100%;
   margin: 0 auto;
   margin-bottom: 5rem; // .app_footer の height と同じ値にする
-  padding: 4rem 0 0;
+  padding: 6rem 0 0;
   position: relative;
 }
 

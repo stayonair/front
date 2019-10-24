@@ -19,30 +19,37 @@ const isGeneralPage = path => {
 }
 
 export default async ({ route, store, redirect }) => {
-  
+    // store にログイン情報がないとき firebase を確認
+  if (!store.state.auth.user) {
+    const getAuth = function() {
+      return new Promise((resolve) => {
+        return firebase.auth().onAuthStateChanged(user => {
+          resolve(user)
+        })
+      }).then(user => {
+        if (user) {
+          store.dispatch('auth/setUser', user)
+        }
+        if (!user) {
+          return redirect('/signup')
+        }
+      }).catch(error => {
+        console.error(error)
+      })
+    }
+
+    await getAuth()
+
+  } else if (isGeneralPage(route.path)) {
+    return
+  } 
+
   // store にログイン情報があるとき
-  if (
-    store.state.auth.user ||
-    isGeneralPage(route.path)
-  ) {
+  if (store.state.auth.user) {
     return
   }
 
   if (route.path === '/posts') {
     return redirect('/')
   }
-
-  await firebase.auth().onAuthStateChanged(user => {
-    // ログインしていたら、store に追加する
-    if (user) {
-      store.dispatch('auth/setUser', user)
-    }
-  })
-
-  // store にログイン情報がないとき
-  // ログインページにリダイレクト
-  // if (!store.state.auth.user) {
-  //   return redirect('/login')
-  // }
-
 }
