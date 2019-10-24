@@ -10,6 +10,10 @@
         v-if="isAudioData"
         class="post_audio"
       />
+      <modal-for-register
+        v-if="isLogedIn"
+        class="modal_registration"
+      />
       <app-footer
         class="app_footer"
         :path="getPath"
@@ -50,13 +54,15 @@ import AppHeader from '~/components/Molecules/AppHeader'
 import AppAsideMenu from '~/components/Organisms/AppAsideMenu'
 import AppFooter from '~/components/Molecules/AppFooter'
 import AudioBar from '~/components/Organisms/AudioBar'
+import ModalForRegister from '~/components/Organisms/ModalForRegister'
 
 export default {
   components: {
     AppHeader,
     AppAsideMenu,
     AppFooter,
-    AudioBar
+    AudioBar,
+    ModalForRegister
   },
   computed: {
     ...mapState({
@@ -74,6 +80,13 @@ export default {
     },
     isAudioData() {
       if (this.audioData) {
+        return true
+      }
+      return false
+    },
+    isLogedIn() {
+      if (this.auth) {
+        console.log("isLogedIn", this.auth);
         return true
       }
       return false
@@ -144,4 +157,18 @@ export default {
   width: 100%;
   font-size: 1.2rem;
 }
+
+.modal_registration {
+  position: fixed;
+  top: 30%;
+  left: 9%;
+  z-index: 13;
+  width: 80%;
+  background: $color-white;
+  padding: 2.5rem;
+  letter-spacing: .5px;
+  border-radius: 7px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
 </style>
