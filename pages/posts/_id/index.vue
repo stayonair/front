@@ -14,13 +14,28 @@
             :posted-at="post.posted_at"
             class="post_profile"
           />
-          <post-favorite
-            @like="postLike(isLike(post.likes, authUid), post.id, authUid)"
-            :existLike="isLike(post.likes, authUid)"
-            :totalLikes="post.likes.length"
-            @fave="addFavorite"
-            :existFavorite="isFavorite()"
-          />
+          <div class="icon_wrapper__container">
+            <icon-wrapper
+              class="icon_heart__container"
+              :label="post.likes.length"
+              @click="postLike(isLike(post.likes, authUid), post.id, authUid)"
+            >
+              <icon-heart
+                class="icon_heart"
+                :class="{'icon_heart--active': isLike(post.likes, authUid)}"
+              />
+            </icon-wrapper>
+            <icon-wrapper
+              class="icon_star__container"
+              @click="addFavorite"
+            >
+              <icon-star
+                class="icon_star"
+                :class="{'icon_star--active': isFavorite()}"
+              />
+            </icon-wrapper>
+          </div>
+
         </div>
         <div
           v-for="(doc , index) in post.article"
@@ -39,8 +54,9 @@ import firebase, { db } from '~/plugins/firebase'
 import { mapState, mapActions } from 'vuex'
 import PostProfile from '~/components/Atoms/PostProfile'
 import PostThumbnail from '~/components/Molecules/PostThumbnail'
-import PostFavorite from '~/components/Atoms/PostFavorite'
-import IconPlay from '~/components/Atoms/Icons/IconPlay'
+import IconWrapper from '~/components/Atoms/IconWrapper'
+import IconHeart from '~/components/Atoms/Icons/IconHeart'
+import IconStar from '~/components/Atoms/Icons/IconStar'
 
 const postsCollection = db.collection('posts')
 
@@ -50,7 +66,9 @@ export default {
   components: {
     PostProfile,
     PostThumbnail,
-    PostFavorite
+    IconWrapper,
+    IconHeart,
+    IconStar
   },
   async asyncData({ params }) {
     return await postsCollection.doc(params.id).get()
@@ -191,6 +209,34 @@ export default {
   @include mobile() {
     padding: 0 2rem;
     margin-bottom: 1rem
+  }
+}
+
+.icon_wrapper__container {
+    display: flex;
+  }
+
+.icon_heart__container {
+  display: flex;
+  align-items: center;
+}
+
+.icon_heart {
+  &--active {
+    fill: $color-pink;
+  }
+}
+
+.icon_star {
+  width: 2.4rem;
+  /deep/ {
+    .icon--star--outline {
+      fill: $color-yellow;
+    }
+  }
+
+  &--active {
+    fill: $color-yellow;
   }
 }
 
