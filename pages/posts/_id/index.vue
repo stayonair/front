@@ -35,7 +35,6 @@
               />
             </icon-wrapper>
           </div>
-
         </div>
         <div
           v-for="(doc , index) in post.article"
