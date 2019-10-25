@@ -10,9 +10,6 @@
         v-if="isAudioData"
         class="post_audio"
       />
-      <modal-for-register
-        class="modal_registration"
-      />
       <app-footer
         class="app_footer"
         :path="getPath"
@@ -53,7 +50,6 @@ import AppHeader from '~/components/Molecules/AppHeader'
 import AppAsideMenu from '~/components/Organisms/AppAsideMenu'
 import AppFooter from '~/components/Molecules/AppFooter'
 import AudioBar from '~/components/Organisms/AudioBar'
-import ModalForRegister from '~/components/Organisms/ModalForRegister'
 
 export default {
   components: {
@@ -61,7 +57,6 @@ export default {
     AppAsideMenu,
     AppFooter,
     AudioBar,
-    ModalForRegister
   },
   computed: {
     ...mapState({
