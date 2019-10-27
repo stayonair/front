@@ -5,6 +5,7 @@
         <div
           :style="`background-image: url(${post.thumbnail_photo_url});`"
           class="post_thumbnail__header__wrapper"
+          @click="handleClick"
         >
           <div
             v-if="isSinglePostPage"
@@ -54,6 +55,9 @@ export default {
     }
   },
   methods: {
+    handleClick() {
+      this.$emit('click')
+    },
     goToPrevious() {
       this.$router.push('/')
     },

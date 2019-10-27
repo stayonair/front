@@ -8,27 +8,56 @@
       v-for="(post, key) in feedPosts"
       :key="key"
       class="post__container"
-      @click="goToPostPage(post.id)"
     >
       <post-thumbnail
         class="post"
         :post="post"
+        @click="goToPostPage(post.id)"
       />
-      <post-profile
-        :icon-url="post.author.icon_url"
-        :name="post.author.name"
-        :posted-at="post.posted_at"
-        class="post_profile"
-      />
+      <div class="post_profile__container">
+        <post-profile
+          :icon-url="post.author.icon_url"
+          :name="post.author.name"
+          :posted-at="post.posted_at"
+        />
+        <div class="icon_wrapper__container">
+          <icon-wrapper
+            class="icon_heart__container"
+            :label="post.likes.length"
+            @click="postLike(isLike(post.likes, authUid), post.id, authUid)"
+          >
+            <icon-heart
+              class="icon_heart"
+              :class="{'icon_heart--active': isLike(post.likes, authUid)}"
+            />
+          </icon-wrapper>
+          <icon-wrapper
+            class="icon_star__container"
+            @click="addFavorite"
+          >
+            <icon-star
+              class="icon_star"
+              :class="{'icon_star--active': isFavorite()}"
+            />
+          </icon-wrapper>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import firebase, { db } from '~/plugins/firebase'
 import PostProfile from '~/components/Atoms/PostProfile'
 import IconLoading from '~/components/Atoms/Icons/IconLoading'
 import PostThumbnail from '~/components/Molecules/PostThumbnail'
+import IconWrapper from '~/components/Atoms/IconWrapper'
+import IconHeart from '~/components/Atoms/Icons/IconHeart'
+import IconStar from '~/components/Atoms/Icons/IconStar'
+
+
+const postsCollection = db.collection('posts')
 
 export default {
   name: 'NewsFeed',
@@ -36,7 +65,10 @@ export default {
   components: {
     PostProfile,
     IconLoading,
-    PostThumbnail
+    PostThumbnail,
+    IconWrapper,
+    IconHeart,
+    IconStar
   },
   data:() => ({
     isLoading: false,
@@ -44,8 +76,9 @@ export default {
   }),
   computed: {
     ...mapState({
-      feedPosts: store => store.post.posts
-    })
+      feedPosts: store => store.post.posts,
+      authUid: store => store.auth.user.uid
+    }),
   },
   async created() {
     this.isLoading = true
@@ -61,6 +94,30 @@ export default {
     ...mapActions('post', ['initPosts']),
     goToPostPage(id) {
       this.$router.push({ path: `posts/${id}` })
+    },
+    isLike(likes, uid) {
+      return likes.some(_uid => {
+        return uid === _uid
+      })
+    },
+    isFavorite() {
+      // お気に入りかどうか
+      return false
+    },
+    postLike(isLike, postId, uid) {
+      if (isLike) {
+        postsCollection.doc(postId).update({
+        likes: firebase.firestore.FieldValue.arrayRemove(uid)
+      })
+        return
+      }
+
+      postsCollection.doc(postId).update({
+        likes: firebase.firestore.FieldValue.arrayUnion(uid)
+      })
+    },
+    addFavorite() {
+      console.log('add favorite')
     }
   }
 }
@@ -80,26 +137,61 @@ export default {
     margin: 0 auto;
     box-shadow: inset 0 0 0 25rem rgba(0, 30, 40, 0.6);
     transition: all 0.4s;
+
+      &:hover {
+        opacity: 0.8;
+        transform: scale(0.99, 0.99);
+      }
   }
 
   &:not(:last-child) {
     margin-bottom: 1rem;
   }
 
-  &:hover {
-    opacity: 0.8;
-    transform: scale(0.99, 0.99);
-  }
+  
 }
 
-.post_profile {
-  padding-left: 10rem;
-  padding-bottom: 1rem;
+.post_profile__container {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 32rem;
+  margin-bottom: 2rem;
 
   @include mobile() {
-    padding-left: 3rem;
+    padding: 0 2rem;
+    margin-bottom: 1rem
   }
 }
+
+.icon_wrapper__container {
+    display: flex;
+  }
+
+.icon_heart__container {
+  display: flex;
+  align-items: center;
+}
+
+.icon_heart {
+  &--active {
+    fill: $color-pink;
+  }
+}
+
+.icon_star {
+  width: 2.4rem;
+  /deep/ {
+    .icon--star--outline {
+      fill: $color-yellow;
+    }
+  }
+
+  &--active {
+    fill: $color-yellow;
+  }
+}
+
+
 
 .loading_icon {
   position: absolute;
