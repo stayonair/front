@@ -165,6 +165,7 @@ export default {
         thumbnail_photo_url: this.postData.thumbnail_photo_url,
         audio_url: this.audioUrl,
         article: this.postData.article,
+        likes: [],
         posted_at: firebase.firestore.FieldValue.serverTimestamp()
       }
 
