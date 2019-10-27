@@ -26,13 +26,7 @@ export default {
   },
   computed: {
     existLabel() {
-      if (this.label == 0) {
-        return true
-      }
-      if (!this.label) {
-        return false
-      }
-      return true
+      return this.label !== null
     }
   },
   methods: {
