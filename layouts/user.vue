@@ -61,16 +61,16 @@ export default {
   computed: {
     ...mapState({
       audioData: store => store.audio.audioData,
-      auth: store => store.auth.user
+      user: store => store.auth.user
     }),
     getPath() {
       return this.$route.path
     },
     getPhotoURL() {
-      if (this.auth) {
-        return this.auth.photoURL
+      if (!this.user) {
+        return null
       }
-      return ''
+      return this.user.photoURL
     },
     isAudioData() {
       if (this.audioData) {

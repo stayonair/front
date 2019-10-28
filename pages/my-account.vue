@@ -17,7 +17,7 @@
       <div class="my-account__user_container">
         <div class="image__wrapper">
           <img
-            :src="auth.photoURL"
+            :src="user.photoURL"
             class="my-account__user_icon"
             alt="icon_url"
           >
@@ -37,7 +37,7 @@
 
         <div class="my-account__user_account">
           <p class="my-account__user_name">
-            @{{ auth.displayName }}
+            @{{ user.displayName }}
           </p>
           <p class="my-account__user_email">
             myemailaddress@com
@@ -93,7 +93,7 @@ export default {
   },
   computed: {
     ...mapState({
-      auth: store => store.auth.user,
+      user: store => store.auth.user
     })
   }
 }

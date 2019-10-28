@@ -24,11 +24,11 @@
           <icon-wrapper
             class="icon_heart__container"
             :label="post.likes.length"
-            @click="postLike(isLike(post.likes, authUid), post.id, authUid)"
+            @click="postLike(isLike(post.likes, user), post.id, user)"
           >
             <icon-heart
               class="icon_heart"
-              :class="{'icon_heart--active': isLike(post.likes, authUid)}"
+              :class="{'icon_heart--active': isLike(post.likes, user)}"
             />
           </icon-wrapper>
           <icon-wrapper
@@ -77,7 +77,7 @@ export default {
   computed: {
     ...mapState({
       feedPosts: store => store.post.posts,
-      authUid: store => store.auth.user.uid
+      user: store => store.auth.user
     }),
   },
   async created() {
@@ -95,25 +95,32 @@ export default {
     goToPostPage(id) {
       this.$router.push({ path: `posts/${id}` })
     },
-    isLike(likes, uid) {
+    isLike(likes, user) {
+      if (!user) {
+        return false
+      }
       return likes.some(_uid => {
-        return uid === _uid
+        return user.uid === _uid
       })
     },
     isFavorite() {
       // お気に入りかどうか
       return false
     },
-    postLike(isLike, postId, uid) {
+    postLike(isLike, postId, user) {
+      if (!user) {
+        // modal 出す
+        return
+      }
       if (isLike) {
         postsCollection.doc(postId).update({
-        likes: firebase.firestore.FieldValue.arrayRemove(uid)
+        likes: firebase.firestore.FieldValue.arrayRemove(user.uid)
       })
         return
       }
 
       postsCollection.doc(postId).update({
-        likes: firebase.firestore.FieldValue.arrayUnion(uid)
+        likes: firebase.firestore.FieldValue.arrayUnion(user.uid)
       })
     },
     addFavorite() {

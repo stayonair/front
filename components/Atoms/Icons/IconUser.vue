@@ -26,6 +26,7 @@
 
 <style scoped lang="scss">
 .icon--user {
-  width: 10rem;
+  width: 2rem;
+  fill: $color-white;
 }
 </style>

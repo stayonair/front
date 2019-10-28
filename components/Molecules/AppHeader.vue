@@ -7,6 +7,13 @@
     <p class="app_logo">
       StayOnAir
     </p>
+    <div 
+      v-if="!photoUrl"
+      class="icon-user__wrapper"
+      @click="$router.push('/login')"
+    >
+      <icon-user class="icon-user" />
+    </div>
     <div class="app_aside_menu__user">
       <img
         :src="photoUrl"
@@ -18,7 +25,12 @@
 </template>
 
 <script>
+import IconUser from '~/components/Atoms/Icons/IconUser'
+
 export default {
+  components: {
+    IconUser
+  },
   props: {
     photoUrl: {
       type: String,
@@ -37,6 +49,7 @@ export default {
 .app_header__wrapper {
   background-color: $color-white;
   display: flex;
+  position: relative;
   justify-content: space-between;
 
   margin: 0 auto;
@@ -66,10 +79,26 @@ export default {
 .app_aside_menu__user {
   &_icon {
     border-radius: 50%;
-    background-color: $color-white;
     height: 4rem;
     width: 4rem;
     margin-top: 1rem;
   }
+}
+
+.icon-user__wrapper {
+  position: absolute;
+  top: 0;
+  right: 1rem;
+  height: 4rem;
+  width: 4rem;
+  margin-top: 1rem;
+  border-radius: 50%;
+  background-color: $gray-text-color;
+}
+
+.icon-user {
+  position: absolute;
+  top: -.1rem;
+  right: 1rem;
 }
 </style>

@@ -53,6 +53,9 @@ import firebase, { db } from '~/plugins/firebase'
 import { mapState, mapActions } from 'vuex'
 import PostProfile from '~/components/Atoms/PostProfile'
 import PostThumbnail from '~/components/Molecules/PostThumbnail'
+import IconWrapper from '~/components/Atoms/IconWrapper'
+import IconHeart from '~/components/Atoms/Icons/IconHeart'
+import IconStar from '~/components/Atoms/Icons/IconStar'
 
 const postsCollection = db.collection('posts')
 

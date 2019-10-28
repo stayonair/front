@@ -42,7 +42,6 @@ export default {
   },
   data: () => ({
     isModalOpened: false,
-    buttons: ['balloon', 'record', 'star'],
     buttonLinks: [
       {
         icon: 'balloon',
@@ -63,7 +62,7 @@ export default {
   }),
   computed: {
     ...mapState({
-      auth: store => store.auth.user
+      user: store => store.auth.user
     })
   },
   methods: {
@@ -71,12 +70,12 @@ export default {
       this.isModalOpened = false
       if (buttonLink.isGeneralPage) {
         this.$router.push(buttonLink.path)
-      } else if (!this.auth) {
+      }
+      if (!this.user) {
         this.isModalOpened = true
         return
-      } else {
-        this.$router.push(buttonLink.path)
       }
+      this.$router.push(buttonLink.path)
     },
     getComponent(buttonLink) {
       return 'icon-' + buttonLink.icon

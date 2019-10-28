@@ -1,6 +1,5 @@
 <template>
   <svg 
-    id="Слой_1" 
     enable-background="new 0 0 32 32" 
     height="32px" 
     version="1.1" 

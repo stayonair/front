@@ -24,7 +24,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import IconNewsFeed from '~/components/Atoms/Icons/IconNewsFeed'
 import IconSearch from '~/components/Atoms/Icons/IconSearch'
 import IconMyPage from '~/components/Atoms/Icons/IconMyPage'
@@ -97,11 +96,6 @@ export default {
         }
       ]
   }),
-  computed: {
-    ...mapState({
-      auth: store => store.auth.user,
-    }),
-  },
   methods: {
       getComponent(menuItem) {
         return 'icon-' + menuItem.icon
