@@ -21,8 +21,12 @@
               class="traveler-icon"
             >
           </div>
-          <div class="post__title">
-            {{ audio.title }}
+          <div class="post__title__container">
+            <div class="post__title__wrapper">
+              <div class="post__title">
+                {{ audio.title }}
+              </div>
+            </div>
             <div class="post_thumbnail__author_name">
               @{{ audio.author.name }}
             </div>
@@ -303,12 +307,33 @@ export default {
   border-radius: 50%;
 }
 
-.post__title {
+.post__title__container {
   margin-left: 0.7rem;
-  width: 70vw;
+  width: 60vw;
+}
+
+.post__title__wrapper {
+  width: 60vw;
   overflow: hidden;
+}
+
+.post__title {
+  padding-left: 1rem; // 文字の頭から綺麗にアニメーションさせるための幅
   white-space: nowrap;
-  text-overflow: ellipsis;
+
+  animation-name: post__title;
+  animation-timing-function:ease-out;
+  animation-duration: 7s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes post__title {
+  from { 
+    transform: translate(0%);
+  } 99%, to { 
+    transform: translate(-100%);
+  }
 }
 
 .post_thumbnail__author_name {
