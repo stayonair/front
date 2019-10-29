@@ -105,7 +105,7 @@ export default {
     ...mapState({
       postId: store => store.post.postData.id,
       audioUrl: store => store.post.postData.audioUrl,
-      auth: store => store.auth.user
+      user: store => store.auth.user
     }),
     getThumbnailImage() {
       return `background-image: url(${this.thumbnailImageUrl})`
@@ -157,14 +157,15 @@ export default {
       const requestPostData = {
         id: this.postId,
         author: {
-          uid: this.auth.uid,
-          name: this.auth.displayName,
-          icon_url: this.auth.photoURL
+          uid: this.user.uid,
+          name: this.user.displayName,
+          icon_url: this.user.photoURL
         },
         title: this.postData.title,
         thumbnail_photo_url: this.postData.thumbnail_photo_url,
         audio_url: this.audioUrl,
         article: this.postData.article,
+        likes: [],
         posted_at: firebase.firestore.FieldValue.serverTimestamp()
       }
 
