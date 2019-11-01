@@ -18,8 +18,8 @@ export default {
       }
       if (dateDiff > 30) {
         // 1 月以上前の更新の場合、日付を表示する
-        return `${date.getFullYear()}/${date.getMonth() +
-          1}/${date.getDate()}`
+        const newDate = new Date(date)
+        return `${newDate.getFullYear()}/${newDate.getMonth() + 1}/${newDate.getDate()}`
       }
       return `${dateDiff} day${dateDiff > 1 ? 's' : ''} ago` // 24 時間以上 1 月以内の更新の場合、何日前の更新かを表示する
     }
