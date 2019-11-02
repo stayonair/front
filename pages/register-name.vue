@@ -7,7 +7,7 @@
     <div class="create_name__container">
       <form
         class="form__container"
-        @submit.prevent="createName()"
+        @submit.prevent="createUser()"
       >
         <input
           v-model="userName"
@@ -37,7 +37,8 @@
 import IconBalloon from '~/components/Atoms/Icons/IconBalloon'
 import AppButton from '~/components/Atoms/AppButton'
 
-import firebase from '~/plugins/firebase'
+import { db, auth } from '~/plugins/firebase'
+const usersCollection = db.collection('users')
 
 export default {
   components: {
@@ -47,11 +48,21 @@ export default {
   data: () => ({
     userName: ''
   }),
+  created() {
+    console.log(auth.currentUser.uid)
+  },
   methods: {
-    async createName() {
-      await firebase
-        .auth()
-        .currentUser.updateProfile({
+    async createUser() {
+      if (!this.userName) {
+        return
+      }
+
+      await usersCollection.doc(auth.currentUser.uid).set({
+        bookmarks: [],
+        introduction: ''
+      })
+      
+      auth.currentUser.updateProfile({
           displayName: this.userName
           // photoURL: ''
         })
