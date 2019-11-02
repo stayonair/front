@@ -29,7 +29,7 @@
         color="transparent"
         text="SIGNUP WITH TWITTER"
         icon="fab fa-twitter"
-        @click="snsLogin(twitter)"
+        @click="snsLogin('twitter')"
       />
     </div>
 
