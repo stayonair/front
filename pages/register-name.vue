@@ -48,9 +48,6 @@ export default {
   data: () => ({
     userName: ''
   }),
-  created() {
-    console.log(auth.currentUser.uid)
-  },
   methods: {
     async createUser() {
       if (!this.userName) {
@@ -61,7 +58,7 @@ export default {
         bookmarks: [],
         introduction: ''
       })
-      
+
       auth.currentUser.updateProfile({
           displayName: this.userName
           // photoURL: ''
