@@ -23,13 +23,13 @@
         color="transparent"
         text="SIGNUP WITH FACEBOOK"
         icon="fab fa-facebook-f"
-        @click="facebookLogin()"
+        @click="snsLogin('facebook')"
       />
       <app-button
         color="transparent"
         text="SIGNUP WITH TWITTER"
         icon="fab fa-twitter"
-        @click="twitterLogin()"
+        @click="snsLogin('twitter')"
       />
     </div>
 
@@ -132,16 +132,33 @@ export default {
           console.error(e)
         })
     },
-    facebookLogin() {
-      const facebook = new firebase.auth.FacebookAuthProvider()
-      auth.signInWithPopup(facebook).then(() => {
-        this.$router.push('/register-name')
-      })
-    },
-    twitterLogin() {
-      const twitter = new firebase.auth.TwitterAuthProvider()
-      auth.signInWithPopup(twitter).then(() => {
-        this.$router.push('/register-name')
+    snsLogin(sns) {
+      let provider = ''
+      switch (sns) {
+        case 'facebook':
+          provider = new firebase.auth.FacebookAuthProvider()
+          break
+        case 'twitter':
+          provider = new firebase.auth.TwitterAuthProvider()
+          break
+      }
+
+      auth.signInWithPopup(provider).then(auth => {
+        usersCollection.get().then(snapshot => {
+          const existUser = snapshot.docs.some(doc => {
+            return auth.user.uid === doc.id
+          })
+
+          // コレクションに情報があったら、index
+          if (existUser) {
+            this.$router.push('/')
+            return
+          }
+          
+          // なければ、サインアップの処理
+          this.$router.push('/register-name')
+
+        })
       })
     }
   }
