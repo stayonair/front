@@ -14,14 +14,28 @@ export default {
    */
   head: {
     title: pkg.name,
+    
     meta: [
+      // 設定関連
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      //SEO関連
       {
         hid: 'description',
         name: 'description',
         content: pkg.description
-      }
+      },
+      {
+        hid: 'keywords',
+        name: 'keywords',
+        content: pkg.keywords
+      },
+      // ogp関連
+      { hid: 'og:site_name', property: 'og:site_name', content: pkg.name },
+      { hid: 'og:type', property: 'og:type', content: 'website' },
+      { hid: 'og:title', property: 'og:title', content: pkg.name },
+      { hid: 'og:description', property: 'og:description', content: pkg.description },
+      { name: 'twitter:card', content: 'summary_large_image' },
     ],
     link: [
       {
@@ -51,6 +65,10 @@ export default {
     '@nuxtjs/style-resources',
     '@nuxtjs/dotenv'
   ],
+
+  workbox: {
+    dev: true, // 開発環境でもPWAできるように
+  },
 
   styleResources: {
     scss: [
@@ -106,6 +124,22 @@ export default {
       }
     },
   },
+
+  manifest: {
+    name: "StayOnAir",
+    short_name: "StayOnAir",
+    title: "StayOnAir",
+    'og:title': 'StayOnAir',
+    description: '旅人の体験や思い出を共有する、音声SNSです',
+    'og:description': '旅人の体験や思い出を共有する、音声SNSです',
+    lang: 'ja',
+    theme_color: "#269EDD",
+    background_color: "#FFF",
+    display: "standalone",
+    scope: "/",
+    start_url: "/"
+  },
+  
   env: {
     APIKEY,
     AUTHDOMAIN,
