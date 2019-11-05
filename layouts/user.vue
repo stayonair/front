@@ -56,7 +56,7 @@ export default {
     AppHeader,
     AppAsideMenu,
     AppFooter,
-    AudioBar,
+    AudioBar
   },
   computed: {
     ...mapState({

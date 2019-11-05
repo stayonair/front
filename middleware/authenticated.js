@@ -10,7 +10,6 @@ const pathList = [
   '/signup',
   '/register-name'
 ]
-
 // 一般ページかどうかチェックする関数
 const isGeneralPage = path => {
   return pathList.some(_path => {

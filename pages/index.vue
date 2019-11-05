@@ -155,7 +155,6 @@ export default {
     margin-bottom: 1rem;
   }
 
-  
 }
 
 .post_profile__container {
@@ -197,8 +196,6 @@ export default {
     fill: $color-yellow;
   }
 }
-
-
 
 .loading_icon {
   position: absolute;
