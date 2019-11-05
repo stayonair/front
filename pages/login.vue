@@ -23,13 +23,13 @@
         color="transparent"
         text="LOGIN WITH FACEBOOK"
         icon="fab fa-facebook-f"
-        @click="facebookLogin()"
+        @click="snsLogin('facebook')"
       />
       <app-button
         color="transparent"
         text="LOGIN WITH TWITTER"
         icon="fab fa-twitter"
-        @click="twitterLogin()"
+        @click="snsLogin('twitter')"
       />
     </div>
 
@@ -68,7 +68,8 @@ import FormInput from '~/components/Molecules/FormInput'
 import AppButton from '~/components/Atoms/AppButton'
 import IconBalloon from '~/components/Atoms/Icons/IconBalloon'
 
-import firebase, { auth } from '~/plugins/firebase'
+import firebase, { db, auth } from '~/plugins/firebase'
+const usersCollection = db.collection('users')
 
 export default {
   components: {
@@ -86,16 +87,33 @@ export default {
         this.$router.push('/')
       })
     },
-    facebookLogin() {
-      const facebook = new firebase.auth.FacebookAuthProvider()
-      auth.signInWithPopup(facebook).then(() => {
-        this.$router.push('/')
-      })
-    },
-    twitterLogin() {
-      const twitter = new firebase.auth.TwitterAuthProvider()
-      auth.signInWithPopup(twitter).then(() => {
-        this.$router.push('/')
+    snsLogin(sns) {
+      let provider = ''
+      switch (sns) {
+        case 'facebook':
+          provider = new firebase.auth.FacebookAuthProvider()
+          break
+        case 'twitter':
+          provider = new firebase.auth.TwitterAuthProvider()
+          break
+      }
+
+      auth.signInWithPopup(provider).then(auth => {
+        usersCollection.get().then(snapshot => {
+          const existUser = snapshot.docs.some(doc => {
+            return auth.user.uid === doc.id
+          })
+
+          // コレクションに情報があったら、index
+          if (existUser) {
+            this.$router.push('/')
+            return
+          }
+          
+          // なければ、サインアップの処理
+          this.$router.push('/register-name')
+
+        })
       })
     }
   }

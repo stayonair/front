@@ -1,21 +1,5 @@
 <template>
   <div class="app_aside_menu aside_menu--noon">
-    <div class="app_aside_menu__user">
-      <img
-        :src="user.icon_url"
-        class="app_aside_menu__user_icon"
-        alt="icon_url"
-      >
-      <div class="app_aside_menu__user_account">
-        <p class="app_aside_menu__user_name">
-          @{{ user.name }}
-        </p>
-        <p class="app_aside_menu__user_place">
-          {{ user.place }}
-        </p>
-      </div>
-    </div>
-
     <div 
       class="app_aside_menu__items"
     >
@@ -40,7 +24,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import IconNewsFeed from '~/components/Atoms/Icons/IconNewsFeed'
 import IconSearch from '~/components/Atoms/Icons/IconSearch'
 import IconMyPage from '~/components/Atoms/Icons/IconMyPage'
@@ -113,11 +96,6 @@ export default {
         }
       ]
   }),
-  computed: {
-    ...mapState({
-      user: store => store.user.user
-    }),
-  },
   methods: {
       getComponent(menuItem) {
         return 'icon-' + menuItem.icon
@@ -154,10 +132,9 @@ export default {
 }
 
 .app_aside_menu__user {
-  padding: 4rem 0 4rem 3rem;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
+  width: 100%;
+  padding-top: 3rem;
+  text-align: center;
   color: $color-white;
   font-weight: 100;
 
@@ -165,8 +142,8 @@ export default {
     border-radius: 50%;
     background-color: $color-white;
     margin-right: 0.8rem;
-    height: 4rem;
-    width: 4rem;
+    height: 5rem;
+    width: 5rem;
   }
 
   &_name,
@@ -178,7 +155,7 @@ export default {
 
 .app_aside_menu__items {
   height: 100vh;
-  padding-left: 4rem;
+  padding-left: 5rem;
   padding-top: 4rem;
 }
 

@@ -7,12 +7,35 @@
           class="post_thumbnail"
           @playAudio="playAudio"
         />
-        <post-profile
-          :icon-url="post.author.icon_url"
-          :name="post.author.name"
-          :posted-at="post.posted_at"
-          class="post_profile"
-        />
+        <div class="post_profile__container">
+          <post-profile
+            :icon-url="post.author.icon_url"
+            :name="post.author.name"
+            :posted-at="post.posted_at"
+            class="post_profile"
+          />
+          <div class="icon_wrapper__container">
+            <icon-wrapper
+              class="icon_heart__container"
+              :label="post.likes.length"
+              @click="postLike(isLike(post.likes, authUid), post.id, authUid)"
+            >
+              <icon-heart
+                class="icon_heart"
+                :class="{'icon_heart--active': isLike(post.likes, authUid)}"
+              />
+            </icon-wrapper>
+            <icon-wrapper
+              class="icon_star__container"
+              @click="addFavorite"
+            >
+              <icon-star
+                class="icon_star"
+                :class="{'icon_star--active': isFavorite()}"
+              />
+            </icon-wrapper>
+          </div>
+        </div>
         <div
           v-for="(doc , index) in post.article"
           :key="index"
@@ -26,11 +49,13 @@
 </template>
 
 <script>
-import { db } from '~/plugins/firebase'
+import firebase, { db } from '~/plugins/firebase'
 import { mapState, mapActions } from 'vuex'
 import PostProfile from '~/components/Atoms/PostProfile'
 import PostThumbnail from '~/components/Molecules/PostThumbnail'
-import IconPlay from '~/components/Atoms/Icons/IconPlay'
+import IconWrapper from '~/components/Atoms/IconWrapper'
+import IconHeart from '~/components/Atoms/Icons/IconHeart'
+import IconStar from '~/components/Atoms/Icons/IconStar'
 
 const postsCollection = db.collection('posts')
 
@@ -39,7 +64,10 @@ export default {
   layout: 'user',
   components: {
     PostProfile,
-    PostThumbnail
+    PostThumbnail,
+    IconWrapper,
+    IconHeart,
+    IconStar
   },
   async asyncData({ params }) {
     return await postsCollection.doc(params.id).get()
@@ -54,7 +82,8 @@ export default {
   },
   computed: {
     ...mapState({
-      audio: store => store.audio.audioData
+      audio: store => store.audio.audioData,
+      authUid: store => store.auth.user.uid
     }),
   },
   methods: {
@@ -82,6 +111,36 @@ export default {
     },
     resetAudio() {
       this.resetAudioData()
+    },
+    isLike(likes, uid) {
+      return likes.some(_uid => {
+        return uid === _uid
+      })
+    },
+    isFavorite() {
+      // お気に入りかどうか
+      return false
+    },
+    postLike(isLike, postId, uid) {
+      if (isLike) {
+        postsCollection.doc(postId).update({
+        likes: firebase.firestore.FieldValue.arrayRemove(uid)
+      })
+      .then(() => {
+        this.post.likes = this.post.likes.filter(uid => uid !== this.authUid)
+      })
+        return
+      }
+
+      postsCollection.doc(postId).update({
+        likes: firebase.firestore.FieldValue.arrayUnion(uid)
+      })
+      .then(() => {
+        this.post.likes.push(this.authUid)
+      })
+    },
+    addFavorite() {
+      console.log('add favorite')
     }
   }
 }
@@ -140,11 +199,43 @@ export default {
   }
 }
 
-.post_profile {
-  padding-left: 10rem;
+.post_profile__container {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 32rem;
+  margin-bottom: 2rem;
 
   @include mobile() {
-    padding-left: 3rem;
+    padding: 0 2rem;
+    margin-bottom: 1rem
+  }
+}
+
+.icon_wrapper__container {
+    display: flex;
+  }
+
+.icon_heart__container {
+  display: flex;
+  align-items: center;
+}
+
+.icon_heart {
+  &--active {
+    fill: $color-pink;
+  }
+}
+
+.icon_star {
+  width: 2.4rem;
+  /deep/ {
+    .icon--star--outline {
+      fill: $color-yellow;
+    }
+  }
+
+  &--active {
+    fill: $color-yellow;
   }
 }
 

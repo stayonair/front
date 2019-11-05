@@ -2,7 +2,7 @@ import firebase from '~/plugins/firebase'
 
 export const state = () => ({
   status: null,
-  user: null
+  user: ''
 })
 
 // export const getters = () => {
@@ -16,7 +16,7 @@ export const mutations = {
   },
   LOGOUT(state) {
     state.status = 'LoggedOut'
-    state.user = null
+    state.user = ''
   }
 }
 

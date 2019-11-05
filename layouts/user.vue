@@ -3,14 +3,9 @@
     <div>
       <app-header
         class="app_header"
+        :photo-url="getPhotoURL"
         @click="handleToggleDrawer"
       />
-      <!-- <div 
-        class="icon-record__container"
-        @click="$router.push('/recording')"
-      > -->
-        <!-- <icon-record /> 宙に浮いた録音アイコン。念の為残してます-->
-      <!-- </div> -->
       <audio-bar
         v-if="isAudioData"
         class="post_audio"
@@ -65,10 +60,17 @@ export default {
   },
   computed: {
     ...mapState({
-      audioData: store => store.audio.audioData
+      audioData: store => store.audio.audioData,
+      user: store => store.auth.user
     }),
     getPath() {
       return this.$route.path
+    },
+    getPhotoURL() {
+      if (!this.user) {
+        return null
+      }
+      return this.user.photoURL
     },
     isAudioData() {
       if (this.audioData) {
@@ -120,7 +122,7 @@ export default {
   width: 100%;
   margin: 0 auto;
   margin-bottom: 5rem; // .app_footer の height と同じ値にする
-  padding: 4rem 0 0;
+  padding: 6rem 0 0;
   position: relative;
 }
 
@@ -142,21 +144,4 @@ export default {
   width: 100%;
   font-size: 1.2rem;
 }
-
-// 宙に浮いた録音アイコン。念の為残してます
-// .icon-record__container {
-//   width: 5rem;
-//   height: 5rem;
-//   background-color: $color-pink;
-//   filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.6));
-//   border-radius: 50%;
-//   position: fixed;
-//   right: 3rem;
-//   bottom: 10rem;
-//   z-index: 13;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// }
-
 </style>
