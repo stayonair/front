@@ -97,8 +97,7 @@ export default {
   computed: {
     ...mapState({
       postId: store => store.post.postData.id,
-      audioUrl: store => store.post.postData.audioUrl,
-      auth: store => store.auth.user
+      audioUrl: store => store.post.postData.audioUrl
     }),
     getThumbnailImage() {
       return `background-image: url(${this.post.thumbnail_photo_url})`

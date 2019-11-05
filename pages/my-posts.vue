@@ -2,13 +2,13 @@
   <div class="my-posts__wrapper">
     <div class="my-posts__user_container">
       <img
-        :src="auth.photoURL"
+        :src="user.photoURL"
         class="my-posts__user_icon"
         alt="icon_url"
       >
       <div class="my-posts__user_account">
         <p class="my-posts__user_name">
-          @{{ auth.displayName }}
+          @{{ user.displayName }}
         </p>
       </div>
     </div>
@@ -50,13 +50,13 @@ export default {
   },
   computed: {
     ...mapState({
-      auth: store => store.auth.user,
-      feedPosts: store => store.post.posts,
+      user: store => store.auth.user,
+      feedPosts: store => store.post.posts
     })
   },
   methods: {
     isAuthorId(uid) {
-      if (uid === this.auth.uid) {
+      if (uid === this.user.uid) {
         return true
       } else {
         return false
