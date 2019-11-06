@@ -54,16 +54,16 @@ export default {
           label: 'ニュースフィード',
           path: '/'
         },
-        {
-          icon: 'search',
-          label: '検索',
-          path: '/search'
-        },
-        {
-          icon: 'my-page',
-          label: 'マイページ',
-          path: '/'
-        },
+        // {
+        //   icon: 'search',
+        //   label: '検索',
+        //   path: '/search'
+        // },
+        // {
+        //   icon: 'my-page',
+        //   label: 'マイページ',
+        //   path: '/'
+        // },
         {
           icon: 'follow',
           label: 'フォロートラベラー',
@@ -84,16 +84,16 @@ export default {
           label: 'アカウント',
           path: '/my-account'
         },
-        {
-          icon: 'category',
-          label: 'カテゴリ',
-          path: '/'
-        },
-        {
-          icon: 'tag',
-          label: 'タグ',
-          path: '/'
-        }
+        // {
+        //   icon: 'category',
+        //   label: 'カテゴリ',
+        //   path: '/'
+        // },
+        // {
+        //   icon: 'tag',
+        //   label: 'タグ',
+        //   path: '/'
+        // }
       ]
   }),
   methods: {
